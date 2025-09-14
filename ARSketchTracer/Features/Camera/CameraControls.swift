@@ -35,10 +35,14 @@ struct CameraControls: View {
 
             HStack {
                 Label("Opacity", systemImage: "circle.lefthalf.filled")
+                    .foregroundStyle(DS.Color.textSecondary)
+                    .font(DS.Typography.subtitle)
                 Slider(value: $overlayOpacity, in: 0...1)
                     .frame(maxWidth: 200)
                 Text(String(format: "%.0f%%", overlayOpacity * 100))
                     .monospacedDigit()
+                    .foregroundStyle(DS.Color.textPrimary)
+                    .font(DS.Typography.caption)
             }
 
             Button {
@@ -48,7 +52,11 @@ struct CameraControls: View {
             }
             .buttonStyle(SecondaryButtonStyle())
         }
-        .padding(12)
-        .background(.ultraThinMaterial, in: .rect(cornerRadius: 12))
+        .padding(DS.Space.m)
+        .background(DS.Color.surface, in: .rect(cornerRadius: DS.Radius.medium))
+        .overlay {
+            RoundedRectangle(cornerRadius: DS.Radius.medium)
+                .stroke(DS.Color.border, lineWidth: 1)
+        }
     }
 }

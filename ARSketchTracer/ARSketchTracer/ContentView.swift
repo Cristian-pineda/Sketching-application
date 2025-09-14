@@ -5,9 +5,11 @@ struct ContentView: View {
         NavigationView {
             VStack(spacing: 20) {
                 Text("AR Sketch Tracer")
-                    .font(.system(size: 34, weight: .bold, design: .rounded))
+                    .font(DS.Typography.title)
+                    .foregroundStyle(DS.Color.textPrimary)
                 Text("Trace sketches using AR overlay")
-                    .foregroundStyle(.secondary)
+                    .font(DS.Typography.body)
+                    .foregroundStyle(DS.Color.textSecondary)
 
                 NavigationLink("Start AR Tracing") {
                     CameraView()

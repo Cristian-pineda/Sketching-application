@@ -11,11 +11,18 @@ struct CameraView: View {
         ZStack(alignment: .topTrailing) {
             #if targetEnvironment(simulator)
             ZStack {
-                Color.black.ignoresSafeArea()
+                DS.Color.textPrimary.ignoresSafeArea()
                 Text("ARKit is not supported in the Simulator\nUse a real device.")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(DS.Color.background)
                     .multilineTextAlignment(.center)
-                    .padding()
-                    .background(.ultraThinMaterial, in: .rect(cornerRadius: 12))
+                    .padding(DS.Space.l)
+                    .background(DS.Color.surface, in: .rect(cornerRadius: DS.Radius.medium))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: DS.Radius.medium)
+                            .stroke(DS.Color.border, lineWidth: 1)
+                    }
+                    .padding(DS.Space.l)
             }
             #else
             ARViewContainer(overlayImage: overlayImage)

@@ -65,12 +65,14 @@ All design elements are accessed through the `DS` namespace:
 - iOS 16.0+
 - Xcode 14.0+
 - Real device (ARKit doesn't work in Simulator)
+- **Merriweather font family** (see [Font Installation Guide](Resources/Fonts/README.md))
 
 ## Building
 
-1. Open `ARSketchTracer.xcodeproj` in Xcode
-2. Select a physical device
-3. Build and run
+1. **Install Fonts**: Follow the [Font Installation Guide](Resources/Fonts/README.md) to add Merriweather fonts
+2. Open `ARSketchTracer.xcodeproj` in Xcode
+3. Select a physical device
+4. Build and run
 
 ## Development
 
