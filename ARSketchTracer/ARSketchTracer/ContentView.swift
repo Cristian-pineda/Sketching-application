@@ -17,8 +17,8 @@ struct ContentView: View {
                 .buttonStyle(PrimaryButtonStyle())
             }
             .padding()
-            .background(AppTheme.background.ignoresSafeArea())
-            .background(AppTheme.gradient)
+            .background(DS.Color.background.ignoresSafeArea())
+            .background(DS.Gradients.appBackground)
         }
     }
 }

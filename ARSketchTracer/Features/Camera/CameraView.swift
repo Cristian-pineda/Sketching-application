@@ -30,6 +30,15 @@ struct CameraView: View {
                                overlayImage: $overlayImage,
                                overlayOpacity: $overlayOpacity)
                     .padding()
+            } else {
+                // Provide a persistent affordance to reopen controls when hidden
+                Button {
+                    showControls = true
+                } label: {
+                    Label("Show Controls", systemImage: "slider.horizontal.3")
+                }
+                .buttonStyle(SecondaryButtonStyle())
+                .padding()
             }
         }
         .onAppear { ARSessionManager.shared.startSession() }

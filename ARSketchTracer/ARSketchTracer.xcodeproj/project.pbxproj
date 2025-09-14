@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C0287E450E3F823AF19666C /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1536D67D081B0A1B76BD3179 /* CameraView.swift */; };
+		21A6A1E6D8F34F3A9E5F7E0B /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B6C1B77C6479AB4B7F8C1 /* ButtonStyles.swift */; };
 		22EEDFAB4896218841F791B6 /* RealityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A01A69FAED38900EB9FFE6 /* RealityKit.framework */; };
 		3045BF92FF74E7482F41653D /* ARHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719BAC5AD4C93D3D99FAFD9D /* ARHelper.swift */; };
 		5598E9765ECBFBDE24258AC1 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C442F13AE799F9159832B83A /* App.swift */; };
@@ -16,14 +17,25 @@
 		8C15483875212E3CF58760A1 /* TracingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED12F043A39A9F33BCAF1978 /* TracingOverlayView.swift */; };
 		8CC33C01DBC988F84FD079E1 /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A9E360B1F6987D0F7C15A57 /* ARKit.framework */; };
 		BEDCA028C1058497CEDEA173 /* CameraControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEC3FD145BA18223A51D5FB /* CameraControls.swift */; };
+/* Theme.swift in Sources removed */
 		DA5CD7AC1E761AD316D809D4 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974C70AC06358CEB3B756084 /* UserPreferences.swift */; };
 		EA8B82768D8CC1433CEB31F9 /* ARSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0949AE54D2FDA420EC46F1B5 /* ARSessionManager.swift */; };
+		FA9F3B8C1A2D4E5F6B7C8D90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4B7C6D5E8F90123456789AB /* Assets.xcassets */; };
+		E101A2B3C4D5E6F7A8B9C001 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0001 /* DesignSystem.swift */; };
+		E101A2B3C4D5E6F7A8B9C002 /* ColorTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0002 /* ColorTokens.swift */; };
+		E101A2B3C4D5E6F7A8B9C003 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0003 /* Spacing.swift */; };
+		E101A2B3C4D5E6F7A8B9C004 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0004 /* Radius.swift */; };
+		E101A2B3C4D5E6F7A8B9C005 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0005 /* Typography.swift */; };
+		E101A2B3C4D5E6F7A8B9C006 /* Elevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0006 /* Elevation.swift */; };
+		E101A2B3C4D5E6F7A8B9C007 /* CardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0007 /* CardBackground.swift */; };
+		E101A2B3C4D5E6F7A8B9C008 /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0008 /* Gradients.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0949AE54D2FDA420EC46F1B5 /* ARSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSessionManager.swift; sourceTree = "<group>"; };
 		1536D67D081B0A1B76BD3179 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		195C21BA9D4D8AE09E7099C3 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		5A3B6C1B77C6479AB4B7F8C1 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		4A9E360B1F6987D0F7C15A57 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
 		66887098741B22C5ECFB87AA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		719BAC5AD4C93D3D99FAFD9D /* ARHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARHelper.swift; sourceTree = "<group>"; };
@@ -32,9 +44,19 @@
 		BEEC3FD145BA18223A51D5FB /* CameraControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControls.swift; sourceTree = "<group>"; };
 		C442F13AE799F9159832B83A /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		D9EF7860AFD827BBC5610EA8 /* ARSketchTracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARSketchTracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* Theme.swift file reference removed */
 		ED12F043A39A9F33BCAF1978 /* TracingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingOverlayView.swift; sourceTree = "<group>"; };
 		ED2FBA194674348EB6BE4C69 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		F60455E1702469A0744009AE /* TracingTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingTools.swift; sourceTree = "<group>"; };
+		0D1A2B3C4D5E6F7A8B9C0001 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		0D1A2B3C4D5E6F7A8B9C0002 /* ColorTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokens.swift; sourceTree = "<group>"; };
+		0D1A2B3C4D5E6F7A8B9C0003 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
+		0D1A2B3C4D5E6F7A8B9C0004 /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
+		0D1A2B3C4D5E6F7A8B9C0005 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		0D1A2B3C4D5E6F7A8B9C0006 /* Elevation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elevation.swift; sourceTree = "<group>"; };
+		0D1A2B3C4D5E6F7A8B9C0007 /* CardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackground.swift; sourceTree = "<group>"; };
+		0D1A2B3C4D5E6F7A8B9C0008 /* Gradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradients.swift; sourceTree = "<group>"; };
+		A4B7C6D5E8F90123456789AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,14 +90,48 @@
 				5F1A9EB8663D20DED602E633 /* Resources */,
 				5F24ACD1326292F3F9A4F1D6 /* Utils */,
 				82350A2D7C2FF39063349665 /* Views */,
+				C0FFEE001122334455667788 /* DesignSystem */,
 				CE59BCABEC74C932E0FCCBF5 /* Frameworks */,
 				B9C1CD7A0A66158A69BB858D /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		C0FFEE001122334455667788 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				EEDDCCBBAA99887766554433 /* Tokens */,
+				FFEEDDCCBBAA998877665544 /* Modifiers */,
+				0D1A2B3C4D5E6F7A8B9C0001 /* DesignSystem.swift */,
+			);
+
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		EEDDCCBBAA99887766554433 /* Tokens */ = {
+			isa = PBXGroup;
+			children = (
+				0D1A2B3C4D5E6F7A8B9C0002 /* ColorTokens.swift */,
+				0D1A2B3C4D5E6F7A8B9C0003 /* Spacing.swift */,
+				0D1A2B3C4D5E6F7A8B9C0004 /* Radius.swift */,
+				0D1A2B3C4D5E6F7A8B9C0005 /* Typography.swift */,
+				0D1A2B3C4D5E6F7A8B9C0006 /* Elevation.swift */,
+				0D1A2B3C4D5E6F7A8B9C0008 /* Gradients.swift */,
+			);
+			path = Tokens;
+			sourceTree = "<group>";
+		};
+		FFEEDDCCBBAA998877665544 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				0D1A2B3C4D5E6F7A8B9C0007 /* CardBackground.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
 		5F1A9EB8663D20DED602E633 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A4B7C6D5E8F90123456789AB /* Assets.xcassets */,
 				ED2FBA194674348EB6BE4C69 /* .gitkeep */,
 			);
 			path = Resources;
@@ -102,9 +158,27 @@
 		82350A2D7C2FF39063349665 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1F4B8D27C8F244C6B0BE2E9B /* Components */,
+				E3C5B4A78D4B4A5FA3B9A4C1 /* Styles */,
 				195C21BA9D4D8AE09E7099C3 /* .gitkeep */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		1F4B8D27C8F244C6B0BE2E9B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5A3B6C1B77C6479AB4B7F8C1 /* ButtonStyles.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E3C5B4A78D4B4A5FA3B9A4C1 /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+/* Theme.swift child removed */
+			);
+			path = Styles;
 			sourceTree = "<group>";
 		};
 		B7FFE4BEF2CB0A75CEB7E06C /* Models */ = {
@@ -159,6 +233,7 @@
 			buildPhases = (
 				BC670F87ADC64744071312AD /* Sources */,
 				5E962BBD13C29BDE63F7EBB7 /* Frameworks */,
+				A8B7C6D5E4F30123456789AB /* Resources */,
 			);
 			buildRules = (
 			);
@@ -172,6 +247,17 @@
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A8B7C6D5E4F30123456789AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA9F3B8C1A2D4E5F6B7C8D90 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXProject section */
 		5747230A25DEC16279F4B566 /* Project object */ = {
@@ -209,9 +295,19 @@
 				BEDCA028C1058497CEDEA173 /* CameraControls.swift in Sources */,
 				1C0287E450E3F823AF19666C /* CameraView.swift in Sources */,
 				83BBE7D3204AFB1F3F47CC4E /* ContentView.swift in Sources */,
+				21A6A1E6D8F34F3A9E5F7E0B /* ButtonStyles.swift in Sources */,
 				8C15483875212E3CF58760A1 /* TracingOverlayView.swift in Sources */,
 				7743358CD9AF9749A2CE0F1C /* TracingTools.swift in Sources */,
+/* Theme.swift build file removed */
 				DA5CD7AC1E761AD316D809D4 /* UserPreferences.swift in Sources */,
+				E101A2B3C4D5E6F7A8B9C001 /* DesignSystem.swift in Sources */,
+				E101A2B3C4D5E6F7A8B9C002 /* ColorTokens.swift in Sources */,
+				E101A2B3C4D5E6F7A8B9C003 /* Spacing.swift in Sources */,
+				E101A2B3C4D5E6F7A8B9C004 /* Radius.swift in Sources */,
+				E101A2B3C4D5E6F7A8B9C005 /* Typography.swift in Sources */,
+				E101A2B3C4D5E6F7A8B9C006 /* Elevation.swift in Sources */,
+				E101A2B3C4D5E6F7A8B9C007 /* CardBackground.swift in Sources */,
+				E101A2B3C4D5E6F7A8B9C008 /* Gradients.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,7 +392,7 @@
 		D0B09D7440CC13A490DB4005 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = BHU6Z6MKF5;
 				INFOPLIST_FILE = Info.plist;
