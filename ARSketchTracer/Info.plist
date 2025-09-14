@@ -50,11 +50,8 @@
     <string>Allow saving snapshots to your library.</string>
     <key>UIAppFonts</key>
     <array>
-        <string>Merriweather-Regular.ttf</string>
-        <string>Merriweather-Bold.ttf</string>
-        <string>Merriweather-Medium.ttf</string>
-        <string>Merriweather-Italic.ttf</string>
-        <string>Merriweather-BoldItalic.ttf</string>
+        <string>Merriweather-VariableFont_opsz,wdth,wght.ttf</string>
+        <string>Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf</string>
     </array>
 </dict>
 </plist>

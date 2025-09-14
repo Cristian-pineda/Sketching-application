@@ -35,28 +35,23 @@ struct CameraControls: View {
 
             HStack {
                 Label("Opacity", systemImage: "circle.lefthalf.filled")
-                    .foregroundStyle(DS.Color.textSecondary)
-                    .font(DS.Typography.subtitle)
                 Slider(value: $overlayOpacity, in: 0...1)
                     .frame(maxWidth: 200)
                 Text(String(format: "%.0f%%", overlayOpacity * 100))
                     .monospacedDigit()
-                    .foregroundStyle(DS.Color.textPrimary)
-                    .font(DS.Typography.caption)
             }
 
             Button {
                 showControls.toggle()
             } label: {
-                Label(showControls ? "Hide Controls" : "Show Controls", systemImage: showControls ? "chevron.up" : "chevron.down")
+                Label(
+                    showControls ? "Hide Controls" : "Show Controls", 
+                    systemImage: showControls ? "chevron.up" : "chevron.down"
+                )
             }
             .buttonStyle(SecondaryButtonStyle())
         }
-        .padding(DS.Space.m)
-        .background(DS.Color.surface, in: .rect(cornerRadius: DS.Radius.medium))
-        .overlay {
-            RoundedRectangle(cornerRadius: DS.Radius.medium)
-                .stroke(DS.Color.border, lineWidth: 1)
-        }
+        .padding(12)
+        .background(.ultraThinMaterial, in: .rect(cornerRadius: 12))
     }
 }

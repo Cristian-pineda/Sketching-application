@@ -94,19 +94,19 @@ VStack {
 struct ExampleView: View {
     var body: some View {
         VStack(spacing: DS.Space.l) {
-            Text("Title")
+            Text("AR Sketch Tracer")
                 .font(DS.Typography.title)
                 .foregroundStyle(DS.Color.textPrimary)
             
-            Text("Subtitle")
+            Text("Trace sketches using AR overlay")
                 .font(DS.Typography.body)
                 .foregroundStyle(DS.Color.textSecondary)
             
-            Button("Primary Action") { }
+            Button("Start Tracing") { }
                 .buttonStyle(PrimaryButtonStyle())
         }
         .padding(DS.Space.l)
-        .background(DS.Color.surface)
+        .dsCard()
     }
 }
 ```

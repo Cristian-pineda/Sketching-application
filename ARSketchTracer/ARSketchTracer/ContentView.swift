@@ -14,13 +14,19 @@ struct ContentView: View {
                 NavigationLink("Start AR Tracing") {
                     CameraView()
                         .navigationTitle("Tracer")
-                        .navigationBarTitleDisplayMode(.inline)
                 }
                 .buttonStyle(PrimaryButtonStyle())
+                
+                NavigationLink("Font Test") {
+                    Text("Font Test Coming Soon")
+                        .font(DS.Typography.body)
+                        .foregroundStyle(DS.Color.textSecondary)
+                        .navigationTitle("Font Test")
+                }
+                .buttonStyle(SecondaryButtonStyle())
             }
             .padding()
             .background(DS.Color.background.ignoresSafeArea())
-            .background(DS.Gradients.appBackground)
         }
     }
 }
