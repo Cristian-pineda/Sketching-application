@@ -3,60 +3,57 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09791421DC86C4C7B9A84FAC /* ColorTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B2BAB2F4DB2A04B1BB7F0C /* ColorTokens.swift */; };
 		1C0287E450E3F823AF19666C /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1536D67D081B0A1B76BD3179 /* CameraView.swift */; };
-		21A6A1E6D8F34F3A9E5F7E0B /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3B6C1B77C6479AB4B7F8C1 /* ButtonStyles.swift */; };
+		1E16F4186C754C531378A7F2 /* Elevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51F81ABBF2CA9B4A065277E /* Elevation.swift */; };
+		22D869278B469BF34DD3C67F /* CardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E137F4343DF5BBE76BBE85 /* CardBackground.swift */; };
 		22EEDFAB4896218841F791B6 /* RealityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A01A69FAED38900EB9FFE6 /* RealityKit.framework */; };
 		3045BF92FF74E7482F41653D /* ARHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719BAC5AD4C93D3D99FAFD9D /* ARHelper.swift */; };
+		3EA99B420835B93783429DCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C30487DEAEBDC175CFC39C2 /* Assets.xcassets */; };
+		4372B435E42605816120195B /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = E773AC4A773482918FEC24B4 /* Gradients.swift */; };
 		5598E9765ECBFBDE24258AC1 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C442F13AE799F9159832B83A /* App.swift */; };
+		63744EEE024C016C9E661973 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42D244E758DFFE90C3FD81E /* Spacing.swift */; };
+		6557BEDB2D08E9B02E43D111 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F522301FB5AD262C26DA13 /* Radius.swift */; };
+		733EA211FC1479075422B03D /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153152A845A5AFA7383A9243 /* ButtonStyles.swift */; };
 		7743358CD9AF9749A2CE0F1C /* TracingTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60455E1702469A0744009AE /* TracingTools.swift */; };
 		83BBE7D3204AFB1F3F47CC4E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66887098741B22C5ECFB87AA /* ContentView.swift */; };
 		8C15483875212E3CF58760A1 /* TracingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED12F043A39A9F33BCAF1978 /* TracingOverlayView.swift */; };
 		8CC33C01DBC988F84FD079E1 /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A9E360B1F6987D0F7C15A57 /* ARKit.framework */; };
+		93B5CFCAB46C1B01F0ED5FD2 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9460F04C5BEAD5B98C4022 /* Typography.swift */; };
+		B954E09B67F7BA5FBB30194B /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5C74E1FBD3D1ADC5DD3F35 /* DesignSystem.swift */; };
 		BEDCA028C1058497CEDEA173 /* CameraControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEC3FD145BA18223A51D5FB /* CameraControls.swift */; };
-/* Theme.swift in Sources removed */
 		DA5CD7AC1E761AD316D809D4 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974C70AC06358CEB3B756084 /* UserPreferences.swift */; };
 		EA8B82768D8CC1433CEB31F9 /* ARSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0949AE54D2FDA420EC46F1B5 /* ARSessionManager.swift */; };
-		FA9F3B8C1A2D4E5F6B7C8D90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4B7C6D5E8F90123456789AB /* Assets.xcassets */; };
-		E101A2B3C4D5E6F7A8B9C001 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0001 /* DesignSystem.swift */; };
-		E101A2B3C4D5E6F7A8B9C002 /* ColorTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0002 /* ColorTokens.swift */; };
-		E101A2B3C4D5E6F7A8B9C003 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0003 /* Spacing.swift */; };
-		E101A2B3C4D5E6F7A8B9C004 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0004 /* Radius.swift */; };
-		E101A2B3C4D5E6F7A8B9C005 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0005 /* Typography.swift */; };
-		E101A2B3C4D5E6F7A8B9C006 /* Elevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0006 /* Elevation.swift */; };
-		E101A2B3C4D5E6F7A8B9C007 /* CardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0007 /* CardBackground.swift */; };
-		E101A2B3C4D5E6F7A8B9C008 /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1A2B3C4D5E6F7A8B9C0008 /* Gradients.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0949AE54D2FDA420EC46F1B5 /* ARSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSessionManager.swift; sourceTree = "<group>"; };
+		0C30487DEAEBDC175CFC39C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		153152A845A5AFA7383A9243 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		1536D67D081B0A1B76BD3179 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
-		195C21BA9D4D8AE09E7099C3 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		5A3B6C1B77C6479AB4B7F8C1 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		2C9460F04C5BEAD5B98C4022 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		37B2BAB2F4DB2A04B1BB7F0C /* ColorTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokens.swift; sourceTree = "<group>"; };
 		4A9E360B1F6987D0F7C15A57 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
 		66887098741B22C5ECFB87AA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		719BAC5AD4C93D3D99FAFD9D /* ARHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARHelper.swift; sourceTree = "<group>"; };
+		8B5C74E1FBD3D1ADC5DD3F35 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		95A01A69FAED38900EB9FFE6 /* RealityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealityKit.framework; path = System/Library/Frameworks/RealityKit.framework; sourceTree = SDKROOT; };
 		974C70AC06358CEB3B756084 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		A51F81ABBF2CA9B4A065277E /* Elevation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elevation.swift; sourceTree = "<group>"; };
+		B1F522301FB5AD262C26DA13 /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
 		BEEC3FD145BA18223A51D5FB /* CameraControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraControls.swift; sourceTree = "<group>"; };
 		C442F13AE799F9159832B83A /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
-		D9EF7860AFD827BBC5610EA8 /* ARSketchTracer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARSketchTracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-/* Theme.swift file reference removed */
+		D2E137F4343DF5BBE76BBE85 /* CardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackground.swift; sourceTree = "<group>"; };
+		D9EF7860AFD827BBC5610EA8 /* ARSketchTracer.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ARSketchTracer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E773AC4A773482918FEC24B4 /* Gradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradients.swift; sourceTree = "<group>"; };
 		ED12F043A39A9F33BCAF1978 /* TracingOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingOverlayView.swift; sourceTree = "<group>"; };
-		ED2FBA194674348EB6BE4C69 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		ED2FBA194674348EB6BE4C69 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		F42D244E758DFFE90C3FD81E /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		F60455E1702469A0744009AE /* TracingTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingTools.swift; sourceTree = "<group>"; };
-		0D1A2B3C4D5E6F7A8B9C0001 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
-		0D1A2B3C4D5E6F7A8B9C0002 /* ColorTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokens.swift; sourceTree = "<group>"; };
-		0D1A2B3C4D5E6F7A8B9C0003 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
-		0D1A2B3C4D5E6F7A8B9C0004 /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
-		0D1A2B3C4D5E6F7A8B9C0005 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
-		0D1A2B3C4D5E6F7A8B9C0006 /* Elevation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elevation.swift; sourceTree = "<group>"; };
-		0D1A2B3C4D5E6F7A8B9C0007 /* CardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardBackground.swift; sourceTree = "<group>"; };
-		0D1A2B3C4D5E6F7A8B9C0008 /* Gradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradients.swift; sourceTree = "<group>"; };
-		A4B7C6D5E8F90123456789AB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,58 +78,38 @@
 			path = ARSketchTracer;
 			sourceTree = "<group>";
 		};
+		34EF710803A86E0EEB19B7F3 /* Tokens */ = {
+			isa = PBXGroup;
+			children = (
+				37B2BAB2F4DB2A04B1BB7F0C /* ColorTokens.swift */,
+				A51F81ABBF2CA9B4A065277E /* Elevation.swift */,
+				E773AC4A773482918FEC24B4 /* Gradients.swift */,
+				B1F522301FB5AD262C26DA13 /* Radius.swift */,
+				F42D244E758DFFE90C3FD81E /* Spacing.swift */,
+				2C9460F04C5BEAD5B98C4022 /* Typography.swift */,
+			);
+			path = Tokens;
+			sourceTree = "<group>";
+		};
 		3B65102C06CF67E64D39E937 = {
 			isa = PBXGroup;
 			children = (
 				18227C0C81AF0DD13CD02756 /* ARSketchTracer */,
+				E2E3B88A31E2E9FE41E8E414 /* DesignSystem */,
 				F7C0A7208C6304382F7A4C34 /* Features */,
 				B7FFE4BEF2CB0A75CEB7E06C /* Models */,
 				5F1A9EB8663D20DED602E633 /* Resources */,
 				5F24ACD1326292F3F9A4F1D6 /* Utils */,
-				82350A2D7C2FF39063349665 /* Views */,
-				C0FFEE001122334455667788 /* DesignSystem */,
 				CE59BCABEC74C932E0FCCBF5 /* Frameworks */,
 				B9C1CD7A0A66158A69BB858D /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		C0FFEE001122334455667788 /* DesignSystem */ = {
-			isa = PBXGroup;
-			children = (
-				EEDDCCBBAA99887766554433 /* Tokens */,
-				FFEEDDCCBBAA998877665544 /* Modifiers */,
-				0D1A2B3C4D5E6F7A8B9C0001 /* DesignSystem.swift */,
-			);
-
-			path = DesignSystem;
-			sourceTree = "<group>";
-		};
-		EEDDCCBBAA99887766554433 /* Tokens */ = {
-			isa = PBXGroup;
-			children = (
-				0D1A2B3C4D5E6F7A8B9C0002 /* ColorTokens.swift */,
-				0D1A2B3C4D5E6F7A8B9C0003 /* Spacing.swift */,
-				0D1A2B3C4D5E6F7A8B9C0004 /* Radius.swift */,
-				0D1A2B3C4D5E6F7A8B9C0005 /* Typography.swift */,
-				0D1A2B3C4D5E6F7A8B9C0006 /* Elevation.swift */,
-				0D1A2B3C4D5E6F7A8B9C0008 /* Gradients.swift */,
-			);
-			path = Tokens;
-			sourceTree = "<group>";
-		};
-		FFEEDDCCBBAA998877665544 /* Modifiers */ = {
-			isa = PBXGroup;
-			children = (
-				0D1A2B3C4D5E6F7A8B9C0007 /* CardBackground.swift */,
-			);
-			path = Modifiers;
-			sourceTree = "<group>";
-		};
 		5F1A9EB8663D20DED602E633 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A4B7C6D5E8F90123456789AB /* Assets.xcassets */,
 				ED2FBA194674348EB6BE4C69 /* .gitkeep */,
+				0C30487DEAEBDC175CFC39C2 /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -153,32 +130,6 @@
 				1536D67D081B0A1B76BD3179 /* CameraView.swift */,
 			);
 			path = Camera;
-			sourceTree = "<group>";
-		};
-		82350A2D7C2FF39063349665 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				1F4B8D27C8F244C6B0BE2E9B /* Components */,
-				E3C5B4A78D4B4A5FA3B9A4C1 /* Styles */,
-				195C21BA9D4D8AE09E7099C3 /* .gitkeep */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		1F4B8D27C8F244C6B0BE2E9B /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				5A3B6C1B77C6479AB4B7F8C1 /* ButtonStyles.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		E3C5B4A78D4B4A5FA3B9A4C1 /* Styles */ = {
-			isa = PBXGroup;
-			children = (
-/* Theme.swift child removed */
-			);
-			path = Styles;
 			sourceTree = "<group>";
 		};
 		B7FFE4BEF2CB0A75CEB7E06C /* Models */ = {
@@ -206,6 +157,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E2E3B88A31E2E9FE41E8E414 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				8B5C74E1FBD3D1ADC5DD3F35 /* DesignSystem.swift */,
+				F59735280614122771C85C29 /* Components */,
+				E81E213C62D57EFFEEFF43C8 /* Modifiers */,
+				34EF710803A86E0EEB19B7F3 /* Tokens */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		E81E213C62D57EFFEEFF43C8 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				D2E137F4343DF5BBE76BBE85 /* CardBackground.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
 		ECD9A828A92F84BB9C1241BF /* Tracing */ = {
 			isa = PBXGroup;
 			children = (
@@ -213,6 +183,14 @@
 				F60455E1702469A0744009AE /* TracingTools.swift */,
 			);
 			path = Tracing;
+			sourceTree = "<group>";
+		};
+		F59735280614122771C85C29 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				153152A845A5AFA7383A9243 /* ButtonStyles.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		F7C0A7208C6304382F7A4C34 /* Features */ = {
@@ -232,8 +210,8 @@
 			buildConfigurationList = 37FB01519BBAC86D9723C61F /* Build configuration list for PBXNativeTarget "ARSketchTracer" */;
 			buildPhases = (
 				BC670F87ADC64744071312AD /* Sources */,
+				DF7643166BCE01FC82F545C1 /* Resources */,
 				5E962BBD13C29BDE63F7EBB7 /* Frameworks */,
-				A8B7C6D5E4F30123456789AB /* Resources */,
 			);
 			buildRules = (
 			);
@@ -248,23 +226,17 @@
 		};
 /* End PBXNativeTarget section */
 
-/* Begin PBXResourcesBuildPhase section */
-		A8B7C6D5E4F30123456789AB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FA9F3B8C1A2D4E5F6B7C8D90 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXProject section */
 		5747230A25DEC16279F4B566 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					79215DBA10C3CAAD5B651503 = {
+						DevelopmentTeam = "";
+					};
+				};
 			};
 			buildConfigurationList = E9F902385A6DF41463E94F2E /* Build configuration list for PBXProject "ARSketchTracer" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -276,6 +248,7 @@
 			);
 			mainGroup = 3B65102C06CF67E64D39E937;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -283,6 +256,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DF7643166BCE01FC82F545C1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EA99B420835B93783429DCC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BC670F87ADC64744071312AD /* Sources */ = {
@@ -292,22 +276,21 @@
 				3045BF92FF74E7482F41653D /* ARHelper.swift in Sources */,
 				EA8B82768D8CC1433CEB31F9 /* ARSessionManager.swift in Sources */,
 				5598E9765ECBFBDE24258AC1 /* App.swift in Sources */,
+				733EA211FC1479075422B03D /* ButtonStyles.swift in Sources */,
 				BEDCA028C1058497CEDEA173 /* CameraControls.swift in Sources */,
 				1C0287E450E3F823AF19666C /* CameraView.swift in Sources */,
+				22D869278B469BF34DD3C67F /* CardBackground.swift in Sources */,
+				09791421DC86C4C7B9A84FAC /* ColorTokens.swift in Sources */,
 				83BBE7D3204AFB1F3F47CC4E /* ContentView.swift in Sources */,
-				21A6A1E6D8F34F3A9E5F7E0B /* ButtonStyles.swift in Sources */,
+				B954E09B67F7BA5FBB30194B /* DesignSystem.swift in Sources */,
+				1E16F4186C754C531378A7F2 /* Elevation.swift in Sources */,
+				4372B435E42605816120195B /* Gradients.swift in Sources */,
+				6557BEDB2D08E9B02E43D111 /* Radius.swift in Sources */,
+				63744EEE024C016C9E661973 /* Spacing.swift in Sources */,
 				8C15483875212E3CF58760A1 /* TracingOverlayView.swift in Sources */,
 				7743358CD9AF9749A2CE0F1C /* TracingTools.swift in Sources */,
-/* Theme.swift build file removed */
+				93B5CFCAB46C1B01F0ED5FD2 /* Typography.swift in Sources */,
 				DA5CD7AC1E761AD316D809D4 /* UserPreferences.swift in Sources */,
-				E101A2B3C4D5E6F7A8B9C001 /* DesignSystem.swift in Sources */,
-				E101A2B3C4D5E6F7A8B9C002 /* ColorTokens.swift in Sources */,
-				E101A2B3C4D5E6F7A8B9C003 /* Spacing.swift in Sources */,
-				E101A2B3C4D5E6F7A8B9C004 /* Radius.swift in Sources */,
-				E101A2B3C4D5E6F7A8B9C005 /* Typography.swift in Sources */,
-				E101A2B3C4D5E6F7A8B9C006 /* Elevation.swift in Sources */,
-				E101A2B3C4D5E6F7A8B9C007 /* CardBackground.swift in Sources */,
-				E101A2B3C4D5E6F7A8B9C008 /* Gradients.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,7 +302,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = BHU6Z6MKF5;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -392,9 +374,8 @@
 		D0B09D7440CC13A490DB4005 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = BHU6Z6MKF5;
 				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

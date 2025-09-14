@@ -13,11 +13,11 @@ targets:
     platform: iOS
     sources:
       - path: ARSketchTracer
+      - path: DesignSystem
       - path: Features
       - path: Models
       - path: Resources
       - path: Utils
-      - path: Views
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.example.arsketchtracer
       INFOPLIST_FILE: Info.plist
