@@ -1,0 +1,29 @@
+name: ARSketchTracer
+options:
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  BASE_SDK: iphoneos
+  DEVELOPMENT_TEAM: ""
+  SWIFT_VERSION: "5.9"
+packages: {}
+targets:
+  ARSketchTracer:
+    type: application
+    platform: iOS
+    sources:
+      - path: ARSketchTracer
+      - path: Features
+      - path: Models
+      - path: Resources
+      - path: Utils
+      - path: Views
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.example.arsketchtracer
+      INFOPLIST_FILE: Info.plist
+      TARGETED_DEVICE_FAMILY: "1"
+    prebuildScripts: []
+    postbuildScripts: []
+    dependencies:
+      - sdk: ARKit.framework
+      - sdk: RealityKit.framework
