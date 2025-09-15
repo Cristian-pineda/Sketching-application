@@ -31,7 +31,7 @@ struct CameraView: View {
             TracingOverlayView(overlayImage: $overlayImage, opacity: $overlayOpacity)
                 .ignoresSafeArea()
 
-            // New sliding control panel at bottom
+            // New sliding control panel at bottom (full width, edge-to-edge)
             VStack {
                 Spacer()
                 
@@ -39,9 +39,8 @@ struct CameraView: View {
                     overlayImage: $overlayImage,
                     overlayOpacity: $overlayOpacity
                 )
-                .padding([.horizontal], DS.Space.m)
-                .padding([.bottom], DS.Space.m)
             }
+            .ignoresSafeArea(.container, edges: .bottom)
         }
         .onAppear { ARSessionManager.shared.startSession() }
         .onDisappear { ARSessionManager.shared.stopSession() }

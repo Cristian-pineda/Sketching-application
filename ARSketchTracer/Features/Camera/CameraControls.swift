@@ -3,12 +3,14 @@ import PhotosUI
 
 // MARK: - Control Types
 enum ControlType: String, CaseIterable {
+    case image = "Image"
     case move = "Move"
     case opacity = "Opacity"
     case filters = "Filters"
     
     var icon: String {
         switch self {
+        case .image: return "photo"
         case .move: return "move.3d"
         case .opacity: return "circle.lefthalf.filled"
         case .filters: return "camera.filters"
@@ -43,49 +45,76 @@ struct SlidingControlPanel: View {
             compactControlBar
         }
         .background(controlPanelBackground)
-        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.large))
+        .clipShape(UnevenRoundedRectangle(topLeadingRadius: DS.Radius.large, topTrailingRadius: DS.Radius.large))
         .shadow(color: DS.Color.textPrimary.opacity(0.15), radius: 20, y: -5)
     }
     
     // MARK: - Compact Control Bar
     private var compactControlBar: some View {
-        HStack(spacing: DS.Space.l) {
+        HStack(spacing: 0) {
             ForEach(ControlType.allCases, id: \.self) { controlType in
                 controlButton(for: controlType)
             }
         }
-        .padding(.horizontal, DS.Space.l)
-        .padding(.vertical, DS.Space.m)
+        .frame(height: 80)
         .background(DS.Color.surface)
     }
     
     // MARK: - Control Button
     private func controlButton(for controlType: ControlType) -> some View {
-        Button {
-            withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
-                if selectedControl == controlType {
-                    selectedControl = nil
-                } else {
-                    selectedControl = controlType
+        Group {
+            if controlType == .image {
+                // Image picker button
+                PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+                    VStack(spacing: DS.Space.xs) {
+                        Image(systemName: overlayImage != nil ? "photo.fill" : "photo")
+                            .font(.system(size: 24, weight: .medium))
+                            .foregroundStyle(DS.Color.textSecondary)
+                        
+                        Text(controlType.rawValue)
+                            .font(DS.Typography.caption)
+                            .foregroundStyle(DS.Color.textTertiary)
+                    }
+                    .frame(maxWidth: .infinity)
                 }
+                .onChange(of: selectedPhotoItem) { newItem in
+                    Task {
+                        if let data = try? await newItem?.loadTransferable(type: Data.self),
+                           let image = UIImage(data: data) {
+                            overlayImage = image
+                        }
+                    }
+                }
+                .buttonStyle(PlainButtonStyle())
+            } else {
+                // Regular control button
+                Button {
+                    withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+                        if selectedControl == controlType {
+                            selectedControl = nil
+                        } else {
+                            selectedControl = controlType
+                        }
+                    }
+                } label: {
+                    VStack(spacing: DS.Space.xs) {
+                        Image(systemName: controlType.icon)
+                            .font(.system(size: 24, weight: .medium))
+                            .foregroundStyle(
+                                selectedControl == controlType ? DS.Color.primary : DS.Color.textSecondary
+                            )
+                        
+                        Text(controlType.rawValue)
+                            .font(DS.Typography.caption)
+                            .foregroundStyle(
+                                selectedControl == controlType ? DS.Color.primary : DS.Color.textTertiary
+                            )
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(PlainButtonStyle())
             }
-        } label: {
-            VStack(spacing: DS.Space.xs) {
-                Image(systemName: controlType.icon)
-                    .font(.system(size: 24, weight: .medium))
-                    .foregroundStyle(
-                        selectedControl == controlType ? DS.Color.primary : DS.Color.textSecondary
-                    )
-                
-                Text(controlType.rawValue)
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(
-                        selectedControl == controlType ? DS.Color.primary : DS.Color.textTertiary
-                    )
-            }
-            .frame(maxWidth: .infinity)
         }
-        .buttonStyle(PlainButtonStyle())
     }
     
     // MARK: - Expanded Content
@@ -113,6 +142,8 @@ struct SlidingControlPanel: View {
             
             // Control-specific content
             switch controlType {
+            case .image:
+                imageControls
             case .opacity:
                 opacityControls
             case .move:
@@ -125,43 +156,93 @@ struct SlidingControlPanel: View {
         .background(DS.Color.background)
     }
     
-    // MARK: - Opacity Controls
-    private var opacityControls: some View {
+    // MARK: - Image Controls
+    private var imageControls: some View {
         VStack(spacing: DS.Space.m) {
-            // Image picker section
-            HStack(spacing: DS.Space.s) {
-                PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+            if overlayImage != nil {
+                // Show selected image info and clear option
+                HStack {
                     HStack(spacing: DS.Space.s) {
-                        Image(systemName: "photo")
-                            .font(.system(size: 16, weight: .medium))
-                        Text("Choose Image")
+                        Image(systemName: "photo.fill")
+                            .foregroundStyle(DS.Color.primary)
+                        Text("Image selected")
                             .font(DS.Typography.body)
+                            .foregroundStyle(DS.Color.textPrimary)
                     }
-                    .foregroundStyle(DS.Color.background)
-                    .padding(.horizontal, DS.Space.m)
-                    .padding(.vertical, DS.Space.s)
-                    .background(DS.Color.primary)
-                    .clipShape(Capsule())
-                }
-                .onChange(of: selectedPhotoItem) { newItem in
-                    Task {
-                        if let data = try? await newItem?.loadTransferable(type: Data.self),
-                           let image = UIImage(data: data) {
-                            overlayImage = image
-                        }
-                    }
-                }
-                
-                if overlayImage != nil {
+                    
+                    Spacer()
+                    
                     Button {
                         overlayImage = nil
                     } label: {
-                        Image(systemName: "trash")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(DS.Color.textSecondary)
-                            .padding(DS.Space.s)
-                            .background(DS.Color.highlight, in: Circle())
+                        HStack(spacing: DS.Space.xs) {
+                            Image(systemName: "trash")
+                            Text("Remove")
+                        }
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundStyle(DS.Color.textSecondary)
+                        .padding(.horizontal, DS.Space.m)
+                        .padding(.vertical, DS.Space.s)
+                        .background(DS.Color.highlight, in: Capsule())
                     }
+                }
+            } else {
+                // Prompt to select image
+                VStack(spacing: DS.Space.s) {
+                    Image(systemName: "photo.badge.plus")
+                        .font(.system(size: 32, weight: .light))
+                        .foregroundStyle(DS.Color.textSecondary)
+                    
+                    Text("Tap the Image button below to select a photo for tracing")
+                        .font(DS.Typography.body)
+                        .foregroundStyle(DS.Color.textSecondary)
+                        .multilineTextAlignment(.center)
+                }
+                .padding(DS.Space.l)
+                .frame(maxWidth: .infinity)
+                .background(DS.Color.surface, in: RoundedRectangle(cornerRadius: DS.Radius.medium))
+            }
+        }
+    }
+    
+    // MARK: - Opacity Controls
+    private var opacityControls: some View {
+        VStack(spacing: DS.Space.m) {
+            // Image status and clear button
+            if overlayImage != nil {
+                HStack {
+                    HStack(spacing: DS.Space.s) {
+                        Image(systemName: "photo.fill")
+                            .foregroundStyle(DS.Color.primary)
+                        Text("Image loaded")
+                            .font(DS.Typography.body)
+                            .foregroundStyle(DS.Color.textPrimary)
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        overlayImage = nil
+                    } label: {
+                        HStack(spacing: DS.Space.xs) {
+                            Image(systemName: "trash")
+                            Text("Clear")
+                        }
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundStyle(DS.Color.textSecondary)
+                        .padding(.horizontal, DS.Space.m)
+                        .padding(.vertical, DS.Space.s)
+                        .background(DS.Color.highlight, in: Capsule())
+                    }
+                }
+            } else {
+                HStack {
+                    Image(systemName: "photo")
+                        .foregroundStyle(DS.Color.textSecondary)
+                    Text("Use the Image button below to select a photo")
+                        .font(DS.Typography.body)
+                        .foregroundStyle(DS.Color.textSecondary)
+                    Spacer()
                 }
             }
             
@@ -182,6 +263,8 @@ struct SlidingControlPanel: View {
                 
                 Slider(value: $overlayOpacity, in: 0...1)
                     .accentColor(DS.Color.primary)
+                    .disabled(overlayImage == nil)
+            }
             }
         }
     }
@@ -244,7 +327,6 @@ struct SlidingControlPanel: View {
                     .fill(DS.Color.surface.opacity(0.9))
             }
     }
-}
 
 struct CameraControls: View {
     @Binding var showControls: Bool
