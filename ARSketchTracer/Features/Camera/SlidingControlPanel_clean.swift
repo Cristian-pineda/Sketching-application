@@ -148,7 +148,7 @@ struct SlidingControlPanel: View {
             // Header with control name and close button
             HStack {
                 Text(controlType.rawValue)
-                    .font(DS.Typography.headline)
+                    .font(DS.Typography.headlineSmall)
                     .foregroundStyle(DS.Color.textPrimary)
                 
                 Spacer()

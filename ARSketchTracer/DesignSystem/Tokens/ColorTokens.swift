@@ -30,8 +30,8 @@ extension SwiftUI.Color {
 
 extension DS {
     enum Color {
-        // Primary brand color from Assets.xcassets
-        static let primary = SwiftUI.Color("Primary")
+        // Primary brand color (matching Assets.xcassets Primary color)
+        static let primary = SwiftUI.Color(hex: "#3E3E3E")
         
         // Background colors
         static let background = SwiftUI.Color.white
