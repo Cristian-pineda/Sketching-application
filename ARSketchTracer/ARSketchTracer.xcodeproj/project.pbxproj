@@ -15,6 +15,8 @@
 		3045BF92FF74E7482F41653D /* ARHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719BAC5AD4C93D3D99FAFD9D /* ARHelper.swift */; };
 		3EA99B420835B93783429DCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C30487DEAEBDC175CFC39C2 /* Assets.xcassets */; };
 		4372B435E42605816120195B /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = E773AC4A773482918FEC24B4 /* Gradients.swift */; };
+		48A8A06E2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */; };
+		48A8A06F2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */; };
 		5598E9765ECBFBDE24258AC1 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C442F13AE799F9159832B83A /* App.swift */; };
 		63744EEE024C016C9E661973 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42D244E758DFFE90C3FD81E /* Spacing.swift */; };
 		6557BEDB2D08E9B02E43D111 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F522301FB5AD262C26DA13 /* Radius.swift */; };
@@ -37,6 +39,8 @@
 		1536D67D081B0A1B76BD3179 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		2C9460F04C5BEAD5B98C4022 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		37B2BAB2F4DB2A04B1BB7F0C /* ColorTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokens.swift; sourceTree = "<group>"; };
+		48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
+		48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		4A9E360B1F6987D0F7C15A57 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
 		66887098741B22C5ECFB87AA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		719BAC5AD4C93D3D99FAFD9D /* ARHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARHelper.swift; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 		5F1A9EB8663D20DED602E633 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */,
+				48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */,
 				ED2FBA194674348EB6BE4C69 /* .gitkeep */,
 				0C30487DEAEBDC175CFC39C2 /* Assets.xcassets */,
 			);
@@ -256,6 +262,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48A8A06E2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf in Resources */,
+				48A8A06F2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf in Resources */,
 				3EA99B420835B93783429DCC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

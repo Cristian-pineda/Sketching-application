@@ -9,8 +9,8 @@ struct CameraControls: View {
     @State private var selectedItem: PhotosPickerItem? = nil
 
     var body: some View {
-        VStack(spacing: 12) {
-            HStack {
+        VStack(spacing: DS.Space.m) {
+            HStack(spacing: DS.Space.s) {
                 PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
                     Label("Choose Image", systemImage: "photo")
                         .frame(maxWidth: .infinity)
@@ -33,12 +33,22 @@ struct CameraControls: View {
                 .buttonStyle(SecondaryButtonStyle())
             }
 
-            HStack {
-                Label("Opacity", systemImage: "circle.lefthalf.filled")
+            VStack(spacing: DS.Space.s) {
+                HStack {
+                    Label("Opacity", systemImage: "circle.lefthalf.filled")
+                        .font(DS.Typography.caption)
+                        .foregroundStyle(DS.Color.textSecondary)
+                    
+                    Spacer()
+                    
+                    Text(String(format: "%.0f%%", overlayOpacity * 100))
+                        .font(DS.Typography.caption)
+                        .foregroundStyle(DS.Color.textPrimary)
+                        .monospacedDigit()
+                }
+                
                 Slider(value: $overlayOpacity, in: 0...1)
-                    .frame(maxWidth: 200)
-                Text(String(format: "%.0f%%", overlayOpacity * 100))
-                    .monospacedDigit()
+                    .accentColor(DS.Color.primary)
             }
 
             Button {
@@ -49,9 +59,14 @@ struct CameraControls: View {
                     systemImage: showControls ? "chevron.up" : "chevron.down"
                 )
             }
-            .buttonStyle(SecondaryButtonStyle())
+            .buttonStyle(TertiaryButtonStyle())
         }
-        .padding(12)
-        .background(.ultraThinMaterial, in: .rect(cornerRadius: 12))
+        .padding(DS.Space.m)
+        .background(DS.Color.surface.opacity(0.95), in: .rect(cornerRadius: DS.Radius.medium))
+        .overlay {
+            RoundedRectangle(cornerRadius: DS.Radius.medium)
+                .stroke(DS.Color.border.opacity(0.3), lineWidth: 1)
+        }
+        .shadow(color: DS.Color.textPrimary.opacity(0.1), radius: 8, y: 4)
     }
 }
