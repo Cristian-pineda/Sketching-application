@@ -45,6 +45,7 @@ struct SlidingControlPanel: View {
             // Compact control bar (always visible)
             compactControlBar
         }
+        .padding(.bottom, 24)
         .background(controlPanelBackground)
         .clipShape(RoundedRectangle(cornerRadius: DS.Radius.large))
         .shadow(color: DS.Color.textPrimary.opacity(0.15), radius: 20, y: -5)
