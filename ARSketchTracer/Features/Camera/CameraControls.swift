@@ -4,14 +4,14 @@ import PhotosUI
 // MARK: - Control Types
 enum ControlType: String, CaseIterable {
     case image = "Image"
-    case move = "Move"
+    case lock = "Lock"
     case opacity = "Opacity"
     case filters = "Filters"
     
     var icon: String {
         switch self {
         case .image: return "photo"
-        case .move: return "move.3d"
+        case .lock: return "lock" // Will be dynamic based on lock state
         case .opacity: return "circle.lefthalf.filled"
         case .filters: return "camera.filters"
         }
@@ -25,6 +25,7 @@ struct SlidingControlPanel: View {
     
     @State private var selectedControl: ControlType? = nil
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
+    @State private var isImageLocked: Bool = false
     
     // Animation properties
     private let panelHeight: CGFloat = 180
@@ -86,6 +87,29 @@ struct SlidingControlPanel: View {
                     }
                 }
                 .buttonStyle(PlainButtonStyle())
+            } else if controlType == .lock {
+                // Lock/unlock button with special behavior
+                Button {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        isImageLocked.toggle()
+                    }
+                } label: {
+                    VStack(spacing: DS.Space.xs) {
+                        Image(systemName: isImageLocked ? "lock.fill" : "lock.open")
+                            .font(.system(size: 24, weight: .medium))
+                            .foregroundStyle(
+                                isImageLocked ? DS.Color.primary : DS.Color.textSecondary
+                            )
+                        
+                        Text(isImageLocked ? "Unlock" : "Lock")
+                            .font(DS.Typography.caption)
+                            .foregroundStyle(
+                                isImageLocked ? DS.Color.primary : DS.Color.textTertiary
+                            )
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(PlainButtonStyle())
             } else {
                 // Regular control button
                 Button {
@@ -144,10 +168,10 @@ struct SlidingControlPanel: View {
             switch controlType {
             case .image:
                 imageControls
+            case .lock:
+                lockControls
             case .opacity:
                 opacityControls
-            case .move:
-                moveControls
             case .filters:
                 filtersControls
             }
@@ -265,29 +289,70 @@ struct SlidingControlPanel: View {
                     .accentColor(DS.Color.primary)
                     .disabled(overlayImage == nil)
             }
-            }
         }
     }
     
-    // MARK: - Move Controls (Placeholder)
-    private var moveControls: some View {
+    // MARK: - Lock Controls
+    private var lockControls: some View {
         VStack(spacing: DS.Space.m) {
-            Text("Move controls coming soon...")
-                .font(DS.Typography.body)
-                .foregroundStyle(DS.Color.textSecondary)
+            // Lock status indicator
+            HStack(spacing: DS.Space.s) {
+                Image(systemName: isImageLocked ? "lock.fill" : "lock.open")
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundStyle(isImageLocked ? DS.Color.primary : DS.Color.textSecondary)
+                
+                Text(isImageLocked ? "Image is locked in place" : "Image can be moved and resized")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(DS.Color.textPrimary)
+                
+                Spacer()
+            }
+            .padding(DS.Space.m)
+            .background(
+                isImageLocked ? DS.Color.primary.opacity(0.1) : DS.Color.highlight,
+                in: RoundedRectangle(cornerRadius: DS.Radius.medium)
+            )
             
-            // Placeholder for move controls
-            HStack(spacing: DS.Space.m) {
-                ForEach(["arrow.up", "arrow.down", "arrow.left", "arrow.right"], id: \.self) { icon in
-                    Button {
-                        // TODO: Implement move functionality
-                    } label: {
-                        Image(systemName: icon)
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundStyle(DS.Color.textSecondary)
-                            .padding(DS.Space.m)
-                            .background(DS.Color.highlight, in: Circle())
-                    }
+            // Lock toggle button
+            Button {
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                    isImageLocked.toggle()
+                }
+            } label: {
+                HStack(spacing: DS.Space.s) {
+                    Image(systemName: isImageLocked ? "lock.open" : "lock.fill")
+                        .font(.system(size: 18, weight: .medium))
+                    
+                    Text(isImageLocked ? "Unlock Image" : "Lock Image")
+                        .font(DS.Typography.body)
+                        .fontWeight(.medium)
+                }
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, DS.Space.m)
+                .background(
+                    isImageLocked ? DS.Color.textSecondary : DS.Color.primary,
+                    in: RoundedRectangle(cornerRadius: DS.Radius.medium)
+                )
+            }
+            
+            // Information text
+            VStack(spacing: DS.Space.xs) {
+                Text("Lock Status:")
+                    .font(DS.Typography.caption)
+                    .foregroundStyle(DS.Color.textSecondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                if isImageLocked {
+                    Text("• Size and rotation are locked\n• Image position is fixed\n• Tap 'Unlock Image' to allow changes")
+                        .font(DS.Typography.caption)
+                        .foregroundStyle(DS.Color.textTertiary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                } else {
+                    Text("• Image can be moved freely\n• Size and rotation adjustable\n• Tap 'Lock Image' to prevent changes")
+                        .font(DS.Typography.caption)
+                        .foregroundStyle(DS.Color.textTertiary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
         }
