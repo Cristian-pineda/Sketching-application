@@ -5,6 +5,7 @@ import ARKit
 struct CameraView: View {
     @State private var overlayImage: UIImage? = nil
     @State private var overlayOpacity: Double = 0.6
+    @State private var isImageLocked: Bool = false
 
     var body: some View {
         ZStack {
@@ -28,7 +29,11 @@ struct CameraView: View {
                 .ignoresSafeArea()
             #endif
 
-            TracingOverlayView(overlayImage: $overlayImage, opacity: $overlayOpacity)
+            TracingOverlayView(
+                overlayImage: $overlayImage, 
+                opacity: $overlayOpacity,
+                isLocked: $isImageLocked
+            )
                 .ignoresSafeArea()
 
             // New sliding control panel at bottom (full width, edge-to-edge)
@@ -37,7 +42,8 @@ struct CameraView: View {
                 
                 SlidingControlPanel(
                     overlayImage: $overlayImage,
-                    overlayOpacity: $overlayOpacity
+                    overlayOpacity: $overlayOpacity,
+                    isImageLocked: $isImageLocked
                 )
             }
             .ignoresSafeArea(.container, edges: .bottom)

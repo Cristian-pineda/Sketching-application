@@ -3,9 +3,11 @@ import SwiftUI
 struct TracingOverlayView: View {
     @Binding var overlayImage: UIImage?
     @Binding var opacity: Double
+    @Binding var isLocked: Bool
 
     @State private var scale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
+    @State private var rotation: Angle = .zero
 
     var body: some View {
         ZStack {
@@ -15,22 +17,31 @@ struct TracingOverlayView: View {
                     .scaledToFit()
                     .opacity(opacity)
                     .scaleEffect(scale)
+                    .rotationEffect(rotation)
                     .offset(offset)
                     .gesture(
+                        // Only apply gestures when NOT locked
+                        isLocked ? nil : 
                         SimultaneousGesture(
-                            DragGesture()
+                            SimultaneousGesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        offset = value.translation
+                                    },
+                                MagnificationGesture()
+                                    .onChanged { value in
+                                        scale = value
+                                    }
+                            ),
+                            RotationGesture()
                                 .onChanged { value in
-                                    offset = value.translation
-                                },
-                            MagnificationGesture()
-                                .onChanged { value in
-                                    scale = value
+                                    rotation = value
                                 }
                         )
                     )
             }
         }
-        .allowsHitTesting(overlayImage != nil)
+        .allowsHitTesting(overlayImage != nil && !isLocked)
         .animation(.easeInOut(duration: 0.15), value: opacity)
     }
 }

@@ -22,10 +22,10 @@ enum ControlType: String, CaseIterable {
 struct SlidingControlPanel: View {
     @Binding var overlayImage: UIImage?
     @Binding var overlayOpacity: Double
+    @Binding var isImageLocked: Bool
     
     @State private var selectedControl: ControlType? = nil
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
-    @State private var isImageLocked: Bool = false
     
     // Animation properties
     private let panelHeight: CGFloat = 180
@@ -405,7 +405,8 @@ struct SlidingControlPanel: View {
             
             SlidingControlPanel(
                 overlayImage: .constant(nil),
-                overlayOpacity: .constant(0.5)
+                overlayOpacity: .constant(0.5),
+                isImageLocked: .constant(false)
             )
         }
         .padding(DS.Space.m)
