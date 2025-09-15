@@ -3,12 +3,11 @@ import RealityKit
 import ARKit
 
 struct CameraView: View {
-    @State private var showControls = true
     @State private var overlayImage: UIImage? = nil
     @State private var overlayOpacity: Double = 0.6
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack {
             #if targetEnvironment(simulator)
             ZStack {
                 DS.Color.textPrimary.ignoresSafeArea()
@@ -32,20 +31,16 @@ struct CameraView: View {
             TracingOverlayView(overlayImage: $overlayImage, opacity: $overlayOpacity)
                 .ignoresSafeArea()
 
-            if showControls {
-                CameraControls(showControls: $showControls,
-                               overlayImage: $overlayImage,
-                               overlayOpacity: $overlayOpacity)
-                    .padding()
-            } else {
-                // Provide a persistent affordance to reopen controls when hidden
-                Button {
-                    showControls = true
-                } label: {
-                    Label("Show Controls", systemImage: "slider.horizontal.3")
-                }
-                .buttonStyle(SecondaryButtonStyle())
-                .padding()
+            // New sliding control panel at bottom
+            VStack {
+                Spacer()
+                
+                SlidingControlPanel(
+                    overlayImage: $overlayImage,
+                    overlayOpacity: $overlayOpacity
+                )
+                .padding([.horizontal], DS.Space.m)
+                .padding([.bottom], DS.Space.m)
             }
         }
         .onAppear { ARSessionManager.shared.startSession() }
