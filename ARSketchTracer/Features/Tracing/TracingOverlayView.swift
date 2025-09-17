@@ -4,6 +4,7 @@ struct TracingOverlayView: View {
     @Binding var overlayImage: UIImage?
     @Binding var opacity: Double
     @Binding var isLocked: Bool
+    @Binding var isHighContrastGrayscale: Bool
 
     @State private var scale: CGFloat = 1.0
     @State private var offset: CGSize = .zero
@@ -24,6 +25,9 @@ struct TracingOverlayView: View {
                     .scaleEffect(scale)
                     .rotationEffect(rotation)
                     .offset(offset)
+                    .colorMultiply(isHighContrastGrayscale ? .white : .white)
+                    .contrast(isHighContrastGrayscale ? 2.0 : 1.0)
+                    .saturation(isHighContrastGrayscale ? 0.0 : 1.0)
                     .gesture(
                         // Only apply gestures when NOT locked
                         isLocked ? nil : 

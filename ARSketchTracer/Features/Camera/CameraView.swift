@@ -3,9 +3,14 @@ import RealityKit
 import ARKit
 
 struct CameraView: View {
-    @State private var overlayImage: UIImage? = nil
+    let overlayImage: UIImage?
     @State private var overlayOpacity: Double = 0.6
     @State private var isImageLocked: Bool = false
+    @State private var isHighContrastGrayscale: Bool = false
+    
+    init(overlayImage: UIImage? = nil) {
+        self.overlayImage = overlayImage
+    }
 
     var body: some View {
         ZStack {
@@ -30,9 +35,10 @@ struct CameraView: View {
             #endif
 
             TracingOverlayView(
-                overlayImage: $overlayImage, 
+                overlayImage: .constant(overlayImage), 
                 opacity: $overlayOpacity,
-                isLocked: $isImageLocked
+                isLocked: $isImageLocked,
+                isHighContrastGrayscale: $isHighContrastGrayscale
             )
                 .ignoresSafeArea()
 
@@ -41,9 +47,10 @@ struct CameraView: View {
                 Spacer()
                 
                 SlidingControlPanel(
-                    overlayImage: $overlayImage,
+                    overlayImage: .constant(overlayImage),
                     overlayOpacity: $overlayOpacity,
-                    isImageLocked: $isImageLocked
+                    isImageLocked: $isImageLocked,
+                    isHighContrastGrayscale: $isHighContrastGrayscale
                 )
             }
             .ignoresSafeArea(.container, edges: .bottom)

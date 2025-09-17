@@ -298,44 +298,6 @@ struct SlidingControlPanel: View {
     // MARK: - Opacity Controls
     private var opacityControls: some View {
         VStack(spacing: DS.Space.m) {
-            // Image status and clear button
-            if overlayImage != nil {
-                HStack {
-                    HStack(spacing: DS.Space.s) {
-                        Image(systemName: "photo.fill")
-                            .foregroundStyle(DS.Color.primary)
-                        Text("Image loaded")
-                            .font(DS.Typography.body)
-                            .foregroundStyle(DS.Color.textPrimary)
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        overlayImage = nil
-                    } label: {
-                        HStack(spacing: DS.Space.xs) {
-                            Image(systemName: "trash")
-                            Text("Clear")
-                        }
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(DS.Color.textSecondary)
-                        .padding(.horizontal, DS.Space.m)
-                        .padding(.vertical, DS.Space.s)
-                        .background(DS.Color.highlight, in: Capsule())
-                    }
-                }
-            } else {
-                HStack {
-                    Image(systemName: "photo")
-                        .foregroundStyle(DS.Color.textSecondary)
-                    Text("Use the Image button below to select a photo")
-                        .font(DS.Typography.body)
-                        .foregroundStyle(DS.Color.textSecondary)
-                    Spacer()
-                }
-            }
-            
             // Opacity slider
             VStack(spacing: DS.Space.s) {
                 HStack {

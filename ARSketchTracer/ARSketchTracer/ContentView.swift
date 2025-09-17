@@ -22,7 +22,7 @@ struct ContentView: View {
 
                 // Action buttons
                 VStack(spacing: DS.Space.m) {
-                    NavigationLink(destination: CameraView()) {
+                    NavigationLink(destination: ImageSelectionView()) {
                         Text("Start AR Tracing")
                     }
                     .buttonStyle(PrimaryButtonStyle())

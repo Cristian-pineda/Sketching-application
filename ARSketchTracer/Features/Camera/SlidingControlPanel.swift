@@ -1,19 +1,18 @@
 import SwiftUI
-import PhotosUI
 
 // MARK: - Control Types
 enum ControlType: String, CaseIterable {
-    case image = "Image"
+    case reset = "Reset"
     case lock = "Lock"
     case opacity = "Opacity"
     case filters = "Filters"
     
     var icon: String {
         switch self {
-        case .image: return "photo"
+        case .reset: return "arrow.counterclockwise"
         case .lock: return "lock" // Will be dynamic based on lock state
         case .opacity: return "circle.lefthalf.filled"
-        case .filters: return "camera.filters"
+        case .filters: return "circle.lefthalf.filled.inverse"
         }
     }
 }
@@ -23,9 +22,10 @@ struct SlidingControlPanel: View {
     @Binding var overlayImage: UIImage?
     @Binding var overlayOpacity: Double
     @Binding var isImageLocked: Bool
+    @Binding var isHighContrastGrayscale: Bool
+    @Environment(\.dismiss) private var dismiss
     
     @State private var selectedControl: ControlType? = nil
-    @State private var selectedPhotoItem: PhotosPickerItem? = nil
     
     // Animation properties
     private let panelHeight: CGFloat = 180
@@ -65,11 +65,13 @@ struct SlidingControlPanel: View {
     // MARK: - Control Button
     private func controlButton(for controlType: ControlType) -> some View {
         Group {
-            if controlType == .image {
-                // Image picker button
-                PhotosPicker(selection: $selectedPhotoItem, matching: .images, photoLibrary: .shared()) {
+            if controlType == .reset {
+                // Reset button to go back to image selection
+                Button {
+                    dismiss()
+                } label: {
                     VStack(spacing: DS.Space.xs) {
-                        Image(systemName: overlayImage != nil ? "photo.fill" : "photo")
+                        Image(systemName: controlType.icon)
                             .font(.system(size: 24, weight: .medium))
                             .foregroundStyle(DS.Color.textSecondary)
                         
@@ -78,14 +80,6 @@ struct SlidingControlPanel: View {
                             .foregroundStyle(DS.Color.textTertiary)
                     }
                     .frame(maxWidth: .infinity)
-                }
-                .onChange(of: selectedPhotoItem) { newItem in
-                    Task {
-                        if let data = try? await newItem?.loadTransferable(type: Data.self),
-                           let image = UIImage(data: data) {
-                            overlayImage = image
-                        }
-                    }
                 }
                 .buttonStyle(PlainButtonStyle())
             } else if controlType == .lock {
@@ -106,6 +100,29 @@ struct SlidingControlPanel: View {
                             .font(DS.Typography.caption)
                             .foregroundStyle(
                                 isImageLocked ? DS.Color.primary : DS.Color.textTertiary
+                            )
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(PlainButtonStyle())
+            } else if controlType == .filters {
+                // Filter toggle button with special behavior
+                Button {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        isHighContrastGrayscale.toggle()
+                    }
+                } label: {
+                    VStack(spacing: DS.Space.xs) {
+                        Image(systemName: isHighContrastGrayscale ? "circle.fill" : "circle.lefthalf.filled.inverse")
+                            .font(.system(size: 24, weight: .medium))
+                            .foregroundStyle(
+                                isHighContrastGrayscale ? DS.Color.primary : DS.Color.textSecondary
+                            )
+                        
+                        Text(isHighContrastGrayscale ? "Normal" : "Greyscale")
+                            .font(DS.Typography.caption)
+                            .foregroundStyle(
+                                isHighContrastGrayscale ? DS.Color.primary : DS.Color.textTertiary
                             )
                     }
                     .frame(maxWidth: .infinity)
@@ -167,8 +184,8 @@ struct SlidingControlPanel: View {
             
             // Control-specific content
             switch controlType {
-            case .image:
-                imageControls
+            case .reset:
+                resetControls
             case .lock:
                 lockControls
             case .opacity:
@@ -181,51 +198,51 @@ struct SlidingControlPanel: View {
         .background(DS.Color.background)
     }
     
-    // MARK: - Image Controls
-    private var imageControls: some View {
+    // MARK: - Reset Controls
+    private var resetControls: some View {
         VStack(spacing: DS.Space.m) {
-            if overlayImage != nil {
-                // Show selected image info and clear option
+            // Current image info
+            if let overlayImage = overlayImage {
                 HStack {
                     HStack(spacing: DS.Space.s) {
                         Image(systemName: "photo.fill")
                             .foregroundStyle(DS.Color.primary)
-                        Text("Image selected")
-                            .font(DS.Typography.body)
-                            .foregroundStyle(DS.Color.textPrimary)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Current Image")
+                                .font(DS.Typography.caption)
+                                .foregroundStyle(DS.Color.textSecondary)
+                            Text("\(Int(overlayImage.size.width)) × \(Int(overlayImage.size.height))")
+                                .font(DS.Typography.body)
+                                .foregroundStyle(DS.Color.textPrimary)
+                        }
                     }
                     
                     Spacer()
-                    
-                    Button {
-                        overlayImage = nil
-                    } label: {
-                        HStack(spacing: DS.Space.xs) {
-                            Image(systemName: "trash")
-                            Text("Remove")
-                        }
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(DS.Color.textSecondary)
-                        .padding(.horizontal, DS.Space.m)
-                        .padding(.vertical, DS.Space.s)
-                        .background(DS.Color.highlight, in: Capsule())
-                    }
                 }
-            } else {
-                // Prompt to select image
-                VStack(spacing: DS.Space.s) {
-                    Image(systemName: "photo.badge.plus")
-                        .font(.system(size: 32, weight: .light))
-                        .foregroundStyle(DS.Color.textSecondary)
-                    
-                    Text("Tap the Image button below to select a photo for tracing")
-                        .font(DS.Typography.body)
-                        .foregroundStyle(DS.Color.textSecondary)
-                        .multilineTextAlignment(.center)
-                }
-                .padding(DS.Space.l)
-                .frame(maxWidth: .infinity)
+                .padding(DS.Space.m)
                 .background(DS.Color.surface, in: RoundedRectangle(cornerRadius: DS.Radius.medium))
+            }
+            
+            // Reset explanation
+            VStack(spacing: DS.Space.s) {
+                Text("Go back to select a different image for tracing")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(DS.Color.textSecondary)
+                    .multilineTextAlignment(.center)
+                
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: DS.Space.s) {
+                        Image(systemName: "arrow.counterclockwise")
+                        Text("Choose New Image")
+                    }
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundStyle(DS.Color.background)
+                    .padding(.horizontal, DS.Space.l)
+                    .padding(.vertical, DS.Space.m)
+                    .background(DS.Color.primary, in: Capsule())
+                }
             }
         }
     }
@@ -299,44 +316,6 @@ struct SlidingControlPanel: View {
     // MARK: - Opacity Controls
     private var opacityControls: some View {
         VStack(spacing: DS.Space.m) {
-            // Image status and clear button
-            if overlayImage != nil {
-                HStack {
-                    HStack(spacing: DS.Space.s) {
-                        Image(systemName: "photo.fill")
-                            .foregroundStyle(DS.Color.primary)
-                        Text("Image loaded")
-                            .font(DS.Typography.body)
-                            .foregroundStyle(DS.Color.textPrimary)
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        overlayImage = nil
-                    } label: {
-                        HStack(spacing: DS.Space.xs) {
-                            Image(systemName: "trash")
-                            Text("Clear")
-                        }
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(DS.Color.textSecondary)
-                        .padding(.horizontal, DS.Space.m)
-                        .padding(.vertical, DS.Space.s)
-                        .background(DS.Color.highlight, in: Capsule())
-                    }
-                }
-            } else {
-                HStack {
-                    Image(systemName: "photo")
-                        .foregroundStyle(DS.Color.textSecondary)
-                    Text("Use the Image button below to select a photo")
-                        .font(DS.Typography.body)
-                        .foregroundStyle(DS.Color.textSecondary)
-                    Spacer()
-                }
-            }
-            
             // Opacity slider
             VStack(spacing: DS.Space.s) {
                 HStack {
@@ -359,26 +338,50 @@ struct SlidingControlPanel: View {
         }
     }
     
-    // MARK: - Filters Controls (Placeholder)
+    // MARK: - Filters Controls
     private var filtersControls: some View {
         VStack(spacing: DS.Space.m) {
-            Text("Filters coming soon...")
-                .font(DS.Typography.body)
-                .foregroundStyle(DS.Color.textSecondary)
-            
-            // Placeholder for filter controls
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: DS.Space.s) {
-                ForEach(["None", "Sepia", "Mono", "Vivid", "Warm", "Cool"], id: \.self) { filter in
-                    Button {
-                        // TODO: Implement filter functionality
-                    } label: {
-                        Text(filter)
+            // Current filter status
+            HStack {
+                HStack(spacing: DS.Space.s) {
+                    Image(systemName: isHighContrastGrayscale ? "circle.fill" : "circle.lefthalf.filled.inverse")
+                        .foregroundStyle(isHighContrastGrayscale ? DS.Color.primary : DS.Color.textSecondary)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Current Filter")
                             .font(DS.Typography.caption)
+                            .foregroundStyle(DS.Color.textSecondary)
+                        Text(isHighContrastGrayscale ? "Greyscale" : "Normal")
+                            .font(DS.Typography.body)
                             .foregroundStyle(DS.Color.textPrimary)
-                            .padding(.horizontal, DS.Space.m)
-                            .padding(.vertical, DS.Space.s)
-                            .background(DS.Color.highlight, in: Capsule())
                     }
+                }
+                
+                Spacer()
+            }
+            .padding(DS.Space.m)
+            .background(DS.Color.surface, in: RoundedRectangle(cornerRadius: DS.Radius.medium))
+            
+            // Filter toggle explanation
+            VStack(spacing: DS.Space.s) {
+                Text("Toggle between normal image and greyscale filter to make details easier to trace")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(DS.Color.textSecondary)
+                    .multilineTextAlignment(.center)
+                
+                Button {
+                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                        isHighContrastGrayscale.toggle()
+                    }
+                } label: {
+                    HStack(spacing: DS.Space.s) {
+                        Image(systemName: isHighContrastGrayscale ? "circle.lefthalf.filled.inverse" : "circle.fill")
+                        Text(isHighContrastGrayscale ? "Switch to Normal" : "Apply Greyscale")
+                    }
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundStyle(DS.Color.background)
+                    .padding(.horizontal, DS.Space.l)
+                    .padding(.vertical, DS.Space.m)
+                    .background(DS.Color.primary, in: Capsule())
                 }
             }
         }
@@ -407,7 +410,8 @@ struct SlidingControlPanel: View {
             SlidingControlPanel(
                 overlayImage: .constant(nil),
                 overlayOpacity: .constant(0.5),
-                isImageLocked: .constant(false)
+                isImageLocked: .constant(false),
+                isHighContrastGrayscale: .constant(false)
             )
         }
         .padding(DS.Space.m)
