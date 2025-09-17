@@ -78,16 +78,29 @@ struct ImageSelectionView: View {
                         }
                     }
                     
-                    // Continue to AR button
+                    // Action buttons when image is selected
                     if selectedImage != nil {
-                        NavigationLink(destination: CameraView(overlayImage: selectedImage)) {
-                            HStack(spacing: DS.Space.s) {
-                                Image(systemName: "arkit")
-                                    .font(.system(size: 18, weight: .medium))
-                                Text("Start AR Tracing")
+                        VStack(spacing: DS.Space.s) {
+                            // Crop option
+                            NavigationLink(destination: ImageCropView(originalImage: selectedImage!)) {
+                                HStack(spacing: DS.Space.s) {
+                                    Image(systemName: "crop")
+                                        .font(.system(size: 18, weight: .medium))
+                                    Text("Crop Image")
+                                }
                             }
+                            .buttonStyle(PrimaryButtonStyle())
+                            
+                            // Skip crop option
+                            NavigationLink(destination: CameraView(overlayImage: selectedImage!)) {
+                                HStack(spacing: DS.Space.s) {
+                                    Image(systemName: "arkit")
+                                        .font(.system(size: 18, weight: .medium))
+                                    Text("Start AR Tracing")
+                                }
+                            }
+                            .buttonStyle(SecondaryButtonStyle())
                         }
-                        .buttonStyle(PrimaryButtonStyle())
                         .transition(.asymmetric(
                             insertion: .move(edge: .bottom).combined(with: .opacity),
                             removal: .move(edge: .bottom).combined(with: .opacity)
