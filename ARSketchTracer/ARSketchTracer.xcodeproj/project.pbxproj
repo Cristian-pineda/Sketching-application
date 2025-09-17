@@ -10,7 +10,6 @@
 		09791421DC86C4C7B9A84FAC /* ColorTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B2BAB2F4DB2A04B1BB7F0C /* ColorTokens.swift */; };
 		1C0287E450E3F823AF19666C /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1536D67D081B0A1B76BD3179 /* CameraView.swift */; };
 		1D0388F561F4G934BG20777D /* ImageSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2647E78E192C1B2C87CE4280 /* ImageSelectionView.swift */; };
-		1E0489G672H5H045CH21888E /* ImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3758F89F203D2C3D98DF5391 /* ImageCropView.swift */; };
 		1E16F4186C754C531378A7F2 /* Elevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51F81ABBF2CA9B4A065277E /* Elevation.swift */; };
 		22D869278B469BF34DD3C67F /* CardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E137F4343DF5BBE76BBE85 /* CardBackground.swift */; };
 		22EEDFAB4896218841F791B6 /* RealityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A01A69FAED38900EB9FFE6 /* RealityKit.framework */; };
@@ -42,7 +41,6 @@
 		1536D67D081B0A1B76BD3179 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		2647E78E192C1B2C87CE4280 /* ImageSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectionView.swift; sourceTree = "<group>"; };
 		2C9460F04C5BEAD5B98C4022 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
-		3758F89F203D2C3D98DF5391 /* ImageCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropView.swift; sourceTree = "<group>"; };
 		37B2BAB2F4DB2A04B1BB7F0C /* ColorTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokens.swift; sourceTree = "<group>"; };
 		48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
@@ -118,12 +116,20 @@
 		5F1A9EB8663D20DED602E633 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */,
-				48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */,
 				ED2FBA194674348EB6BE4C69 /* .gitkeep */,
 				0C30487DEAEBDC175CFC39C2 /* Assets.xcassets */,
+				5F1A9EB8663D20DED602E634 /* Fonts */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		5F1A9EB8663D20DED602E634 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */,
+				48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		5F24ACD1326292F3F9A4F1D6 /* Utils */ = {
@@ -140,7 +146,6 @@
 				0949AE54D2FDA420EC46F1B5 /* ARSessionManager.swift */,
 				BEEC3FD145BA18223A51D5FB /* CameraControls.swift */,
 				1536D67D081B0A1B76BD3179 /* CameraView.swift */,
-				3758F89F203D2C3D98DF5391 /* ImageCropView.swift */,
 				2647E78E192C1B2C87CE4280 /* ImageSelectionView.swift */,
 				E4D3C2B1A098F765432E1D0C /* SlidingControlPanel.swift */,
 			);
@@ -290,7 +295,6 @@
 				733EA211FC1479075422B03D /* ButtonStyles.swift in Sources */,
 				BEDCA028C1058497CEDEA173 /* CameraControls.swift in Sources */,
 				1C0287E450E3F823AF19666C /* CameraView.swift in Sources */,
-				1E0489G672H5H045CH21888E /* ImageCropView.swift in Sources */,
 				1D0388F561F4G934BG20777D /* ImageSelectionView.swift in Sources */,
 				F1A2B3C4D5E6F7890A1B2C3D /* SlidingControlPanel.swift in Sources */,
 				22D869278B469BF34DD3C67F /* CardBackground.swift in Sources */,

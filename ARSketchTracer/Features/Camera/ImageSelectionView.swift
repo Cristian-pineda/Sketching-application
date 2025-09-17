@@ -4,7 +4,6 @@ import PhotosUI
 struct ImageSelectionView: View {
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var selectedImage: UIImage? = nil
-    @State private var isNavigatingToCamera = false
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -78,29 +77,16 @@ struct ImageSelectionView: View {
                         }
                     }
                     
-                    // Action buttons when image is selected
+                    // Start AR Tracing button when image is selected
                     if selectedImage != nil {
-                        VStack(spacing: DS.Space.s) {
-                            // Crop option
-                            NavigationLink(destination: ImageCropView(originalImage: selectedImage!)) {
-                                HStack(spacing: DS.Space.s) {
-                                    Image(systemName: "crop")
-                                        .font(.system(size: 18, weight: .medium))
-                                    Text("Crop Image")
-                                }
+                        NavigationLink(destination: CameraView(overlayImage: selectedImage!)) {
+                            HStack(spacing: DS.Space.s) {
+                                Image(systemName: "arkit")
+                                    .font(.system(size: 18, weight: .medium))
+                                Text("Start AR Tracing")
                             }
-                            .buttonStyle(PrimaryButtonStyle())
-                            
-                            // Skip crop option
-                            NavigationLink(destination: CameraView(overlayImage: selectedImage!)) {
-                                HStack(spacing: DS.Space.s) {
-                                    Image(systemName: "arkit")
-                                        .font(.system(size: 18, weight: .medium))
-                                    Text("Start AR Tracing")
-                                }
-                            }
-                            .buttonStyle(SecondaryButtonStyle())
                         }
+                        .buttonStyle(PrimaryButtonStyle())
                         .transition(.asymmetric(
                             insertion: .move(edge: .bottom).combined(with: .opacity),
                             removal: .move(edge: .bottom).combined(with: .opacity)
