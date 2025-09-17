@@ -98,14 +98,6 @@ struct ImageSelectionView: View {
             .background(DS.Color.background.ignoresSafeArea())
             .animation(.easeInOut(duration: 0.3), value: selectedImage)
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .foregroundStyle(DS.Color.textSecondary)
-                }
-            }
         }
     }
 }
