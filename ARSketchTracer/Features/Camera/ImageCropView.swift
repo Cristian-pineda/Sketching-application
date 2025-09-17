@@ -6,87 +6,31 @@ struct ImageCropView: View {
     @State private var cropRect: CGRect = CGRect(x: 0.1, y: 0.1, width: 0.8, height: 0.8)
     @State private var imageSize: CGSize = .zero
     @State private var imagePosition: CGPoint = .zero
+    @State private var showingPreview: Bool = false
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: DS.Space.l) {
-                // Header
-                VStack(spacing: DS.Space.s) {
-                    Text("Crop Your Image")
-                        .font(DS.Typography.title)
-                        .foregroundStyle(DS.Color.textPrimary)
-                    
-                    Text("Adjust the crop area to focus on the part you want to trace")
-                        .font(DS.Typography.body)
-                        .foregroundStyle(DS.Color.textSecondary)
-                        .multilineTextAlignment(.center)
+            Group {
+                if showingPreview {
+                    // Preview Mode
+                    previewView
+                } else {
+                    // Crop Mode
+                    cropView
                 }
-                .padding(.horizontal, DS.Space.l)
-                
-                // Crop area
-                GeometryReader { geometry in
-                    ZStack {
-                        // Background image
-                        Image(uiImage: originalImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .onAppear {
-                                calculateImageBounds(in: geometry)
-                            }
-                            .onChange(of: geometry.size) { _ in
-                                calculateImageBounds(in: geometry)
-                            }
-                        
-                        // Crop overlay
-                        CropOverlay(
-                            cropRect: $cropRect,
-                            imageSize: imageSize,
-                            imagePosition: imagePosition,
-                            containerSize: geometry.size
-                        )
-                    }
-                }
-                .clipShape(RoundedRectangle(cornerRadius: DS.Radius.medium))
-                .padding(.horizontal, DS.Space.l)
-                
-                // Action buttons
-                VStack(spacing: DS.Space.m) {
-                    // Reset crop button
-                    Button(action: resetCrop) {
-                        HStack(spacing: DS.Space.s) {
-                            Image(systemName: "arrow.counterclockwise")
-                                .font(.system(size: 16, weight: .medium))
-                            Text("Reset Crop")
-                        }
-                    }
-                    .buttonStyle(SecondaryButtonStyle())
-                    
-                    // Continue to AR button
-                    NavigationLink(destination: CameraView(overlayImage: croppedImage ?? originalImage)) {
-                        HStack(spacing: DS.Space.s) {
-                            Image(systemName: "arkit")
-                                .font(.system(size: 18, weight: .medium))
-                            Text("Start AR Tracing")
-                        }
-                    }
-                    .buttonStyle(PrimaryButtonStyle())
-                    .onAppear {
-                        updateCroppedImage()
-                    }
-                    .onChange(of: cropRect) { _ in
-                        updateCroppedImage()
-                    }
-                }
-                .padding(.horizontal, DS.Space.l)
-                .padding(.bottom, DS.Space.l)
             }
-            .background(DS.Color.background.ignoresSafeArea())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Back") {
-                        dismiss()
+                        if showingPreview {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                showingPreview = false
+                            }
+                        } else {
+                            dismiss()
+                        }
                     }
                     .foregroundStyle(DS.Color.textSecondary)
                 }
@@ -94,28 +38,173 @@ struct ImageCropView: View {
         }
     }
     
+    private var previewView: some View {
+        VStack(spacing: DS.Space.l) {
+            // Header
+            VStack(spacing: DS.Space.s) {
+                Text("Crop Preview")
+                    .font(DS.Typography.title)
+                    .foregroundStyle(DS.Color.textPrimary)
+                
+                Text("This is how your cropped image will look in the AR experience")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(DS.Color.textSecondary)
+                    .multilineTextAlignment(.center)
+            }
+            .padding(.horizontal, DS.Space.l)
+            
+            // Cropped image preview
+            if let croppedImage = croppedImage {
+                VStack(spacing: DS.Space.m) {
+                    Image(uiImage: croppedImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxHeight: 400)
+                        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.large))
+                        .shadow(color: DS.Color.textPrimary.opacity(0.1), radius: 10, y: 5)
+                    
+                    Text("Cropped Image")
+                        .font(DS.Typography.caption)
+                        .foregroundStyle(DS.Color.textSecondary)
+                }
+                .dsCard()
+                .padding(.horizontal, DS.Space.l)
+            }
+            
+            Spacer()
+            
+            // Action buttons
+            VStack(spacing: DS.Space.s) {
+                // Continue to AR button
+                NavigationLink(destination: CameraView(overlayImage: croppedImage)) {
+                    HStack(spacing: DS.Space.s) {
+                        Image(systemName: "arkit")
+                            .font(.system(size: 18, weight: .medium))
+                        Text("Start AR Tracing")
+                    }
+                }
+                .buttonStyle(PrimaryButtonStyle())
+                
+                // Back to crop button
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        showingPreview = false
+                    }
+                }) {
+                    HStack(spacing: DS.Space.s) {
+                        Image(systemName: "crop")
+                            .font(.system(size: 16, weight: .medium))
+                        Text("Adjust Crop")
+                    }
+                }
+                .buttonStyle(SecondaryButtonStyle())
+            }
+            .padding(.horizontal, DS.Space.l)
+            .padding(.bottom, DS.Space.l)
+        }
+        .background(DS.Color.background.ignoresSafeArea())
+    }
+    
+    private var cropView: some View {
+        VStack(spacing: DS.Space.l) {
+            // Header
+            VStack(spacing: DS.Space.s) {
+                Text("Crop Your Image")
+                    .font(DS.Typography.title)
+                    .foregroundStyle(DS.Color.textPrimary)
+                
+                Text("Adjust the crop area to focus on the part you want to trace")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(DS.Color.textSecondary)
+                    .multilineTextAlignment(.center)
+            }
+            .padding(.horizontal, DS.Space.l)
+            
+            // Crop area
+            GeometryReader { geometry in
+                ZStack {
+                    // Background image
+                    Image(uiImage: originalImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .onAppear {
+                            calculateImageBounds(in: geometry)
+                        }
+                        .onChange(of: geometry.size) { _ in
+                            calculateImageBounds(in: geometry)
+                        }
+                    
+                    // Crop overlay
+                    CropOverlay(
+                        cropRect: $cropRect,
+                        imageSize: imageSize,
+                        imagePosition: imagePosition,
+                        containerSize: geometry.size
+                    )
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.medium))
+            .padding(.horizontal, DS.Space.l)
+            
+            // Action buttons
+            VStack(spacing: DS.Space.s) {
+                // Preview crop button
+                Button(action: previewCrop) {
+                    HStack(spacing: DS.Space.s) {
+                        Image(systemName: "eye")
+                            .font(.system(size: 18, weight: .medium))
+                        Text("Preview Crop")
+                    }
+                }
+                .buttonStyle(PrimaryButtonStyle())
+                
+                // Reset crop button
+                Button(action: resetCrop) {
+                    HStack(spacing: DS.Space.s) {
+                        Image(systemName: "arrow.counterclockwise")
+                            .font(.system(size: 16, weight: .medium))
+                        Text("Reset Crop")
+                    }
+                }
+                .buttonStyle(SecondaryButtonStyle())
+            }
+            .padding(.horizontal, DS.Space.l)
+            .padding(.bottom, DS.Space.l)
+        }
+        .background(DS.Color.background.ignoresSafeArea())
+    }
+    
     private func calculateImageBounds(in geometry: GeometryProxy) {
         let imageAspectRatio = originalImage.size.width / originalImage.size.height
         let containerAspectRatio = geometry.size.width / geometry.size.height
         
+        let displaySize: CGSize
+        let displayPosition: CGPoint
+        
         if imageAspectRatio > containerAspectRatio {
-            // Image is wider than container
+            // Image is wider than container - fit to width
             let displayWidth = geometry.size.width
             let displayHeight = displayWidth / imageAspectRatio
-            imageSize = CGSize(width: displayWidth, height: displayHeight)
-            imagePosition = CGPoint(
+            displaySize = CGSize(width: displayWidth, height: displayHeight)
+            displayPosition = CGPoint(
                 x: geometry.size.width / 2,
                 y: geometry.size.height / 2
             )
         } else {
-            // Image is taller than container
+            // Image is taller than container - fit to height
             let displayHeight = geometry.size.height
             let displayWidth = displayHeight * imageAspectRatio
-            imageSize = CGSize(width: displayWidth, height: displayHeight)
-            imagePosition = CGPoint(
+            displaySize = CGSize(width: displayWidth, height: displayHeight)
+            displayPosition = CGPoint(
                 x: geometry.size.width / 2,
                 y: geometry.size.height / 2
             )
+        }
+        
+        // Only update if the values have changed significantly to avoid constant recalculations
+        if abs(imageSize.width - displaySize.width) > 1 || abs(imageSize.height - displaySize.height) > 1 {
+            imageSize = displaySize
+            imagePosition = displayPosition
         }
     }
     
@@ -125,19 +214,41 @@ struct ImageCropView: View {
         }
     }
     
+    private func previewCrop() {
+        updateCroppedImage()
+        withAnimation(.easeInOut(duration: 0.3)) {
+            showingPreview = true
+        }
+    }
+    
     private func updateCroppedImage() {
         guard imageSize != .zero else { return }
         
-        let scale = originalImage.scale
-        let imageRect = CGRect(
-            x: cropRect.minX * originalImage.size.width,
-            y: cropRect.minY * originalImage.size.height,
-            width: cropRect.width * originalImage.size.width,
-            height: cropRect.height * originalImage.size.height
+        // Get the original image properties
+        guard let cgImage = originalImage.cgImage else { return }
+        
+        // Calculate the crop rectangle in the original image's coordinate system
+        let cropX = cropRect.minX * CGFloat(cgImage.width)
+        let cropY = cropRect.minY * CGFloat(cgImage.height)
+        let cropWidth = cropRect.width * CGFloat(cgImage.width)
+        let cropHeight = cropRect.height * CGFloat(cgImage.height)
+        
+        // Ensure the crop rectangle is within bounds
+        let clampedCropRect = CGRect(
+            x: max(0, min(cropX, CGFloat(cgImage.width - 1))),
+            y: max(0, min(cropY, CGFloat(cgImage.height - 1))),
+            width: max(1, min(cropWidth, CGFloat(cgImage.width) - max(0, cropX))),
+            height: max(1, min(cropHeight, CGFloat(cgImage.height) - max(0, cropY)))
         )
         
-        if let cgImage = originalImage.cgImage?.cropping(to: imageRect) {
-            croppedImage = UIImage(cgImage: cgImage, scale: scale, orientation: originalImage.imageOrientation)
+        // Perform the crop
+        if let croppedCGImage = cgImage.cropping(to: clampedCropRect) {
+            // Create the new UIImage with proper scale and orientation
+            croppedImage = UIImage(
+                cgImage: croppedCGImage,
+                scale: originalImage.scale,
+                orientation: originalImage.imageOrientation
+            )
         }
     }
 }
@@ -241,11 +352,12 @@ struct CropOverlay: View {
         )
         
         var newRect = startRect
+        let minSize: CGFloat = 0.05 // Minimum 5% of image size
         
         switch cornerIndex {
         case 0: // Top-left
-            let newX = max(0, min(startRect.maxX - 0.1, startRect.minX + normalizedOffset.width))
-            let newY = max(0, min(startRect.maxY - 0.1, startRect.minY + normalizedOffset.height))
+            let newX = max(0, min(startRect.maxX - minSize, startRect.minX + normalizedOffset.width))
+            let newY = max(0, min(startRect.maxY - minSize, startRect.minY + normalizedOffset.height))
             newRect = CGRect(
                 x: newX,
                 y: newY,
@@ -253,8 +365,8 @@ struct CropOverlay: View {
                 height: startRect.maxY - newY
             )
         case 1: // Top-right
-            let newWidth = max(0.1, min(1.0 - startRect.minX, startRect.width + normalizedOffset.width))
-            let newY = max(0, min(startRect.maxY - 0.1, startRect.minY + normalizedOffset.height))
+            let newWidth = max(minSize, min(1.0 - startRect.minX, startRect.width + normalizedOffset.width))
+            let newY = max(0, min(startRect.maxY - minSize, startRect.minY + normalizedOffset.height))
             newRect = CGRect(
                 x: startRect.minX,
                 y: newY,
@@ -262,8 +374,8 @@ struct CropOverlay: View {
                 height: startRect.maxY - newY
             )
         case 2: // Bottom-right
-            let newWidth = max(0.1, min(1.0 - startRect.minX, startRect.width + normalizedOffset.width))
-            let newHeight = max(0.1, min(1.0 - startRect.minY, startRect.height + normalizedOffset.height))
+            let newWidth = max(minSize, min(1.0 - startRect.minX, startRect.width + normalizedOffset.width))
+            let newHeight = max(minSize, min(1.0 - startRect.minY, startRect.height + normalizedOffset.height))
             newRect = CGRect(
                 x: startRect.minX,
                 y: startRect.minY,
@@ -271,8 +383,8 @@ struct CropOverlay: View {
                 height: newHeight
             )
         case 3: // Bottom-left
-            let newX = max(0, min(startRect.maxX - 0.1, startRect.minX + normalizedOffset.width))
-            let newHeight = max(0.1, min(1.0 - startRect.minY, startRect.height + normalizedOffset.height))
+            let newX = max(0, min(startRect.maxX - minSize, startRect.minX + normalizedOffset.width))
+            let newHeight = max(minSize, min(1.0 - startRect.minY, startRect.height + normalizedOffset.height))
             newRect = CGRect(
                 x: newX,
                 y: startRect.minY,
@@ -282,6 +394,14 @@ struct CropOverlay: View {
         default:
             break
         }
+        
+        // Final validation to ensure the rectangle is within bounds
+        newRect = CGRect(
+            x: max(0, min(newRect.origin.x, 1.0 - minSize)),
+            y: max(0, min(newRect.origin.y, 1.0 - minSize)),
+            width: max(minSize, min(newRect.width, 1.0 - newRect.origin.x)),
+            height: max(minSize, min(newRect.height, 1.0 - newRect.origin.y))
+        )
         
         cropRect = newRect
     }

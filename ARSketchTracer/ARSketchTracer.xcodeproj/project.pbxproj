@@ -41,8 +41,8 @@
 		153152A845A5AFA7383A9243 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
 		1536D67D081B0A1B76BD3179 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		2647E78E192C1B2C87CE4280 /* ImageSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectionView.swift; sourceTree = "<group>"; };
-		3758F89F203D2C3D98DF5391 /* ImageCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropView.swift; sourceTree = "<group>"; };
 		2C9460F04C5BEAD5B98C4022 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		3758F89F203D2C3D98DF5391 /* ImageCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropView.swift; sourceTree = "<group>"; };
 		37B2BAB2F4DB2A04B1BB7F0C /* ColorTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokens.swift; sourceTree = "<group>"; };
 		48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };

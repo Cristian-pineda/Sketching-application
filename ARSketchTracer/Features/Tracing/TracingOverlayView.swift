@@ -20,7 +20,7 @@ struct TracingOverlayView: View {
             if let uiImage = overlayImage {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .scaledToFit()
+                    .aspectRatio(contentMode: .fit)
                     .opacity(opacity)
                     .scaleEffect(scale)
                     .rotationEffect(rotation)
