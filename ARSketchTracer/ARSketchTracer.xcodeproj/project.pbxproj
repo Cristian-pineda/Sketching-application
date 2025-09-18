@@ -16,6 +16,13 @@
 		3045BF92FF74E7482F41653D /* ARHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719BAC5AD4C93D3D99FAFD9D /* ARHelper.swift */; };
 		3EA99B420835B93783429DCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C30487DEAEBDC175CFC39C2 /* Assets.xcassets */; };
 		4372B435E42605816120195B /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = E773AC4A773482918FEC24B4 /* Gradients.swift */; };
+		480573DB2E7C6C4D00F48F77 /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = 480573DA2E7C6C4D00F48F77 /* Auth */; };
+		480573DD2E7C6C4D00F48F77 /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = 480573DC2E7C6C4D00F48F77 /* Functions */; };
+		480573DF2E7C6C4D00F48F77 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 480573DE2E7C6C4D00F48F77 /* PostgREST */; };
+		480573E12E7C6C4D00F48F77 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = 480573E02E7C6C4D00F48F77 /* Realtime */; };
+		480573E32E7C6C4D00F48F77 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 480573E22E7C6C4D00F48F77 /* Storage */; };
+		480573E52E7C6C4D00F48F77 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 480573E42E7C6C4D00F48F77 /* Supabase */; };
+		480573E82E7C6DA500F48F77 /* SupabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480573E72E7C6D9700F48F77 /* SupabaseManager.swift */; };
 		48A8A06E2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */; };
 		48A8A06F2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */; };
 		5598E9765ECBFBDE24258AC1 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C442F13AE799F9159832B83A /* App.swift */; };
@@ -42,6 +49,7 @@
 		2647E78E192C1B2C87CE4280 /* ImageSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectionView.swift; sourceTree = "<group>"; };
 		2C9460F04C5BEAD5B98C4022 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		37B2BAB2F4DB2A04B1BB7F0C /* ColorTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokens.swift; sourceTree = "<group>"; };
+		480573E72E7C6D9700F48F77 /* SupabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseManager.swift; sourceTree = "<group>"; };
 		48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		4A9E360B1F6987D0F7C15A57 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
@@ -71,6 +79,12 @@
 			files = (
 				8CC33C01DBC988F84FD079E1 /* ARKit.framework in Frameworks */,
 				22EEDFAB4896218841F791B6 /* RealityKit.framework in Frameworks */,
+				480573E32E7C6C4D00F48F77 /* Storage in Frameworks */,
+				480573DD2E7C6C4D00F48F77 /* Functions in Frameworks */,
+				480573E52E7C6C4D00F48F77 /* Supabase in Frameworks */,
+				480573E12E7C6C4D00F48F77 /* Realtime in Frameworks */,
+				480573DB2E7C6C4D00F48F77 /* Auth in Frameworks */,
+				480573DF2E7C6C4D00F48F77 /* PostgREST in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +127,14 @@
 			);
 			sourceTree = "<group>";
 		};
+		480573E62E7C6D6200F48F77 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				480573E72E7C6D9700F48F77 /* SupabaseManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		5F1A9EB8663D20DED602E633 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +157,7 @@
 		5F24ACD1326292F3F9A4F1D6 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				480573E62E7C6D6200F48F77 /* Services */,
 				719BAC5AD4C93D3D99FAFD9D /* ARHelper.swift */,
 			);
 			path = Utils;
@@ -239,6 +262,12 @@
 			);
 			name = ARSketchTracer;
 			packageProductDependencies = (
+				480573DA2E7C6C4D00F48F77 /* Auth */,
+				480573DC2E7C6C4D00F48F77 /* Functions */,
+				480573DE2E7C6C4D00F48F77 /* PostgREST */,
+				480573E02E7C6C4D00F48F77 /* Realtime */,
+				480573E22E7C6C4D00F48F77 /* Storage */,
+				480573E42E7C6C4D00F48F77 /* Supabase */,
 			);
 			productName = ARSketchTracer;
 			productReference = D9EF7860AFD827BBC5610EA8 /* ARSketchTracer.app */;
@@ -263,6 +292,9 @@
 			);
 			mainGroup = 3B65102C06CF67E64D39E937;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				480573D92E7C6C4D00F48F77 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -295,6 +327,7 @@
 				733EA211FC1479075422B03D /* ButtonStyles.swift in Sources */,
 				BEDCA028C1058497CEDEA173 /* CameraControls.swift in Sources */,
 				1C0287E450E3F823AF19666C /* CameraView.swift in Sources */,
+				480573E82E7C6DA500F48F77 /* SupabaseManager.swift in Sources */,
 				1D0388F561F4G934BG20777D /* ImageSelectionView.swift in Sources */,
 				F1A2B3C4D5E6F7890A1B2C3D /* SlidingControlPanel.swift in Sources */,
 				22D869278B469BF34DD3C67F /* CardBackground.swift in Sources */,
@@ -496,6 +529,50 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		480573D92E7C6C4D00F48F77 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase-community/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		480573DA2E7C6C4D00F48F77 /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 480573D92E7C6C4D00F48F77 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		480573DC2E7C6C4D00F48F77 /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 480573D92E7C6C4D00F48F77 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		480573DE2E7C6C4D00F48F77 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 480573D92E7C6C4D00F48F77 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		480573E02E7C6C4D00F48F77 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 480573D92E7C6C4D00F48F77 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		480573E22E7C6C4D00F48F77 /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 480573D92E7C6C4D00F48F77 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		480573E42E7C6C4D00F48F77 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 480573D92E7C6C4D00F48F77 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5747230A25DEC16279F4B566 /* Project object */;
 }
