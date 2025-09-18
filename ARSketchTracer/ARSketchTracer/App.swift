@@ -4,7 +4,7 @@ import SwiftUI
 struct ARSketchTracerApp: App {
     var body: some Scene {
         WindowGroup {
-            DashboardView()  // ← Now shows DashboardView
+            MainTabView()
                 .tint(DS.Color.primary)
         }
     }

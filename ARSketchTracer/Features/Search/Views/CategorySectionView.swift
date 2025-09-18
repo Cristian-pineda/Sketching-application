@@ -9,6 +9,12 @@ import SwiftUI
 
 struct CategorySectionView: View {
     let section: CategorySection
+    let onItemTapped: (Item) -> Void
+    
+    init(section: CategorySection, onItemTapped: @escaping (Item) -> Void = { _ in }) {
+        self.section = section
+        self.onItemTapped = onItemTapped
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -20,9 +26,7 @@ struct CategorySectionView: View {
                 
                 Spacer()
                 
-                Button(action: {
-                    // TODO: Navigate to category view
-                }) {
+                NavigationLink(destination: CategoryDetailView(category: section.category, onItemTapped: onItemTapped)) {
                     HStack(spacing: 4) {
                         Text("See All")
                             .font(.subheadline)
@@ -41,7 +45,9 @@ struct CategorySectionView: View {
                 LazyHStack(spacing: 16) {
                     ForEach(section.items, id: \.id) { item in
                         Button(action: {
-                            // TODO: Navigate to item detail
+                            // TODO: Resolve item's selected style variant → fetch overlay_url → open ARCameraView
+                            print("🎯 Item tapped: '\(item.name)' (slug: \(item.slug))")
+                            onItemTapped(item)
                         }) {
                             CatalogItemCardView(item: item)
                         }
@@ -55,37 +61,42 @@ struct CategorySectionView: View {
 }
 
 #Preview {
-    CategorySectionView(section: CategorySection(
-        category: Category(
-            id: UUID(),
-            slug: "animals",
-            name: "Animals",
-            description: "Animal drawings and sketches",
-            thumb_url: nil,
-            published: true
-        ),
-        items: [
-            Item(
+    CategorySectionView(
+        section: CategorySection(
+            category: Category(
                 id: UUID(),
-                category_id: UUID(),
-                slug: "cat-1",
-                name: "Cute Cat",
-                description: "A lovely cat drawing",
+                slug: "animals",
+                name: "Animals",
+                description: "Animal drawings and sketches",
                 thumb_url: nil,
-                hero_image_url: nil,
                 published: true
             ),
-            Item(
-                id: UUID(),
-                category_id: UUID(),
-                slug: "dog-1",
-                name: "Happy Dog",
-                description: "A cheerful dog sketch",
-                thumb_url: nil,
-                hero_image_url: nil,
-                published: true
-            )
-        ]
-    ))
+            items: [
+                Item(
+                    id: UUID(),
+                    category_id: UUID(),
+                    slug: "cat-1",
+                    name: "Cute Cat",
+                    description: "A lovely cat drawing",
+                    thumb_url: nil,
+                    hero_image_url: nil,
+                    published: true
+                ),
+                Item(
+                    id: UUID(),
+                    category_id: UUID(),
+                    slug: "dog-1",
+                    name: "Happy Dog",
+                    description: "A cheerful dog sketch",
+                    thumb_url: nil,
+                    hero_image_url: nil,
+                    published: true
+                )
+            ]
+        ),
+        onItemTapped: { item in
+            print("Preview: Item tapped - \(item.name)")
+        }
+    )
     .padding(.vertical)
 }

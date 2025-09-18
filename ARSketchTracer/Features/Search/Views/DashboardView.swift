@@ -68,7 +68,10 @@ struct DashboardView: View {
                     
                     // Category Sections
                     ForEach(viewModel.sections, id: \.category.id) { section in
-                        CategorySectionView(section: section)
+                        CategorySectionView(section: section) { item in
+                            // TODO: Resolve item's selected style variant → fetch overlay_url → open ARCameraView
+                            print("🎯 Item tapped from dashboard: '\(item.name)' (slug: \(item.slug))")
+                        }
                     }
                 }
             }
