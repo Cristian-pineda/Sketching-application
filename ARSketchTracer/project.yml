@@ -6,7 +6,10 @@ settings:
   BASE_SDK: iphoneos
   DEVELOPMENT_TEAM: ""
   SWIFT_VERSION: "5.9"
-packages: {}
+packages:
+  Supabase:
+    url: https://github.com/supabase/supabase-swift
+    majorVersion: 2.5.1
 targets:
   ARSketchTracer:
     type: application
@@ -25,5 +28,7 @@ targets:
     prebuildScripts: []
     postbuildScripts: []
     dependencies:
+      - package: Supabase
+        product: Supabase
       - sdk: ARKit.framework
       - sdk: RealityKit.framework
