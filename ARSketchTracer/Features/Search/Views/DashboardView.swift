@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Supabase
 
 struct DashboardView: View {
     @StateObject private var viewModel = SearchViewModel()
@@ -135,9 +134,7 @@ struct DashboardView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     LazyHStack(spacing: 16) {
                                         ForEach(items, id: \.item_id) { item in
-                                            Button(action: {
-                                                print("🎯 Item tapped from dashboard: '\(item.name)' (slug: \(item.slug))")
-                                            }) {
+                                            NavigationLink(destination: CatalogItemPreviewView(item: item)) {
                                                 DashboardItemCardView(item: item)
                                             }
                                             .buttonStyle(PlainButtonStyle())
