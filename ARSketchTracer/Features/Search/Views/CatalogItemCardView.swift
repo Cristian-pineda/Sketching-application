@@ -58,9 +58,10 @@ struct CatalogItemCardView: View {
         slug: "sample-item",
         name: "Sample Drawing",
         description: "A beautiful sample drawing for preview",
-        thumb_url: nil,
-        hero_image_url: nil,
-        published: true
+        thumb_url: nil as String?,
+        hero_image_url: nil as String?,
+        published: true,
+        primary_style_id: nil as String?
     ))
     .padding()
 }

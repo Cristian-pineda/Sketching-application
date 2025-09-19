@@ -8,8 +8,16 @@ struct CameraView: View {
     @State private var isImageLocked: Bool = false
     @State private var isHighContrastGrayscale: Bool = false
     
+    private let overlayURL: URL?
+    
     init(overlayImage: UIImage? = nil) {
         self._overlayImage = State(initialValue: overlayImage)
+        self.overlayURL = nil
+    }
+    
+    init(overlayURL: URL) {
+        self._overlayImage = State(initialValue: nil)
+        self.overlayURL = overlayURL
     }
 
     var body: some View {
@@ -55,8 +63,29 @@ struct CameraView: View {
             }
             .ignoresSafeArea(.container, edges: .bottom)
         }
-        .onAppear { ARSessionManager.shared.startSession() }
+        .onAppear { 
+            ARSessionManager.shared.startSession()
+            
+            // Load image from URL if provided
+            if let overlayURL = overlayURL {
+                Task {
+                    await loadImageFromURL(overlayURL)
+                }
+            }
+        }
         .onDisappear { ARSessionManager.shared.stopSession() }
+    }
+    
+    @MainActor
+    private func loadImageFromURL(_ url: URL) async {
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            if let uiImage = UIImage(data: data) {
+                overlayImage = uiImage
+            }
+        } catch {
+            print("Failed to load image from URL: \(error)")
+        }
     }
 }
 

@@ -68,7 +68,7 @@ struct CategorySectionView: View {
                 slug: "animals",
                 name: "Animals",
                 description: "Animal drawings and sketches",
-                thumb_url: nil,
+                thumb_url: nil as String?,
                 published: true
             ),
             items: [
@@ -78,9 +78,10 @@ struct CategorySectionView: View {
                     slug: "cat-1",
                     name: "Cute Cat",
                     description: "A lovely cat drawing",
-                    thumb_url: nil,
-                    hero_image_url: nil,
-                    published: true
+                    thumb_url: nil as String?,
+                    hero_image_url: nil as String?,
+                    published: true,
+                    primary_style_id: nil as String?
                 ),
                 Item(
                     id: UUID(),
@@ -88,9 +89,10 @@ struct CategorySectionView: View {
                     slug: "dog-1",
                     name: "Happy Dog",
                     description: "A cheerful dog sketch",
-                    thumb_url: nil,
-                    hero_image_url: nil,
-                    published: true
+                    thumb_url: nil as String?,
+                    hero_image_url: nil as String?,
+                    published: true,
+                    primary_style_id: nil as String?
                 )
             ]
         ),

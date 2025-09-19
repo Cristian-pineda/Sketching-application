@@ -73,7 +73,7 @@ struct CategoryDetailView: View {
                         isSelected: viewModel.selectedStyleKey == nil
                     ) {
                         Task {
-                            await viewModel.selectStyle(nil)
+                            await viewModel.selectStyle(nil as String?)
                         }
                     }
                     
@@ -182,7 +182,7 @@ private struct EmptyStateView: View {
                 slug: "animals",
                 name: "Animals",
                 description: "Animal drawings",
-                thumb_url: nil,
+                thumb_url: nil as String?,
                 published: true
             ),
             onItemTapped: { item in

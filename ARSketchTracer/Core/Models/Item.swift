@@ -16,4 +16,17 @@ struct Item: Decodable {
     let thumb_url: String?
     let hero_image_url: String?
     let published: Bool
+    let primary_style_id: String?
+}
+
+// DTO for the view v_items_with_primary_variant
+struct DashboardItemDTO: Decodable {
+    let item_id: String
+    let name: String
+    let slug: String
+    let category_id: String
+    let style_key: String?
+    let thumb_url: String?
+    let trace_url: String?
+    let hero_image_url: String?
 }

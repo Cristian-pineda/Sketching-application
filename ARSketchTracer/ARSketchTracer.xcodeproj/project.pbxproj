@@ -23,6 +23,7 @@
 		480573E32E7C6C4D00F48F77 /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 480573E22E7C6C4D00F48F77 /* Storage */; };
 		480573E52E7C6C4D00F48F77 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 480573E42E7C6C4D00F48F77 /* Supabase */; };
 		480573E82E7C6DA500F48F77 /* SupabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480573E72E7C6D9700F48F77 /* SupabaseManager.swift */; };
+		480573EA2E7C6DA500F48F78 /* Supabase+PublicURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480573E92E7C6D9700F48F78 /* Supabase+PublicURL.swift */; };
 		48A8A06E2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */; };
 		48A8A06F2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */; };
 		5598E9765ECBFBDE24258AC1 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C442F13AE799F9159832B83A /* App.swift */; };
@@ -51,6 +52,8 @@
 		F5A6B7C8D9EAF1234A5B6C7D /* ItemStyleVariant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A6B7C8D9EAF1234A5B6C7E /* ItemStyleVariant.swift */; };
 		F6A7B8C9DAEAF2345A6B7C8D /* CatalogRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A7B8C9DAEAF2345A6B7C8E /* CatalogRepository.swift */; };
 		F7A8B9CADBFAF3456A7B8C9D /* UserContentRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7A8B9CADBFAF3456A7B8C9E /* UserContentRepository.swift */; };
+		S1T2U3V4W5X6Y7Z8A9B0C1D2 /* StyleGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = S1T2U3V4W5X6Y7Z8A9B0C1D3 /* StyleGalleryViewModel.swift */; };
+		S2T3U4V5W6X7Y8Z9A0B1C2D3 /* StyleGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S2T3U4V5W6X7Y8Z9A0B1C2D4 /* StyleGalleryView.swift */; };
 		M1N2O3P4Q5R6S7T8U9V0W1X2 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = M1N2O3P4Q5R6S7T8U9V0W1X3 /* MainTabView.swift */; };
 		U1V2W3X4Y5Z6A7B8C9D0E1F2 /* UserContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = U1V2W3X4Y5Z6A7B8C9D0E1F3 /* UserContent.swift */; };
 /* End PBXBuildFile section */
@@ -64,6 +67,7 @@
 		2C9460F04C5BEAD5B98C4022 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		37B2BAB2F4DB2A04B1BB7F0C /* ColorTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokens.swift; sourceTree = "<group>"; };
 		480573E72E7C6D9700F48F77 /* SupabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseManager.swift; sourceTree = "<group>"; };
+		480573E92E7C6D9700F48F78 /* Supabase+PublicURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Supabase+PublicURL.swift"; sourceTree = "<group>"; };
 		48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		4A9E360B1F6987D0F7C15A57 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
@@ -97,6 +101,8 @@
 		F60455E1702469A0744009AE /* TracingTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracingTools.swift; sourceTree = "<group>"; };
 		F6A7B8C9DAEAF2345A6B7C8E /* CatalogRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogRepository.swift; sourceTree = "<group>"; };
 		F7A8B9CADBFAF3456A7B8C9E /* UserContentRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContentRepository.swift; sourceTree = "<group>"; };
+		S1T2U3V4W5X6Y7Z8A9B0C1D3 /* StyleGalleryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGalleryViewModel.swift; sourceTree = "<group>"; };
+		S2T3U4V5W6X7Y8Z9A0B1C2D4 /* StyleGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleGalleryView.swift; sourceTree = "<group>"; };
 		U1V2W3X4Y5Z6A7B8C9D0E1F3 /* UserContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -181,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				480573E72E7C6D9700F48F77 /* SupabaseManager.swift */,
+				480573E92E7C6D9700F48F78 /* Supabase+PublicURL.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -312,6 +319,31 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		S1T2U3V4W5X6Y7Z8A9B0C1D4 /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				S2T3U4V5W6X7Y8Z9A0B1C2D5 /* Views */,
+				S3T4U5V6W7X8Y9Z0A1B2C3D5 /* ViewModels */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
+		S2T3U4V5W6X7Y8Z9A0B1C2D5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				S2T3U4V5W6X7Y8Z9A0B1C2D4 /* StyleGalleryView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		S3T4U5V6W7X8Y9Z0A1B2C3D5 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				S1T2U3V4W5X6Y7Z8A9B0C1D3 /* StyleGalleryViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		B7FFE4BEF2CB0A75CEB7E06C /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -379,6 +411,7 @@
 				7C2F21BBAF460180E7D4E181 /* Camera */,
 				B3C4D5E6F7G8H9I0J1K2L3M4 /* Category */,
 				A3B4C5D6E7F8A9B0C1D2E3F4 /* Search */,
+				S1T2U3V4W5X6Y7Z8A9B0C1D4 /* Styles */,
 				ECD9A828A92F84BB9C1241BF /* Tracing */,
 			);
 			path = Features;
@@ -468,6 +501,7 @@
 				BEDCA028C1058497CEDEA173 /* CameraControls.swift in Sources */,
 				1C0287E450E3F823AF19666C /* CameraView.swift in Sources */,
 				480573E82E7C6DA500F48F77 /* SupabaseManager.swift in Sources */,
+				480573EA2E7C6DA500F48F78 /* Supabase+PublicURL.swift in Sources */,
 				1D0388F561F4G934BG20777D /* ImageSelectionView.swift in Sources */,
 				F1A2B3C4D5E6F7890A1B2C3D /* SlidingControlPanel.swift in Sources */,
 				22D869278B469BF34DD3C67F /* CardBackground.swift in Sources */,
@@ -495,6 +529,8 @@
 				A5B6C7D8E9F0A1B2C3D4E5F2 /* CategorySectionView.swift in Sources */,
 				B1C2D3E4F5G6H7I8J9K0L1M2 /* CategoryDetailView.swift in Sources */,
 				B2C3D4E5F6G7H8I9J0K1L2M3 /* CategoryDetailViewModel.swift in Sources */,
+				S1T2U3V4W5X6Y7Z8A9B0C1D2 /* StyleGalleryViewModel.swift in Sources */,
+				S2T3U4V5W6X7Y8Z9A0B1C2D3 /* StyleGalleryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

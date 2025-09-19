@@ -6,13 +6,48 @@
 //
 
 import SwiftUI
+import Supabase
 
 struct DashboardView: View {
     @StateObject private var viewModel = SearchViewModel()
     @State private var searchText = ""
+    @State private var isLoading = true
+    
+    // Group dashboard items by category_id and match with category info
+    private var dashboardCategories: [(category: Category, items: [DashboardItemDTO])] {
+        let grouped = Dictionary(grouping: viewModel.dashboardItems) { $0.category_id }
+        NSLog("🏗️ DashboardView: Grouped \(viewModel.dashboardItems.count) dashboard items into \(grouped.count) categories")
+        NSLog("🏗️ DashboardView: Available sections: \(viewModel.sections.count)")
+        NSLog("🏗️ DashboardView: Available styles: \(viewModel.styles.count)")
+        
+        // Match dashboard items with category info from sections
+        var result: [(category: Category, items: [DashboardItemDTO])] = []
+        for (categoryId, items) in grouped {
+            if let categorySection = viewModel.sections.first(where: { $0.category.id.uuidString.lowercased() == categoryId.lowercased() }) {
+                result.append((category: categorySection.category, items: items))
+                NSLog("🏗️ DashboardView: Matched category '\(categorySection.category.name)' with \(items.count) items")
+            } else {
+                NSLog("❌ DashboardView: No category found for categoryId: \(categoryId)")
+            }
+        }
+        return result.sorted { $0.category.name < $1.category.name }
+    }
     
     var body: some View {
         NavigationView {
+            if isLoading {
+                VStack(spacing: 20) {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                    Text("Loading data...")
+                        .font(.headline)
+                    Text("Styles: \(viewModel.styles.count)")
+                    Text("Sections: \(viewModel.sections.count)")  
+                    Text("Dashboard Items: \(viewModel.dashboardItems.count)")
+                    Text("Dashboard Categories: \(dashboardCategories.count)")
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
             ScrollView {
                 LazyVStack(spacing: 24) {
                     // Action Cards Section
@@ -67,23 +102,68 @@ struct DashboardView: View {
                     }
                     
                     // Category Sections
-                    ForEach(viewModel.sections, id: \.category.id) { section in
-                        CategorySectionView(section: section) { item in
-                            // TODO: Resolve item's selected style variant → fetch overlay_url → open ARCameraView
-                            print("🎯 Item tapped from dashboard: '\(item.name)' (slug: \(item.slug))")
+                    ForEach(dashboardCategories, id: \.category.id) { categoryData in
+                        let category = categoryData.category
+                        let items = categoryData.items
+                        
+                        VStack(alignment: .leading, spacing: 16) {
+                                // Section header
+                                HStack {
+                                    Text(category.name)
+                                        .font(.title2)
+                                        .fontWeight(.bold)
+                                    
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                        // TODO: Navigate to category detail
+                                    }) {
+                                        HStack(spacing: 4) {
+                                            Text("See All")
+                                                .font(.subheadline)
+                                                .fontWeight(.medium)
+                                            
+                                            Image(systemName: "chevron.right")
+                                                .font(.caption)
+                                        }
+                                        .foregroundColor(.blue)
+                                    }
+                                }
+                                .padding(.horizontal, 20)
+                                
+                                // Horizontal scroll of items
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    LazyHStack(spacing: 16) {
+                                        ForEach(items, id: \.item_id) { item in
+                                            Button(action: {
+                                                print("🎯 Item tapped from dashboard: '\(item.name)' (slug: \(item.slug))")
+                                            }) {
+                                                DashboardItemCardView(item: item)
+                                            }
+                                            .buttonStyle(PlainButtonStyle())
+                                        }
+                                    }
+                                    .padding(.horizontal, 20)
+                                }
+                            }
                         }
                     }
                 }
             }
-            .navigationTitle("Discover")
-            .navigationBarTitleDisplayMode(.large)
-            .searchable(text: $searchText, prompt: "Search drawings...")
-            .onSubmit(of: .search) {
-                // TODO: Implement search functionality
-            }
+                
+            Spacer()
+        }
+        .navigationTitle("Discover")
+        .navigationBarTitleDisplayMode(.large)
+        .searchable(text: $searchText, prompt: "Search drawings...")
+        .onSubmit(of: .search) {
+            // TODO: Implement search functionality
         }
         .task {
+            NSLog("🚀 DashboardView: Starting task...")
             await viewModel.load()
+            NSLog("✅ DashboardView: Task completed")
+            isLoading = false
         }
     }
     
@@ -127,11 +207,61 @@ struct DashboardView: View {
                     .foregroundColor(.secondary)
             }
             .padding(20)
-            .background(Color(.systemBackground))
+            .background(Color(UIColor.systemBackground))
             .cornerRadius(16)
             .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 3)
         }
         .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - DashboardItemCardView
+
+private struct DashboardItemCardView: View {
+    let item: DashboardItemDTO
+    
+    private func buildPublicURL(for path: String?) -> URL? {
+        guard let path, !path.isEmpty else { return nil }
+        let trimmed = path.hasPrefix("catalog/") ? String(path.dropFirst("catalog/".count)) : path
+        do {
+            return try SupabaseManager.shared.client.storage.from("catalog").getPublicURL(path: trimmed)
+        } catch {
+            print("Error generating public URL for catalog path '\(trimmed)': \(error)")
+            return nil
+        }
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            // Item image
+            AsyncImage(url: buildPublicURL(for: item.thumb_url)) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } placeholder: {
+                Rectangle()
+                    .fill(Color.gray.opacity(0.2))
+                    .overlay(
+                        Image(systemName: "photo")
+                            .foregroundColor(.gray)
+                            .font(.title2)
+                    )
+            }
+            .frame(height: 120)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(item.name)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .lineLimit(2)
+            }
+            .padding(.horizontal, 4)
+        }
+        .frame(width: 140)
+        .background(Color(UIColor.systemBackground))
+        .cornerRadius(16)
+        .shadow(color: .black.opacity(0.08), radius: 3, x: 0, y: 1)
     }
 }
 
