@@ -7,6 +7,7 @@ struct CameraView: View {
     @State private var overlayOpacity: Double = 0.6
     @State private var isImageLocked: Bool = false
     @State private var isHighContrastGrayscale: Bool = false
+    @State private var showControls: Bool = false
     
     private let overlayURL: URL?
     
@@ -60,9 +61,14 @@ struct CameraView: View {
                     isImageLocked: $isImageLocked,
                     isHighContrastGrayscale: $isHighContrastGrayscale
                 )
+                .opacity(showControls ? 1.0 : 0.0)
+                .offset(y: showControls ? 0 : 50)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
             .ignoresSafeArea(.container, edges: .bottom)
         }
+        .ignoresSafeArea()
+        .toolbar(.hidden, for: .tabBar)
         .onAppear { 
             ARSessionManager.shared.startSession()
             
@@ -72,8 +78,17 @@ struct CameraView: View {
                     await loadImageFromURL(overlayURL)
                 }
             }
+            
+            // Animate in the controls with a slight delay
+            withAnimation(.easeOut(duration: 0.3).delay(0.1)) {
+                showControls = true
+            }
         }
-        .onDisappear { ARSessionManager.shared.stopSession() }
+        .onDisappear { 
+            ARSessionManager.shared.stopSession()
+            // Reset controls state for clean transitions
+            showControls = false
+        }
     }
     
     @MainActor
