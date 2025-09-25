@@ -124,6 +124,8 @@ struct DashboardView: View {
             NSLog("✅ DashboardView: Task completed")
             isLoading = false
         }
+        .background(DS.Color.background) // Force design system background
+        .preferredColorScheme(.light) // Force light mode
     }
     
     private func actionCard(

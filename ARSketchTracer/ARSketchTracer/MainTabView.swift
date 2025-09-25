@@ -34,7 +34,9 @@ struct MainTabView: View {
                 }
                 .tag(2)
         }
-        .tint(.blue) // Customize tab selection color
+        .tint(DS.Color.primary) // Use design system primary color for tab selection
+        .background(DS.Color.background) // Apply design system background
+        .preferredColorScheme(.light) // Force light mode for tab view
     }
 }
 
@@ -43,22 +45,24 @@ struct MainTabView: View {
 struct MyWorkView: View {
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
+            VStack(spacing: DS.Space.xl) {
                 Image(systemName: "folder.fill")
                     .font(.system(size: 60))
-                    .foregroundColor(.gray)
+                    .foregroundColor(DS.Color.textTertiary)
                 
                 Text("My Work")
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(DS.Typography.title)
+                    .foregroundColor(DS.Color.textPrimary)
                 
                 Text("Your saved sketches and projects will appear here.")
-                    .font(.body)
-                    .foregroundColor(.secondary)
+                    .font(DS.Typography.body)
+                    .foregroundColor(DS.Color.textSecondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
             }
             .navigationTitle("My Work")
+            .background(DS.Color.background)
+            .preferredColorScheme(.light)
         }
     }
 }
@@ -66,22 +70,24 @@ struct MyWorkView: View {
 struct SettingsView: View {
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
+            VStack(spacing: DS.Space.xl) {
                 Image(systemName: "gear.circle.fill")
                     .font(.system(size: 60))
-                    .foregroundColor(.gray)
+                    .foregroundColor(DS.Color.textTertiary)
                 
                 Text("Settings")
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(DS.Typography.title)
+                    .foregroundColor(DS.Color.textPrimary)
                 
                 Text("App preferences and configuration options will be available here.")
-                    .font(.body)
-                    .foregroundColor(.secondary)
+                    .font(DS.Typography.body)
+                    .foregroundColor(DS.Color.textSecondary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
             }
             .navigationTitle("Settings")
+            .background(DS.Color.background)
+            .preferredColorScheme(.light)
         }
     }
 }

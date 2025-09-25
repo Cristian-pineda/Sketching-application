@@ -34,7 +34,7 @@ extension DS {
         static let primary = SwiftUI.Color(hex: "#3E3E3E")
         
         // Background colors
-        static let background = SwiftUI.Color.white
+        static let background = SwiftUI.Color(hex: "#FFFFFF")
         static let surface = SwiftUI.Color(hex: "#F7F7F8")
         
         // Text colors
