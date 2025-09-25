@@ -27,6 +27,10 @@ extension DS {
         static let button = Font.custom(primaryFontName, size: 16, relativeTo: .headline)
             .weight(.medium)
             
+        /// Item card labels - 13pt Regular
+        static let itemLabel = Font.custom(primaryFontName, size: 13, relativeTo: .caption)
+            .weight(.regular)
+            
         /// Small text and captions - 12pt Regular
         static let caption = Font.custom(primaryFontName, size: 12, relativeTo: .caption)
             .weight(.regular)

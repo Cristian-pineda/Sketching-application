@@ -40,22 +40,8 @@ struct CategorySectionView: View {
             }
             .padding(.horizontal, 20)
             
-            // Horizontal scroll of items
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 16) {
-                    ForEach(section.items, id: \.id) { item in
-                        Button(action: {
-                            // TODO: Resolve item's selected style variant → fetch overlay_url → open ARCameraView
-                            print("🎯 Item tapped: '\(item.name)' (slug: \(item.slug))")
-                            onItemTapped(item)
-                        }) {
-                            CatalogItemCardView(item: item)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                }
-                .padding(.horizontal, 20)
-            }
+            // Use the new ItemCardSlider component
+            ItemCardSlider(items: section.items, onItemTapped: onItemTapped)
         }
     }
 }

@@ -101,17 +101,10 @@ struct DashboardView: View {
                                 }
                                 .padding(.horizontal, 20)
                                 
-                                // Horizontal scroll of items
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    LazyHStack(spacing: 16) {
-                                        ForEach(section.items, id: \.id) { item in
-                                            NavigationLink(destination: ItemDetailView(item: item)) {
-                                                CatalogItemCardView(item: item)
-                                            }
-                                            .buttonStyle(PlainButtonStyle())
-                                        }
-                                    }
-                                    .padding(.horizontal, 20)
+                                // Use the new ItemCardSlider component
+                                ItemCardSlider(items: section.items) { item in
+                                    // For now, just print - navigation will be handled in the component itself
+                                    print("🎯 Item tapped: '\(item.name)' from section '\(section.category.name)'")
                                 }
                             }
                         }
