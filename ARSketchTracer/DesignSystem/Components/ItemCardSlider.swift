@@ -23,7 +23,7 @@ struct ItemCardSlider: View {
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: DS.Space.l) { // 16px spacing between cards
+            HStack(alignment: .top, spacing: DS.Space.l) { // 16px spacing between cards, top-aligned
                 ForEach(displayItems, id: \.id) { item in
                     NavigationLink(destination: ItemDetailView(item: item)) {
                         AtomicItemCard(item: item)

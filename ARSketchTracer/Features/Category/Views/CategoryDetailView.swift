@@ -20,7 +20,7 @@ struct CategoryDetailView: View {
     let onItemTapped: (Item) -> Void
     
     private let columns = [
-        GridItem(.adaptive(minimum: 150), spacing: 16)
+        GridItem(.adaptive(minimum: 160), spacing: 16)
     ]
     
     init(category: Category, initialStyleKey: String? = nil, onItemTapped: @escaping (Item) -> Void = { _ in }) {
@@ -110,7 +110,7 @@ struct CategoryDetailView: View {
                 LazyVGrid(columns: columns, spacing: DS.Space.xl) {
                     ForEach(viewModel.items, id: \.id) { item in
                         NavigationLink(destination: ItemDetailView(item: item)) {
-                            CatalogItemCardView(item: item)
+                            AtomicItemCard(item: item)
                         }
                         .buttonStyle(PlainButtonStyle())
                     }

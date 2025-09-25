@@ -48,30 +48,49 @@ struct DashboardView: View {
                                 // TODO: Navigate to generation flow
                             }
                         }
-                        .padding(.horizontal, DS.Space.xl)
-                        .padding(.top, DS.Space.l)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 16)
                         
                         // Style Cards Section
                         if !viewModel.styles.isEmpty {
-                            VStack(alignment: .leading, spacing: DS.Space.l) {
+                            VStack(alignment: .leading, spacing: 16) {
                                 HStack {
                                     Text("Art Styles")
-                                        .font(.title2)
+                                        .font(.custom("Merriweather", size: 20, relativeTo: .title2))
                                         .fontWeight(.bold)
+                                        .foregroundColor(.primary)
                                     
                                     Spacer()
                                 }
-                                .padding(.horizontal, DS.Space.xl)
+                                .padding(.horizontal, 24)
                                 
-                                ScrollChipCollection(items: viewModel.styles) { style in
-                                    NavigationLink(destination: StyleGalleryView(styleKey: style.key)) {
-                                        StyleChip(
-                                            style: style, 
-                                            isSelected: false, 
-                                            action: {}
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 12) {
+                                        // "All" button - selected when selectedStyleId is nil
+                                        Chip(
+                                            title: "All",
+                                            isSelected: viewModel.selectedStyleId == nil,
+                                            action: {
+                                                Task {
+                                                    await viewModel.selectStyle(nil)
+                                                }
+                                            }
                                         )
+                                        
+                                        // Style chips
+                                        ForEach(viewModel.styles, id: \.key) { style in
+                                            StyleChip(
+                                                style: style, 
+                                                isSelected: viewModel.selectedStyleId == style.id.uuidString, 
+                                                action: {
+                                                    Task {
+                                                        await viewModel.selectStyle(style.id.uuidString)
+                                                    }
+                                                }
+                                            )
+                                        }
                                     }
-                                    .buttonStyle(PlainButtonStyle())
+                                    .padding(.horizontal, 24)
                                 }
                             }
                         }
@@ -79,26 +98,22 @@ struct DashboardView: View {
                         // Category Sections - Use simplified sections directly
                         ForEach(viewModel.sections, id: \.category.id) { section in
                             VStack(alignment: .leading, spacing: 16) {
-                                // Section header
-                                HStack {
-                                    Text(section.category.name)
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                    
-                                    Spacer()
-                                    
-                                    NavigationLink(destination: CategoryDetailView(category: section.category)) {
-                                        HStack(spacing: 4) {
-                                            Text("See All")
-                                                .font(.subheadline)
-                                                .fontWeight(.medium)
-                                            
-                                            Image(systemName: "chevron.right")
-                                                .font(.caption)
-                                        }
-                                        .foregroundColor(.blue)
+                                // Section header - entire heading is clickable
+                                NavigationLink(destination: CategoryDetailView(category: section.category)) {
+                                    HStack(spacing: 8) {
+                                        Text(section.category.name)
+                                            .font(.custom("Merriweather", size: 20, relativeTo: .title2))
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.primary)
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                        
+                                        Spacer()
                                     }
                                 }
+                                .buttonStyle(PlainButtonStyle())
                                 .padding(.horizontal, 20)
                                 
                                 // Use the new ItemCardSlider component
@@ -124,8 +139,8 @@ struct DashboardView: View {
             NSLog("✅ DashboardView: Task completed")
             isLoading = false
         }
-        .background(DS.Color.background) // Force design system background
-        .preferredColorScheme(.light) // Force light mode
+        .background(Color.clear)
+        .preferredColorScheme(.light)
     }
     
     private func actionCard(
@@ -152,12 +167,13 @@ struct DashboardView: View {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
-                        .font(.headline)
+                        .font(.custom("Merriweather", size: 16, relativeTo: .headline))
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
                     
                     Text(subtitle)
-                        .font(.subheadline)
+                        .font(.custom("Merriweather", size: 14, relativeTo: .subheadline))
+                        .fontWeight(.regular)
                         .foregroundColor(.secondary)
                 }
                 
