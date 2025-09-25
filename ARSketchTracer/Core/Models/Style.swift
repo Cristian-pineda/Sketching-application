@@ -7,10 +7,8 @@
 
 import Foundation
 
-struct Style: Decodable {
+struct Style: Decodable, Identifiable {
     let id: UUID
-    let key: String
     let name: String
-    let description: String?
-    let sort_order: Int?
+    let key: String
 }

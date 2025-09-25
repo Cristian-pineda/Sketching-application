@@ -114,11 +114,7 @@ struct CategoryDetailView: View {
             } else {
                 LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(viewModel.items, id: \.id) { item in
-                        Button(action: {
-                            // TODO: Resolve item's selected style variant → fetch overlay_url → open ARCameraView
-                            print("🎯 Item tapped in category '\(viewModel.categoryName)': '\(item.name)' (slug: \(item.slug))")
-                            onItemTapped(item)
-                        }) {
+                        NavigationLink(destination: ItemDetailView(item: item)) {
                             CatalogItemCardView(item: item)
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -179,11 +175,9 @@ private struct EmptyStateView: View {
         CategoryDetailView(
             category: Category(
                 id: UUID(),
-                slug: "animals",
                 name: "Animals",
-                description: "Animal drawings",
-                thumb_url: nil as String?,
-                published: true
+                slug: "animals",
+                description: "Animal drawings"
             ),
             onItemTapped: { item in
                 print("Preview: Item tapped - \(item.name)")

@@ -7,11 +7,9 @@
 
 import Foundation
 
-struct Category: Decodable {
+struct Category: Decodable, Identifiable {
     let id: UUID
-    let slug: String
     let name: String
+    let slug: String
     let description: String?
-    let thumb_url: String?
-    let published: Bool
 }

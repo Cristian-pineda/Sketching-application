@@ -65,34 +65,30 @@ struct CategorySectionView: View {
         section: CategorySection(
             category: Category(
                 id: UUID(),
-                slug: "animals",
                 name: "Animals",
-                description: "Animal drawings and sketches",
-                thumb_url: nil as String?,
-                published: true
+                slug: "animals",
+                description: "Animal drawings and sketches"
             ),
             items: [
                 Item(
                     id: UUID(),
-                    category_id: UUID(),
-                    slug: "cat-1",
                     name: "Cute Cat",
-                    description: "A lovely cat drawing",
-                    thumb_url: nil as String?,
-                    hero_image_url: nil as String?,
-                    published: true,
-                    primary_style_id: nil as String?
+                    slug: "cat-1",
+                    category_id: UUID(),
+                    primary_style_id: UUID(),
+                    hero_image_url: "",
+                    thumb_url: nil,
+                    published: true
                 ),
                 Item(
                     id: UUID(),
-                    category_id: UUID(),
-                    slug: "dog-1",
                     name: "Happy Dog",
-                    description: "A cheerful dog sketch",
-                    thumb_url: nil as String?,
-                    hero_image_url: nil as String?,
-                    published: true,
-                    primary_style_id: nil as String?
+                    slug: "dog-1", 
+                    category_id: UUID(),
+                    primary_style_id: UUID(),
+                    hero_image_url: "",
+                    thumb_url: nil,
+                    published: true
                 )
             ]
         ),

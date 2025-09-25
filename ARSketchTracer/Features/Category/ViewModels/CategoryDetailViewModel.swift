@@ -30,11 +30,11 @@ final class CategoryDetailViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            async let stylesTask = catalogRepository.fetchStyles()
+            async let stylesTask = catalogRepository.fetchAllStyles()
             async let itemsTask = catalogRepository.fetchItems(
                 categoryId: category.id.uuidString,
                 limit: nil,
-                styleKey: selectedStyleKey
+                styleId: getStyleId(for: selectedStyleKey)
             )
             
             let (fetchedStyles, fetchedItems) = try await (stylesTask, itemsTask)
@@ -62,13 +62,21 @@ final class CategoryDetailViewModel: ObservableObject {
             items = try await catalogRepository.fetchItems(
                 categoryId: category.id.uuidString,
                 limit: nil,
-                styleKey: selectedStyleKey
+                styleId: getStyleId(for: selectedStyleKey)
             )
         } catch {
             errorMessage = "Failed to load items: \(error.localizedDescription)"
         }
         
         isLoading = false
+    }
+    
+    private func getStyleId(for styleKey: String?) -> String? {
+        guard let styleKey = styleKey,
+              let style = styles.first(where: { $0.key == styleKey }) else {
+            return nil
+        }
+        return style.id.uuidString
     }
     
     var categoryName: String {

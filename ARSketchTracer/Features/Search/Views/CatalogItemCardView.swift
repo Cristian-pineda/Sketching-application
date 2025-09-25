@@ -6,14 +6,34 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct CatalogItemCardView: View {
     let item: Item
     
+    private func buildPublicURL(for path: String?) -> URL? {
+        guard let path, !path.isEmpty else { return nil }
+        let trimmed = path.hasPrefix("catalog/") ? String(path.dropFirst("catalog/".count)) : path
+        do {
+            return try SupabaseManager.shared.client.storage.from("catalog").getPublicURL(path: trimmed)
+        } catch {
+            print("Error generating public URL for catalog path '\(trimmed)': \(error)")
+            return nil
+        }
+    }
+    
+    private var bestImageURL: URL? {
+        // Use best image available (thumb or hero)
+        if let thumb = item.thumb_url {
+            return buildPublicURL(for: thumb)
+        }
+        return buildPublicURL(for: item.hero_image_url)
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // Item image
-            AsyncImage(url: URL(string: item.thumb_url ?? "")) { image in
+            AsyncImage(url: bestImageURL) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -21,9 +41,7 @@ struct CatalogItemCardView: View {
                 Rectangle()
                     .fill(Color.gray.opacity(0.2))
                     .overlay(
-                        Image(systemName: "photo")
-                            .foregroundColor(.gray)
-                            .font(.title2)
+                        ProgressView()
                     )
             }
             .frame(height: 120)
@@ -34,18 +52,11 @@ struct CatalogItemCardView: View {
                     .font(.subheadline)
                     .fontWeight(.medium)
                     .lineLimit(2)
-                
-                if let description = item.description {
-                    Text(description)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .lineLimit(2)
-                }
             }
             .padding(.horizontal, 4)
         }
         .frame(width: 140)
-        .background(Color(.systemBackground))
+        .background(Color(UIColor.systemBackground))
         .cornerRadius(16)
         .shadow(color: .black.opacity(0.08), radius: 3, x: 0, y: 1)
     }
@@ -54,14 +65,13 @@ struct CatalogItemCardView: View {
 #Preview {
     CatalogItemCardView(item: Item(
         id: UUID(),
-        category_id: UUID(),
-        slug: "sample-item",
         name: "Sample Drawing",
-        description: "A beautiful sample drawing for preview",
-        thumb_url: nil as String?,
-        hero_image_url: nil as String?,
-        published: true,
-        primary_style_id: nil as String?
+        slug: "sample-item",
+        category_id: UUID(),
+        primary_style_id: UUID(),
+        hero_image_url: "",
+        thumb_url: nil,
+        published: true
     ))
     .padding()
 }

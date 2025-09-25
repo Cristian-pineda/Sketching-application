@@ -7,16 +7,15 @@
 
 import Foundation
 
-struct Item: Decodable {
+struct Item: Decodable, Identifiable {
     let id: UUID
-    let category_id: UUID
-    let slug: String
     let name: String
-    let description: String?
+    let slug: String
+    let category_id: UUID
+    let primary_style_id: UUID
+    let hero_image_url: String
     let thumb_url: String?
-    let hero_image_url: String?
     let published: Bool
-    let primary_style_id: String?
 }
 
 // DTO for the view v_items_with_primary_variant

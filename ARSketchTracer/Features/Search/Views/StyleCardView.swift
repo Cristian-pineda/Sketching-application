@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct StyleCardView: View {
     let style: Style
@@ -41,18 +42,11 @@ struct StyleCardView: View {
                     .font(.headline)
                     .fontWeight(.semibold)
                     .lineLimit(2)
-                
-                if let description = style.description {
-                    Text(description)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .lineLimit(3)
-                }
             }
             .padding(.horizontal, 4)
         }
         .frame(width: 160)
-        .background(Color(.systemBackground))
+        .background(Color(UIColor.systemBackground))
         .cornerRadius(16)
         .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
     }
@@ -61,10 +55,8 @@ struct StyleCardView: View {
 #Preview {
     StyleCardView(style: Style(
         id: UUID(),
-        key: "watercolor",
         name: "Watercolor",
-        description: "Soft, flowing watercolor effects",
-        sort_order: 1
+        key: "watercolor"
     ))
     .padding()
 }

@@ -8,6 +8,9 @@ struct CameraView: View {
     @State private var isImageLocked: Bool = false
     @State private var isHighContrastGrayscale: Bool = false
     @State private var showControls: Bool = false
+    @State private var sessionInitialized: Bool = false
+    
+    @Environment(\.scenePhase) private var scenePhase
     
     private let overlayURL: URL?
     
@@ -67,27 +70,81 @@ struct CameraView: View {
             }
             .ignoresSafeArea(.container, edges: .bottom)
         }
-        .ignoresSafeArea()
         .toolbar(.hidden, for: .tabBar)
+        .ignoresSafeArea()
         .onAppear { 
-            ARSessionManager.shared.startSession()
+            print("CameraView: onAppear - initializing AR session")
             
-            // Load image from URL if provided
-            if let overlayURL = overlayURL {
-                Task {
-                    await loadImageFromURL(overlayURL)
+            if !sessionInitialized {
+                sessionInitialized = true
+                
+                // Small delay to ensure view is fully loaded
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    startARSession()
                 }
-            }
-            
-            // Animate in the controls with a slight delay
-            withAnimation(.easeOut(duration: 0.3).delay(0.1)) {
-                showControls = true
+            } else {
+                // View reappeared, restart session
+                startARSession()
             }
         }
         .onDisappear { 
-            ARSessionManager.shared.stopSession()
-            // Reset controls state for clean transitions
+            print("CameraView: onDisappear - stopping AR session")
+            stopARSession()
+            
+            // Reset controls state
             showControls = false
+        }
+        .onChange(of: scenePhase) { phase in
+            handleScenePhaseChange(phase)
+        }
+    }
+    
+    // MARK: - AR Session Management
+    
+    private func startARSession() {
+        guard ARSessionManager.shared.canStartSession else {
+            print("CameraView: Cannot start AR session - invalid state")
+            return
+        }
+        
+        ARSessionManager.shared.startSession()
+        
+        // Animate in the custom AR controls with a delay
+        withAnimation(.easeOut(duration: 0.5).delay(0.3)) {
+            showControls = true
+        }
+        
+        // Load image from URL if provided
+        if let overlayURL = overlayURL {
+            Task {
+                await loadImageFromURL(overlayURL)
+            }
+        }
+    }
+    
+    private func stopARSession() {
+        ARSessionManager.shared.stopSession()
+    }
+    
+    private func handleScenePhaseChange(_ phase: ScenePhase) {
+        switch phase {
+        case .active:
+            print("CameraView: Scene became active")
+            // Restart session if it was interrupted
+            if sessionInitialized && !ARSessionManager.shared.isSessionRunning {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    startARSession()
+                }
+            }
+        case .inactive:
+            print("CameraView: Scene became inactive")
+            // Pause session to free resources
+            stopARSession()
+        case .background:
+            print("CameraView: Scene moved to background")
+            stopARSession()
+        @unknown default:
+            break
         }
     }
     
@@ -107,7 +164,9 @@ struct CameraView: View {
 struct ARViewContainer: UIViewRepresentable {
     let overlayImage: UIImage?
 
-    func makeCoordinator() -> Coordinator { Coordinator() }
+    func makeCoordinator() -> Coordinator { 
+        Coordinator() 
+    }
 
     func makeUIView(context: Context) -> ARView {
         let arView = ARView(frame: .zero)
@@ -118,10 +177,19 @@ struct ARViewContainer: UIViewRepresentable {
     func updateUIView(_ uiView: ARView, context: Context) {
         // No-op for now; overlay is handled via SwiftUI overlay
     }
+    
+    static func dismantleUIView(_ uiView: ARView, coordinator: Coordinator) {
+        coordinator.cleanup()
+    }
 
     final class Coordinator {
         func configure(arView: ARView) {
             ARSessionManager.shared.attach(to: arView)
+        }
+        
+        func cleanup() {
+            print("ARViewContainer.Coordinator: Cleaning up AR session")
+            ARSessionManager.shared.detachFromCurrentView()
         }
     }
 }

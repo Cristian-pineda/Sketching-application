@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct CategorySection {
     let category: Category
@@ -16,7 +17,6 @@ struct CategorySection {
 final class SearchViewModel: ObservableObject {
     @Published var styles: [Style] = []
     @Published var sections: [CategorySection] = []
-    @Published var dashboardItems: [DashboardItemDTO] = []
     
     private let catalogRepository: CatalogRepository
     
@@ -29,7 +29,7 @@ final class SearchViewModel: ObservableObject {
         NSLog("🔄 SearchViewModel: Starting data load...")
         do {
             // Load styles and categories concurrently
-            async let stylesTask = catalogRepository.fetchStyles()
+            async let stylesTask = catalogRepository.fetchAllStyles()
             async let categoriesTask = catalogRepository.fetchCategories()
             
             let (loadedStyles, loadedCategories) = await (try stylesTask, try categoriesTask)
@@ -47,7 +47,7 @@ final class SearchViewModel: ObservableObject {
                     let items = try await catalogRepository.fetchItems(
                         categoryId: category.id.uuidString,
                         limit: 8,
-                        styleKey: nil as String?
+                        styleId: nil
                     )
                     
                     NSLog("📦 SearchViewModel: Category '\(category.name)' has \(items.count) items")
@@ -62,16 +62,6 @@ final class SearchViewModel: ObservableObject {
             // Update sections on main thread
             sections = categorySections
             NSLog("✅ SearchViewModel: Updated sections array with \(sections.count) sections")
-            
-            // Load dashboard items
-            do {
-                let loadedDashboardItems = try await catalogRepository.fetchDashboardItems()
-                dashboardItems = loadedDashboardItems
-                NSLog("📱 SearchViewModel: Loaded \(dashboardItems.count) dashboard items")
-            } catch {
-                NSLog("❌ Failed to load dashboard items: \(error)")
-                dashboardItems = []
-            }
             
         } catch {
             NSLog("❌ Failed to load styles or categories: \(error)")

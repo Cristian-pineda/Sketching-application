@@ -9,25 +9,25 @@ import Foundation
 import Supabase
 
 protocol CatalogRepository {
-    func fetchStyles() async throws -> [Style]
+    func fetchAllStyles() async throws -> [Style]
     func fetchCategories() async throws -> [Category]
-    func fetchItems(categoryId: String, limit: Int?, styleKey: String?) async throws -> [Item]
-    func fetchDashboardItems() async throws -> [DashboardItemDTO]
-    func fetchItemsByStyle(styleKey: String) async throws -> [(Item, ItemStyleVariant)]
+    func fetchItems(categoryId: String, limit: Int?, styleId: String?) async throws -> [Item]
+    func fetchItemsByStyle(styleKey: String) async throws -> [Item]
 }
 
 final class CatalogRepositoryLive: CatalogRepository {
     private let supabaseClient = SupabaseManager.shared.client
     
-    func fetchStyles() async throws -> [Style] {
-        NSLog("🔗 CatalogRepository: Fetching styles from Supabase...")
+    /// Fetch all global styles (not scoped by category)
+    func fetchAllStyles() async throws -> [Style] {
+        NSLog("🔗 CatalogRepository: Fetching all global styles from Supabase...")
         let response: [Style] = try await supabaseClient
             .from("styles")
-            .select("id,key,name,description,sort_order")
-            .order("sort_order")
+            .select("id,name,key")
+            .order("name", ascending: true)
             .execute()
             .value
-        NSLog("🔗 CatalogRepository: Fetched \(response.count) styles")
+        NSLog("🔗 CatalogRepository: ✅ Successfully fetched \(response.count) styles")
         return response
     }
     
@@ -44,85 +44,63 @@ final class CatalogRepositoryLive: CatalogRepository {
         return response
     }
     
-    func fetchItems(categoryId: String, limit: Int?, styleKey: String?) async throws -> [Item] {
-        NSLog("🔗 CatalogRepository: Fetching items for category \(categoryId), limit: \(String(describing: limit)), style: \(String(describing: styleKey))")
-        if let styleKey = styleKey {
-            // Join with item_style_variants and styles to filter by style key
-            let query = supabaseClient
+    func fetchItems(categoryId: String, limit: Int?, styleId: String?) async throws -> [Item] {
+        NSLog("🔗 CatalogRepository: Fetching items for category \(categoryId), limit: \(String(describing: limit)), styleId: \(String(describing: styleId))")
+        
+        do {
+            var query = supabaseClient
                 .from("items")
-                .select("id,category_id,slug,name,thumb_url,hero_image_url,published,item_style_variants!inner(style_id,styles!inner(key))")
-                .eq("published", value: true)
+                .select("id,name,slug,category_id,primary_style_id,hero_image_url,thumb_url,published")
                 .eq("category_id", value: categoryId)
-                .eq("item_style_variants.styles.key", value: styleKey)
+                .eq("published", value: true)
             
-            let finalQuery = if let limit = limit {
-                query.limit(limit)
-            } else {
-                query
+            // Filter by style if provided
+            if let styleId = styleId {
+                query = query.eq("primary_style_id", value: styleId)
             }
             
-            let response: [Item] = try await finalQuery.execute().value
-            NSLog("🔗 CatalogRepository: Fetched \(response.count) items for category \(categoryId) with style \(styleKey)")
-            return response
-        } else {
-            // Simple query without style filtering
-            let query = supabaseClient
-                .from("items")
-                .select("id,category_id,slug,name,thumb_url,hero_image_url,published")
-                .eq("published", value: true)
-                .eq("category_id", value: categoryId)
-            
-            let finalQuery = if let limit = limit {
-                query.limit(limit)
+            // Apply limit if provided and execute query
+            let response: [Item] = if let limit = limit {
+                try await query.limit(limit).execute().value
             } else {
-                query
+                try await query.execute().value
             }
             
-            let response: [Item] = try await finalQuery.execute().value
-            NSLog("🔗 CatalogRepository: Fetched \(response.count) items for category \(categoryId)")
+            NSLog("🔗 CatalogRepository: ✅ Successfully fetched \(response.count) items for category \(categoryId)")
             return response
+            
+        } catch {
+            NSLog("❌ CatalogRepository: Error fetching items for category \(categoryId): \(error)")
+            throw error
         }
     }
     
-    func fetchDashboardItems() async throws -> [DashboardItemDTO] {
-        NSLog("🔗 CatalogRepository: Fetching dashboard items from view...")
-        let response: [DashboardItemDTO] = try await supabaseClient
-            .from("v_items_with_primary_variant")
-            .select("*")
+    func fetchItemsByStyle(styleKey: String) async throws -> [Item] {
+        NSLog("🔗 CatalogRepository: Fetching all items for style key: \(styleKey)")
+        
+        // First, get the style ID from the style key
+        let styles: [Style] = try await supabaseClient
+            .from("styles")
+            .select("id,name,key")
+            .eq("key", value: styleKey)
             .execute()
             .value
-        NSLog("🔗 CatalogRepository: Fetched \(response.count) dashboard items")
-        return response
-    }
-    
-    func fetchItemsByStyle(styleKey: String) async throws -> [(Item, ItemStyleVariant)] {
-        // Fetch items that have variants for the given style key
-        let itemsResponse: [Item] = try await supabaseClient
+        
+        guard let style = styles.first else {
+            NSLog("❌ CatalogRepository: No style found for key: \(styleKey)")
+            return []
+        }
+        
+        // Then fetch items that use this style as their primary style
+        let items: [Item] = try await supabaseClient
             .from("items")
-            .select("id,category_id,slug,name,description,thumb_url,hero_image_url,published,primary_style_id")
+            .select("id,name,slug,category_id,primary_style_id,hero_image_url,thumb_url,published")
             .eq("published", value: true)
+            .eq("primary_style_id", value: style.id.uuidString)
             .execute()
             .value
         
-        // Fetch variants for the specific style
-        let variantsResponse: [ItemStyleVariant] = try await supabaseClient
-            .from("item_style_variants")
-            .select("id,item_id,style_id,style_key,thumb_url,image_url,hero_image_url,overlay_url,trace_url")
-            .eq("style_key", value: styleKey)
-            .execute()
-            .value
-        
-        // Match items with their variants
-        var result: [(Item, ItemStyleVariant)] = []
-        let variantsByItemId = Dictionary(grouping: variantsResponse) { $0.item_id }
-        
-        for item in itemsResponse {
-            if let variants = variantsByItemId[item.id],
-               let variant = variants.first {
-                result.append((item, variant))
-            }
-        }
-        
-        return result
+        NSLog("🔗 CatalogRepository: Found \(items.count) items for style \(styleKey)")
+        return items
     }
 }

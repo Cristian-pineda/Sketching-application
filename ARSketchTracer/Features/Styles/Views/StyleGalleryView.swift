@@ -31,11 +31,9 @@ struct StyleGalleryView: View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 16) {
-                    ForEach(0..<viewModel.entries.count, id: \.self) { index in
-                        let (item, variant) = viewModel.entries[index]
-                        
-                        NavigationLink(destination: destinationView(for: item, variant: variant)) {
-                            StyleVariantCard(item: item, variant: variant)
+                    ForEach(viewModel.entries, id: \.id) { item in
+                        NavigationLink(destination: ItemDetailView(item: item)) {
+                            StyleItemCard(item: item)
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
@@ -49,35 +47,12 @@ struct StyleGalleryView: View {
             await viewModel.load(styleKey: styleKey)
         }
     }
-    
-    private func destinationView(for item: Item, variant: ItemStyleVariant) -> some View {
-        if let traceURL = resolveTraceURL(variant.trace_url) {
-            print("🎨 Style variant tapped: '\(item.name)' - Trace URL: \(variant.trace_url ?? "nil")")
-            return AnyView(CameraView(overlayURL: traceURL))
-        } else {
-            print("❌ Failed to resolve trace URL for '\(item.name)': \(variant.trace_url ?? "nil")")
-            // Return a fallback view or empty camera view
-            return AnyView(CameraView())
-        }
-    }
-    
-    private func resolveTraceURL(_ tracePath: String?) -> URL? {
-        guard let tracePath, !tracePath.isEmpty else { return nil }
-        let trimmed = tracePath.hasPrefix("catalog/") ? String(tracePath.dropFirst("catalog/".count)) : tracePath
-        do {
-            return try SupabaseManager.shared.client.storage.from("catalog").getPublicURL(path: trimmed)
-        } catch {
-            print("Error generating public URL for catalog path '\(trimmed)': \(error)")
-            return nil
-        }
-    }
 }
 
 // MARK: - Supporting Views
 
-private struct StyleVariantCard: View {
+private struct StyleItemCard: View {
     let item: Item
-    let variant: ItemStyleVariant
     
     private func buildPublicURL(for path: String?) -> URL? {
         guard let path, !path.isEmpty else { return nil }
@@ -92,8 +67,8 @@ private struct StyleVariantCard: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // Variant thumbnail image
-            AsyncImage(url: buildPublicURL(for: variant.thumb_url)) { image in
+            // Item thumbnail image
+            AsyncImage(url: buildPublicURL(for: item.thumb_url)) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -114,12 +89,6 @@ private struct StyleVariantCard: View {
                     .font(.subheadline)
                     .fontWeight(.medium)
                     .lineLimit(2)
-                
-                if let styleKey = variant.style_key {
-                    Text(styleKey)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
             }
             .padding(.horizontal, 4)
         }

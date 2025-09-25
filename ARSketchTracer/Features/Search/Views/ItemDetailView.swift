@@ -1,27 +1,7 @@
-//
-//  CatalogItemPreviewView.swift
-//  ARSketchTracer
-//
-//  Created by Cristian Pineda on 9/19/25.
-//
-
 import SwiftUI
-import UIKit
 
-struct CatalogItemPreviewView: View {
+struct ItemDetailView: View {
     let item: Item
-    
-    private var heroImageURL: URL? {
-        // Use hero_image_url from the Item model
-        guard !item.hero_image_url.isEmpty else { return nil }
-        let trimmed = item.hero_image_url.hasPrefix("catalog/") ? String(item.hero_image_url.dropFirst("catalog/".count)) : item.hero_image_url
-        do {
-            return try SupabaseManager.shared.client.storage.from("catalog").getPublicURL(path: trimmed)
-        } catch {
-            print("Error generating public URL for catalog path '\(trimmed)': \(error)")
-            return nil
-        }
-    }
     
     private func buildPublicURL(for path: String?) -> URL? {
         guard let path, !path.isEmpty else { return nil }
@@ -32,6 +12,10 @@ struct CatalogItemPreviewView: View {
             print("Error generating public URL for catalog path '\(trimmed)': \(error)")
             return nil
         }
+    }
+    
+    private var heroImageURL: URL? {
+        buildPublicURL(for: item.hero_image_url)
     }
     
     var body: some View {
@@ -67,9 +51,6 @@ struct CatalogItemPreviewView: View {
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
-                        
-                        // Note: style_key is not available in the simplified Item model
-                        // We could fetch the style name using primary_style_id if needed
                     }
                     
                     // Item Details
@@ -95,16 +76,14 @@ struct CatalogItemPreviewView: View {
             VStack {
                 Spacer()
                 
-                // In simplified architecture, we use hero_image_url as the trace source
-                if !item.hero_image_url.isEmpty,
-                   let overlayURL = buildPublicURL(for: item.hero_image_url) {
+                if let overlayURL = heroImageURL {
                     NavigationLink(destination: CameraView(overlayURL: overlayURL)) {
                         HStack(spacing: 12) {
                             Image(systemName: "arkit")
                                 .font(.title2)
                                 .fontWeight(.medium)
                             
-                            Text("Start Drawing")
+                            Text("Start AR Experience")
                                 .font(.headline)
                                 .fontWeight(.semibold)
                         }
@@ -137,9 +116,9 @@ struct CatalogItemPreviewView: View {
                         .frame(height: 100)
                     )
                 } else {
-                    // Fallback if no trace_url available
+                    // Fallback if no image available
                     Button(action: {
-                        print("⚠️ No trace URL available for item: \(item.name)")
+                        print("⚠️ No image available for item: \(item.name)")
                     }) {
                         HStack(spacing: 12) {
                             Image(systemName: "exclamationmark.triangle")
@@ -168,7 +147,7 @@ struct CatalogItemPreviewView: View {
 
 #Preview {
     NavigationView {
-        CatalogItemPreviewView(
+        ItemDetailView(
             item: Item(
                 id: UUID(),
                 name: "Classic Car",

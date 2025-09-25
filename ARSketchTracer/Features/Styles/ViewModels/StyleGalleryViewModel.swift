@@ -9,7 +9,7 @@ import Foundation
 
 @MainActor
 final class StyleGalleryViewModel: ObservableObject {
-    @Published var entries: [(Item, ItemStyleVariant)] = []
+    @Published var entries: [Item] = []
     
     private let repo: CatalogRepository
     

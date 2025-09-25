@@ -106,7 +106,10 @@ struct DashboardView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     LazyHStack(spacing: 16) {
                                         ForEach(section.items, id: \.id) { item in
-                                            NavigationLink(destination: ItemDetailView(item: item)) {
+                                            Button(action: {
+                                                // TODO: Navigate to item detail/preview
+                                                print("🎯 Item tapped: '\(item.name)'")
+                                            }) {
                                                 CatalogItemCardView(item: item)
                                             }
                                             .buttonStyle(PlainButtonStyle())
