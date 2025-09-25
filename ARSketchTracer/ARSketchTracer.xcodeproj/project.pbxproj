@@ -30,10 +30,14 @@
 		63744EEE024C016C9E661973 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42D244E758DFFE90C3FD81E /* Spacing.swift */; };
 		6557BEDB2D08E9B02E43D111 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F522301FB5AD262C26DA13 /* Radius.swift */; };
 		733EA211FC1479075422B03D /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153152A845A5AFA7383A9243 /* ButtonStyles.swift */; };
+		CH1P23456789ABCDEFGHIJKL /* Chip.swift in Sources */ = {isa = PBXBuildFile; fileRef = CH1P567890ABCDEF12345678 /* Chip.swift */; };
+		SC0LL123456789ABCDEFGHIJ /* ScrollChipCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = SC0LL567890ABCDEF1234567 /* ScrollChipCollection.swift */; };
+		SC1234567890ABCDEFGHIJKL /* StyleChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = STYL567890ABCDEF12345678 /* StyleChip.swift */; };
 		7743358CD9AF9749A2CE0F1C /* TracingTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60455E1702469A0744009AE /* TracingTools.swift */; };
 		8C15483875212E3CF58760A1 /* TracingOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED12F043A39A9F33BCAF1978 /* TracingOverlayView.swift */; };
 		8CC33C01DBC988F84FD079E1 /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A9E360B1F6987D0F7C15A57 /* ARKit.framework */; };
 		93B5CFCAB46C1B01F0ED5FD2 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9460F04C5BEAD5B98C4022 /* Typography.swift */; };
+
 		A1B2C3D4E5F6A7B8C9D0E1F2 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F6A7B8C9D0E1F3 /* DashboardView.swift */; };
 		A2B3C4D5E6F7A8B9C0D1E2F3 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B3C4D5E6F7A8B9C0D1E2F4 /* SearchViewModel.swift */; };
 		A3B4C5D6E7F8A9B0C1D2E3F2 /* StyleCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B4C5D6E7F8A9B0C1D2E3F3 /* StyleCardView.swift */; };
@@ -68,12 +72,16 @@
 		1050BF65E3GEA531FD57G2C6 /* ARSessionRecovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSessionRecovery.swift; sourceTree = "<group>"; };
 		0C30487DEAEBDC175CFC39C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		153152A845A5AFA7383A9243 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		CH1P567890ABCDEF12345678 /* Chip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chip.swift; sourceTree = "<group>"; };
+		SC0LL567890ABCDEF1234567 /* ScrollChipCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollChipCollection.swift; sourceTree = "<group>"; };
+		STYL567890ABCDEF12345678 /* StyleChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyleChip.swift; sourceTree = "<group>"; };
 		1536D67D081B0A1B76BD3179 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		2647E78E192C1B2C87CE4280 /* ImageSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectionView.swift; sourceTree = "<group>"; };
 		2C9460F04C5BEAD5B98C4022 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		37B2BAB2F4DB2A04B1BB7F0C /* ColorTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTokens.swift; sourceTree = "<group>"; };
 		480573E72E7C6D9700F48F77 /* SupabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseManager.swift; sourceTree = "<group>"; };
 		480573E92E7C6D9700F48F78 /* Supabase+PublicURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Supabase+PublicURL.swift"; sourceTree = "<group>"; };
+
 		48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		4A9E360B1F6987D0F7C15A57 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
@@ -416,6 +424,9 @@
 			isa = PBXGroup;
 			children = (
 				153152A845A5AFA7383A9243 /* ButtonStyles.swift */,
+				CH1P567890ABCDEF12345678 /* Chip.swift */,
+				SC0LL567890ABCDEF1234567 /* ScrollChipCollection.swift */,
+				STYL567890ABCDEF12345678 /* StyleChip.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -514,6 +525,10 @@
 				5598E9765ECBFBDE24258AC1 /* App.swift in Sources */,
 				M1N2O3P4Q5R6S7T8U9V0W1X2 /* MainTabView.swift in Sources */,
 				733EA211FC1479075422B03D /* ButtonStyles.swift in Sources */,
+				SC1234567890ABCDEFGHIJKL /* StyleChip.swift in Sources */,
+				CH1P23456789ABCDEFGHIJKL /* Chip.swift in Sources */,
+				SC0LL123456789ABCDEFGHIJ /* ScrollChipCollection.swift in Sources */,
+				SC3456789012CDEFGHIJKLMN /* ActionCardsSection.swift in Sources */,
 				BEDCA028C1058497CEDEA173 /* CameraControls.swift in Sources */,
 				1C0287E450E3F823AF19666C /* CameraView.swift in Sources */,
 				480573E82E7C6DA500F48F77 /* SupabaseManager.swift in Sources */,

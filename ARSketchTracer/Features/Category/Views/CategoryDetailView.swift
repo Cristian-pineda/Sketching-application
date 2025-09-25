@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+// MARK: - Filter Option Model
+private struct FilterOption: Identifiable {
+    let id = UUID()
+    let title: String
+    let styleKey: String?
+    let isSelected: Bool
+}
+
 struct CategoryDetailView: View {
     @StateObject private var viewModel: CategoryDetailViewModel
     let onItemTapped: (Item) -> Void
@@ -25,7 +33,7 @@ struct CategoryDetailView: View {
     
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: 20) {
+            LazyVStack(spacing: DS.Space.xl) {
                 // Style filter row
                 if viewModel.hasStyles {
                     styleFilterSection
@@ -33,8 +41,8 @@ struct CategoryDetailView: View {
                 
                 // Items grid
                 itemsGridSection
+                    .padding(.horizontal, DS.Space.xl)
             }
-            .padding(.horizontal, 16)
         }
         .navigationTitle(viewModel.categoryName)
         .navigationBarTitleDisplayMode(.large)
@@ -60,45 +68,32 @@ struct CategoryDetailView: View {
     }
     
     private var styleFilterSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Filter by Style")
-                .font(.headline)
-                .fontWeight(.semibold)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 12) {
-                    // "All" chip
-                    StyleFilterChip(
-                        title: "All",
-                        isSelected: viewModel.selectedStyleKey == nil
-                    ) {
-                        Task {
-                            await viewModel.selectStyle(nil as String?)
-                        }
-                    }
-                    
-                    // Style chips
-                    ForEach(viewModel.styles, id: \.id) { style in
-                        StyleFilterChip(
-                            title: style.name,
-                            isSelected: viewModel.selectedStyleKey == style.key
-                        ) {
-                            Task {
-                                await viewModel.selectStyle(style.key)
-                            }
-                        }
-                    }
+        ScrollChipCollection(items: allFilterOptions) { option in
+            Chip(
+                title: option.title,
+                isSelected: option.isSelected
+            ) {
+                Task {
+                    await viewModel.selectStyle(option.styleKey)
                 }
-                .padding(.horizontal, 16)
             }
         }
     }
     
+    private var allFilterOptions: [FilterOption] {
+        var options = [FilterOption(title: "All", styleKey: nil, isSelected: viewModel.selectedStyleKey == nil)]
+        let styleOptions = viewModel.styles.map { style in
+            FilterOption(title: style.name, styleKey: style.key, isSelected: viewModel.selectedStyleKey == style.key)
+        }
+        options.append(contentsOf: styleOptions)
+        return options
+    }
+    
     private var itemsGridSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: DS.Space.xl) {
             HStack {
                 Text("\(viewModel.items.count) Items")
-                    .font(.headline)
+                    .font(DS.Typography.headline)
                     .fontWeight(.semibold)
                 
                 Spacer()
@@ -112,7 +107,7 @@ struct CategoryDetailView: View {
             if viewModel.items.isEmpty && !viewModel.isLoading {
                 EmptyStateView()
             } else {
-                LazyVGrid(columns: columns, spacing: 16) {
+                LazyVGrid(columns: columns, spacing: DS.Space.xl) {
                     ForEach(viewModel.items, id: \.id) { item in
                         NavigationLink(destination: ItemDetailView(item: item)) {
                             CatalogItemCardView(item: item)
@@ -127,45 +122,23 @@ struct CategoryDetailView: View {
 
 // MARK: - Supporting Views
 
-private struct StyleFilterChip: View {
-    let title: String
-    let isSelected: Bool
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 8)
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(isSelected ? Color.blue : Color(.systemGray6))
-                )
-                .foregroundColor(isSelected ? .white : .primary)
-        }
-        .buttonStyle(PlainButtonStyle())
-    }
-}
-
 private struct EmptyStateView: View {
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: DS.Space.xl) {
             Image(systemName: "magnifyingglass")
                 .font(.system(size: 48))
-                .foregroundColor(.gray)
+                .foregroundColor(DS.Color.textSecondary)
             
             Text("No Items Found")
-                .font(.title2)
+                .font(DS.Typography.headline)
                 .fontWeight(.medium)
             
             Text("Try selecting a different style or check back later.")
-                .font(.body)
-                .foregroundColor(.secondary)
+                .font(DS.Typography.body)
+                .foregroundColor(DS.Color.textSecondary)
                 .multilineTextAlignment(.center)
         }
-        .padding(.vertical, 40)
+        .padding(.vertical, DS.Space.xxl)
         .frame(maxWidth: .infinity)
     }
 }

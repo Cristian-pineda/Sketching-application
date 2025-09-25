@@ -48,12 +48,12 @@ struct DashboardView: View {
                                 // TODO: Navigate to generation flow
                             }
                         }
-                        .padding(.horizontal, 20)
-                        .padding(.top, 16)
+                        .padding(.horizontal, DS.Space.xl)
+                        .padding(.top, DS.Space.l)
                         
                         // Style Cards Section
                         if !viewModel.styles.isEmpty {
-                            VStack(alignment: .leading, spacing: 16) {
+                            VStack(alignment: .leading, spacing: DS.Space.l) {
                                 HStack {
                                     Text("Art Styles")
                                         .font(.title2)
@@ -61,18 +61,17 @@ struct DashboardView: View {
                                     
                                     Spacer()
                                 }
-                                .padding(.horizontal, 20)
+                                .padding(.horizontal, DS.Space.xl)
                                 
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    LazyHStack(spacing: 16) {
-                                        ForEach(viewModel.styles, id: \.id) { style in
-                                            NavigationLink(destination: StyleGalleryView(styleKey: style.key)) {
-                                                StyleCardView(style: style)
-                                            }
-                                            .buttonStyle(PlainButtonStyle())
-                                        }
+                                ScrollChipCollection(items: viewModel.styles) { style in
+                                    NavigationLink(destination: StyleGalleryView(styleKey: style.key)) {
+                                        StyleChip(
+                                            style: style, 
+                                            isSelected: false, 
+                                            action: {}
+                                        )
                                     }
-                                    .padding(.horizontal, 20)
+                                    .buttonStyle(PlainButtonStyle())
                                 }
                             }
                         }
