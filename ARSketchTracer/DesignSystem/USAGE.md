@@ -110,3 +110,46 @@ struct ExampleView: View {
     }
 }
 ```
+
+---
+
+## Component Usage
+
+All design system components (e.g., `Chip`, `StyleChip`, `ItemCardSlider`) are located in:
+```
+ARSketchTracer/DesignSystem/Components/
+```
+They are **SwiftUI views** and are available to any file in the same Xcode target.  
+**No import statement** like `import DesignSystem` is needed—just use the component directly.
+
+### 1. Chip
+```swift
+Chip(title: "All", isSelected: true) {
+    // action
+}
+```
+
+### 2. StyleChip
+```swift
+StyleChip(style: someStyle, isSelected: false) {
+    // action
+}
+```
+
+### 3. ItemCardSlider
+```swift
+ItemCardSlider(items: itemsArray) { item in
+    // action on item tap
+}
+```
+
+---
+
+### Notes
+- **No module import required** for design system components.
+- If you get a "No such module" error, remove any `import DesignSystem` or similar lines.
+- Components are available as long as they are in the same target and not excluded from build phases.
+
+### Troubleshooting
+- If a component is not found, ensure the file is present in `DesignSystem/Components/` and included in the Xcode target.
+- If you move or rename a component, update all references accordingly.

@@ -129,10 +129,6 @@ struct DashboardView: View {
         }
         .navigationTitle("Discover")
         .navigationBarTitleDisplayMode(.large)
-        .searchable(text: $searchText, prompt: "Search drawings...")
-        .onSubmit(of: .search) {
-            // TODO: Implement search functionality
-        }
         .task {
             NSLog("🚀 DashboardView: Starting task...")
             await viewModel.load()
