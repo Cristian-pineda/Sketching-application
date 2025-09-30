@@ -26,6 +26,7 @@
 		480573EA2E7C6DA500F48F78 /* Supabase+PublicURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480573E92E7C6D9700F48F78 /* Supabase+PublicURL.swift */; };
 		4825DEFB2E85D5200020574F /* AtomicItemCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4825DEF82E85D5200020574F /* AtomicItemCard.swift */; };
 		4825DEFD2E85D5640020574F /* ItemCardSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4825DEFC2E85D5640020574F /* ItemCardSlider.swift */; };
+		4825DF052E86E8A80020574F /* MainNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4825DF042E86E8A80020574F /* MainNavigationBar.swift */; };
 		48A8A06E2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */; };
 		48A8A06F2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */; };
 		5598E9765ECBFBDE24258AC1 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C442F13AE799F9159832B83A /* App.swift */; };
@@ -77,6 +78,7 @@
 		480573E92E7C6D9700F48F78 /* Supabase+PublicURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Supabase+PublicURL.swift"; sourceTree = "<group>"; };
 		4825DEF82E85D5200020574F /* AtomicItemCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomicItemCard.swift; sourceTree = "<group>"; };
 		4825DEFC2E85D5640020574F /* ItemCardSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCardSlider.swift; sourceTree = "<group>"; };
+		4825DF042E86E8A80020574F /* MainNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationBar.swift; sourceTree = "<group>"; };
 		48A8A06C2E784A20009A5093 /* Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-Italic-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		48A8A06D2E784A20009A5093 /* Merriweather-VariableFont_opsz,wdth,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Merriweather-VariableFont_opsz,wdth,wght.ttf"; sourceTree = "<group>"; };
 		4A9E360B1F6987D0F7C15A57 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
@@ -365,6 +367,7 @@
 		F59735280614122771C85C29 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				4825DF042E86E8A80020574F /* MainNavigationBar.swift */,
 				4825DEFC2E85D5640020574F /* ItemCardSlider.swift */,
 				153152A845A5AFA7383A9243 /* ButtonStyles.swift */,
 				4825DEF82E85D5200020574F /* AtomicItemCard.swift */,
@@ -483,6 +486,7 @@
 				4825DEFB2E85D5200020574F /* AtomicItemCard.swift in Sources */,
 				FA9C93879E9DD2544DFC42G0 /* ARSessionRecovery.swift in Sources */,
 				5598E9765ECBFBDE24258AC1 /* App.swift in Sources */,
+				4825DF052E86E8A80020574F /* MainNavigationBar.swift in Sources */,
 				M1N2O3P4Q5R6S7T8U9V0W1X2 /* MainTabView.swift in Sources */,
 				733EA211FC1479075422B03D /* ButtonStyles.swift in Sources */,
 				SC1234567890ABCDEFGHIJKL /* StyleChip.swift in Sources */,

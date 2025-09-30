@@ -153,3 +153,53 @@ ItemCardSlider(items: itemsArray) { item in
 ### Troubleshooting
 - If a component is not found, ensure the file is present in `DesignSystem/Components/` and included in the Xcode target.
 - If you move or rename a component, update all references accordingly.
+
+---
+
+## MainNavigationBar + Scroll Tracking
+
+`MainNavigationBar` lives in `ARSketchTracer/DesignSystem/Components/MainNavigationBar.swift`. It renders two layouts depending on the `isCollapsed` flag that the caller provides. The design system intentionally keeps the component stateless so feature screens can decide when to collapse.
+
+### Example: Dashboard Integration
+
+`ARSketchTracer/Features/Search/Views/DashboardView.swift` shows the recommended pattern:
+
+```swift
+struct DashboardView: View {
+    @State private var isNavCollapsed = false
+
+    var body: some View {
+        VStack(spacing: 0) {
+            MainNavigationBar(
+                style: .expanded(
+                    title: "Discover",
+                    subtitle: "Your next drawing idea",
+                    leading: nil,
+                    trailing: nil
+                ),
+                isCollapsed: isNavCollapsed
+            )
+
+            TrackableScrollView(onOffsetChange: handleScroll) {
+                // dashboard content …
+            }
+        }
+    }
+
+    private func handleScroll(offset: CGFloat) {
+        // Collapse as soon as the user scrolls down.
+        isNavCollapsed = max(0, offset) > 0
+    }
+}
+```
+
+### TrackableScrollView Helper
+
+SwiftUI's `ScrollView` does not expose scroll offsets directly, so the dashboard wraps its content in `TrackableScrollView` (declared at the bottom of the same file). It bridges to `UIScrollView` via `UIViewRepresentable` and forwards `scrollView.contentOffset.y` to the supplied closure.
+
+To reuse the pattern on other screens:
+1. Copy `TrackableScrollView` (lines 187–233 in `DashboardView.swift`) into a shared utilities file, or move it to a common module.
+2. Keep the navigation bar stateless—drive `isCollapsed` from your feature view’s scroll offset.
+3. Adjust the collapse threshold locally if a view needs more scroll before collapsing.
+
+This separation lets each feature decide when to collapse while preserving a single design-system component.

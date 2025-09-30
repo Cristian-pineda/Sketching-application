@@ -13,11 +13,12 @@ public struct MainNavigationBar: View {
         case collapsed(title: String, leading: AnyView?, trailing: AnyView?)
     }
     
-    @State private var isCollapsed: Bool = false
     let style: Style
+    let isCollapsed: Bool // <-- pass in from parent, not @State
     
-    public init(style: Style) {
+    public init(style: Style, isCollapsed: Bool) {
         self.style = style
+        self.isCollapsed = isCollapsed
     }
     
     public var body: some View {
@@ -25,11 +26,21 @@ public struct MainNavigationBar: View {
             // Top bar: left, center, right controls
             HStack(alignment: .center, spacing: 0) {
                 switch style {
-                case .expanded(_, _, let leading, let trailing):
+                case .expanded(let title, _, let leading, let trailing):
                     if let leading = leading { leading }
                     else { Spacer().frame(width: 44) }
                     Spacer(minLength: 0)
-                    Spacer().frame(width: 44)
+                    if isCollapsed {
+                        Text(title)
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(DS.Color.textPrimary)
+                            .frame(maxWidth: 220)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
+                            .transition(.opacity)
+                    } else {
+                        Spacer().frame(width: 44)
+                    }
                     Spacer(minLength: 0)
                     if let trailing = trailing { trailing }
                     else { Spacer().frame(width: 44) }
@@ -80,12 +91,6 @@ public struct MainNavigationBar: View {
         .animation(.easeInOut, value: isCollapsed)
         .shadow(color: DS.Color.divider.opacity(0.15), radius: 2, y: 1)
     }
-    // Call this on scroll events
-    public func setCollapsed(_ collapsed: Bool) {
-        if isCollapsed != collapsed {
-            isCollapsed = collapsed
-        }
-    }
 }
 
 // MARK: - Helper: BackButton
@@ -128,7 +133,8 @@ public struct NavBarBackButton: View {
                     Button(action: {}) { Image(systemName: "bell").foregroundColor(DS.Color.textPrimary) }
                     Button(action: {}) { Image(systemName: "ellipsis").foregroundColor(DS.Color.textPrimary) }
                 })
-            )
+            ),
+            isCollapsed: true
         )
         // Collapsed: Centered title only (scroll variant, no left/right controls)
         MainNavigationBar(
@@ -136,7 +142,8 @@ public struct NavBarBackButton: View {
                 title: "Discover",
                 leading: nil,
                 trailing: nil
-            )
+            ),
+            isCollapsed: true
         )
         // Expanded: Back button with label, up to 3 trailing actions
         MainNavigationBar(
@@ -149,7 +156,8 @@ public struct NavBarBackButton: View {
                     Button(action: {}) { Image(systemName: "bell").foregroundColor(DS.Color.textPrimary) }
                     Button(action: {}) { Image(systemName: "ellipsis").foregroundColor(DS.Color.textPrimary) }
                 })
-            )
+            ),
+            isCollapsed: false
         )
         // Expanded: Only icon on left, label on right
         MainNavigationBar(
@@ -163,7 +171,8 @@ public struct NavBarBackButton: View {
                 trailing: AnyView(Text("Edit")
                     .font(DS.Typography.subtitle)
                     .foregroundColor(DS.Color.textPrimary))
-            )
+            ),
+            isCollapsed: false
         )
     }
     .padding()

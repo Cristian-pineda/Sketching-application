@@ -6,139 +6,177 @@
 //
 
 import SwiftUI
+import UIKit
 import Foundation
 
 struct DashboardView: View {
     @StateObject private var viewModel = SearchViewModel()
     @State private var searchText = ""
     @State private var isLoading = true
+    @State private var isNavCollapsed = false
+
+    private let collapseThreshold: CGFloat = 0
+
+    private var navBarStyle: MainNavigationBar.Style {
+        .expanded(
+            title: "Discover",
+            subtitle: "Your next drawing idea",
+            leading: nil,
+            trailing: nil
+        )
+    }
     
     var body: some View {
         NavigationView {
-            if isLoading {
-                VStack(spacing: 20) {
-                    ProgressView()
-                        .scaleEffect(1.5)
-                    Text("Loading data...")
-                        .font(.headline)
-                    Text("Styles: \(viewModel.styles.count)")
-                    Text("Sections: \(viewModel.sections.count)")  
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 24) {
-                        // Action Cards Section
-                        VStack(spacing: 16) {
-                            actionCard(
-                                title: "Upload Your Own",
-                                subtitle: "Trace from your photos",
-                                icon: "photo.badge.plus",
-                                gradientColors: [.blue, .cyan]
-                            ) {
-                                // TODO: Navigate to upload flow
-                            }
-                            
-                            actionCard(
-                                title: "Generate Something New",
-                                subtitle: "AI-powered creation",
-                                icon: "sparkles",
-                                gradientColors: [.purple, .pink]
-                            ) {
-                                // TODO: Navigate to generation flow
-                            }
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.top, 16)
-                        
-                        // Style Cards Section
-                        if !viewModel.styles.isEmpty {
-                            VStack(alignment: .leading, spacing: 16) {
-                                HStack {
-                                    Text("Art Styles")
-                                        .font(.custom("Merriweather", size: 20, relativeTo: .title2))
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.primary)
-                                    
-                                    Spacer()
-                                }
-                                .padding(.horizontal, 24)
-                                
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 12) {
-                                        // "All" button - selected when selectedStyleId is nil
-                                        Chip(
-                                            title: "All",
-                                            isSelected: viewModel.selectedStyleId == nil,
-                                            action: {
-                                                Task {
-                                                    await viewModel.selectStyle(nil)
-                                                }
-                                            }
-                                        )
-                                        
-                                        // Style chips
-                                        ForEach(viewModel.styles, id: \.key) { style in
-                                            StyleChip(
-                                                style: style, 
-                                                isSelected: viewModel.selectedStyleId == style.id.uuidString, 
-                                                action: {
-                                                    Task {
-                                                        await viewModel.selectStyle(style.id.uuidString)
-                                                    }
-                                                }
-                                            )
-                                        }
-                                    }
-                                    .padding(.horizontal, 24)
-                                }
-                            }
-                        }
-                        
-                        // Category Sections - Use simplified sections directly
-                        ForEach(viewModel.sections, id: \.category.id) { section in
-                            VStack(alignment: .leading, spacing: 16) {
-                                // Section header - entire heading is clickable
-                                NavigationLink(destination: CategoryDetailView(category: section.category)) {
-                                    HStack(spacing: 8) {
-                                        Text(section.category.name)
-                                            .font(.custom("Merriweather", size: 20, relativeTo: .title2))
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.primary)
-                                        
-                                        Image(systemName: "chevron.right")
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
-                                        
-                                        Spacer()
-                                    }
-                                }
-                                .buttonStyle(PlainButtonStyle())
-                                .padding(.horizontal, 20)
-                                
-                                // Use the new ItemCardSlider component
-                                ItemCardSlider(items: section.items) { item in
-                                    // For now, just print - navigation will be handled in the component itself
-                                    print("🎯 Item tapped: '\(item.name)' from section '\(section.category.name)'")
-                                }
-                            }
-                        }
+            ZStack(alignment: .top) {
+                DS.Color.background
+                    .ignoresSafeArea()
+                VStack(spacing: 0) {
+                    MainNavigationBar(style: navBarStyle, isCollapsed: isNavCollapsed)
+                    if isLoading {
+                        loadingState
+                    } else {
+                        dashboardContent
                     }
                 }
             }
+            .navigationBarHidden(true)
         }
-        .navigationTitle("Discover")
-        .navigationBarTitleDisplayMode(.large)
         .task {
             NSLog("🚀 DashboardView: Starting task...")
             await viewModel.load()
             NSLog("✅ DashboardView: Task completed")
-            isLoading = false
+            DispatchQueue.main.async {
+                isLoading = false
+                isNavCollapsed = false
+            }
         }
         .background(Color.clear)
         .preferredColorScheme(.light)
     }
     
+    private var loadingState: some View {
+        VStack(spacing: 20) {
+            ProgressView()
+                .scaleEffect(1.5)
+            Text("Loading data...")
+                .font(.headline)
+            Text("Styles: \(viewModel.styles.count)")
+            Text("Sections: \(viewModel.sections.count)")
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(DS.Color.background)
+    }
+    
+    private var dashboardContent: some View {
+        TrackableScrollView(onOffsetChange: handleScroll) {
+            VStack(spacing: 24) {
+                // Action Cards Section
+                VStack(spacing: 16) {
+                    actionCard(
+                        title: "Upload Your Own",
+                        subtitle: "Trace from your photos",
+                        icon: "photo.badge.plus",
+                        gradientColors: [.blue, .cyan]
+                    ) {
+                        // TODO: Navigate to upload flow
+                    }
+                    
+                    actionCard(
+                        title: "Generate Something New",
+                        subtitle: "AI-powered creation",
+                        icon: "sparkles",
+                        gradientColors: [.purple, .pink]
+                    ) {
+                        // TODO: Navigate to generation flow
+                    }
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 16)
+                
+                // Style Cards Section
+                if !viewModel.styles.isEmpty {
+                    VStack(alignment: .leading, spacing: 16) {
+                        HStack {
+                            Text("Art Styles")
+                                .font(.custom("Merriweather", size: 20, relativeTo: .title2))
+                                .fontWeight(.bold)
+                                .foregroundColor(.primary)
+                            
+                            Spacer()
+                        }
+                        .padding(.horizontal, 24)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                Chip(
+                                    title: "All",
+                                    isSelected: viewModel.selectedStyleId == nil,
+                                    action: {
+                                        Task {
+                                            await viewModel.selectStyle(nil)
+                                        }
+                                    }
+                                )
+                                
+                                ForEach(viewModel.styles, id: \.key) { style in
+                                    StyleChip(
+                                        style: style,
+                                        isSelected: viewModel.selectedStyleId == style.id.uuidString,
+                                        action: {
+                                            Task {
+                                                await viewModel.selectStyle(style.id.uuidString)
+                                            }
+                                        }
+                                    )
+                                }
+                            }
+                            .padding(.horizontal, 24)
+                        }
+                    }
+                }
+                
+                // Category Sections
+                ForEach(viewModel.sections, id: \.category.id) { section in
+                    VStack(alignment: .leading, spacing: 16) {
+                        NavigationLink(destination: CategoryDetailView(category: section.category)) {
+                            HStack(spacing: 8) {
+                                Text(section.category.name)
+                                    .font(.custom("Merriweather", size: 20, relativeTo: .title2))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.primary)
+                                
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                                
+                                Spacer()
+                            }
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .padding(.horizontal, 20)
+                        
+                        ItemCardSlider(items: section.items) { item in
+                            print("🎯 Item tapped: '\(item.name)' from section '\(section.category.name)'")
+                        }
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(DS.Color.background)
+    }
+
+    private func handleScroll(offset: CGFloat) {
+        let clampedOffset = max(0, offset)
+        let shouldCollapse = clampedOffset > collapseThreshold
+        guard shouldCollapse != isNavCollapsed else { return }
+        withAnimation(.easeInOut) {
+            isNavCollapsed = shouldCollapse
+        }
+    }
+
     private func actionCard(
         title: String,
         subtitle: String,
@@ -185,6 +223,64 @@ struct DashboardView: View {
             .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 3)
         }
         .buttonStyle(PlainButtonStyle())
+    }
+}
+
+private struct TrackableScrollView<Content: View>: UIViewRepresentable {
+    let onOffsetChange: (CGFloat) -> Void
+    let content: Content
+
+    init(onOffsetChange: @escaping (CGFloat) -> Void, @ViewBuilder content: () -> Content) {
+        self.onOffsetChange = onOffsetChange
+        self.content = content()
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onOffsetChange: onOffsetChange)
+    }
+
+    func makeUIView(context: Context) -> UIScrollView {
+        let scrollView = UIScrollView()
+        scrollView.delegate = context.coordinator
+        scrollView.alwaysBounceVertical = true
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.backgroundColor = .clear
+
+        let hostingController = UIHostingController(rootView: content)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.backgroundColor = .clear
+
+        context.coordinator.hostingController = hostingController
+
+        scrollView.addSubview(hostingController.view)
+
+        NSLayoutConstraint.activate([
+            hostingController.view.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            hostingController.view.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            hostingController.view.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+        ])
+
+        return scrollView
+    }
+
+    func updateUIView(_ uiView: UIScrollView, context: Context) {
+        context.coordinator.onOffsetChange = onOffsetChange
+        context.coordinator.hostingController?.rootView = content
+    }
+
+    final class Coordinator: NSObject, UIScrollViewDelegate {
+        var onOffsetChange: (CGFloat) -> Void
+        var hostingController: UIHostingController<Content>?
+
+        init(onOffsetChange: @escaping (CGFloat) -> Void) {
+            self.onOffsetChange = onOffsetChange
+        }
+
+        func scrollViewDidScroll(_ scrollView: UIScrollView) {
+            onOffsetChange(scrollView.contentOffset.y)
+        }
     }
 }
 
