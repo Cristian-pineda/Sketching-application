@@ -15,29 +15,14 @@ import SwiftUI
 struct AtomicItemCard: View {
     let item: Item
     
-    private func buildPublicURL(for path: String?) -> URL? {
-        guard let path, !path.isEmpty else { return nil }
-        let trimmed = path.hasPrefix("catalog/") ? String(path.dropFirst("catalog/".count)) : path
-        do {
-            return try SupabaseManager.shared.client.storage.from("catalog").getPublicURL(path: trimmed)
-        } catch {
-            print("Error generating public URL for catalog path '\(trimmed)': \(error)")
-            return nil
-        }
-    }
-    
-    private var bestImageURL: URL? {
-        // Use best image available (thumb or hero)
-        if let thumb = item.thumb_url {
-            return buildPublicURL(for: thumb)
-        }
-        return buildPublicURL(for: item.hero_image_url)
+    private var imageURL: URL? {
+        SupabaseManager.shared.client.publicImageURL(from: item.tracePath)
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: DS.Space.s) {
             // Thumbnail Image - 1:1 aspect ratio
-            AsyncImage(url: bestImageURL) { image in
+            AsyncImage(url: imageURL) { image in
                 image
                     .resizable()
                     .aspectRatio(1, contentMode: .fill) // 1:1 aspect ratio
@@ -71,13 +56,17 @@ struct AtomicItemCard: View {
 #Preview("Single Item Card") {
     AtomicItemCard(item: Item(
         id: UUID(),
+        itemId: UUID(),
         name: "Beautiful Watercolor Cat",
         slug: "watercolor-cat",
-        category_id: UUID(),
-        primary_style_id: UUID(),
-        hero_image_url: "catalog/items/cat-hero.jpg",
-        thumb_url: "catalog/items/cat-thumb.jpg",
-        published: true
+        categoryId: UUID(),
+        tracePath: "previews/watercolor-cat.png",
+        description: "Soft watercolor strokes to trace.",
+        tags: ["cat", "watercolor"],
+        difficulty: 1,
+        styleId: nil,
+        styleKey: "line-art",
+        createdAt: "2024-06-15T09:30:00Z"
     ))
     .padding()
 }
@@ -86,24 +75,32 @@ struct AtomicItemCard: View {
     HStack(spacing: 16) {
         AtomicItemCard(item: Item(
             id: UUID(),
+            itemId: UUID(),
             name: "Classic Car Design",
             slug: "classic-car",
-            category_id: UUID(),
-            primary_style_id: UUID(),
-            hero_image_url: "catalog/items/car-hero.jpg",
-            thumb_url: nil,
-            published: true
+            categoryId: UUID(),
+            tracePath: "previews/classic-car.png",
+            description: "Crisp lines ready for tracing.",
+            tags: ["car", "classic"],
+            difficulty: 2,
+            styleId: nil,
+            styleKey: "line-art",
+            createdAt: "2024-07-12T10:00:00Z"
         ))
         
         AtomicItemCard(item: Item(
             id: UUID(),
+            itemId: UUID(),
             name: "Mountain Landscape",
             slug: "mountain-landscape",
-            category_id: UUID(),
-            primary_style_id: UUID(),
-            hero_image_url: "catalog/items/mountain-hero.jpg",
-            thumb_url: "catalog/items/mountain-thumb.jpg",
-            published: true
+            categoryId: UUID(),
+            tracePath: "previews/mountain-landscape.png",
+            description: "Dramatic peaks captured for your next sketch.",
+            tags: ["mountain", "landscape"],
+            difficulty: 2,
+            styleId: nil,
+            styleKey: "line-art",
+            createdAt: "2024-05-03T18:45:00Z"
         ))
     }
     .padding()

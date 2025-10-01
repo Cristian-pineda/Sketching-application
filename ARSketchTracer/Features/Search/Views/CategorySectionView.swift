@@ -58,23 +58,31 @@ struct CategorySectionView: View {
             items: [
                 Item(
                     id: UUID(),
+                    itemId: UUID(),
                     name: "Cute Cat",
                     slug: "cat-1",
-                    category_id: UUID(),
-                    primary_style_id: UUID(),
-                    hero_image_url: "",
-                    thumb_url: nil,
-                    published: true
+                    categoryId: UUID(),
+                    tracePath: "previews/cat-1.png",
+                    description: "Fun feline tracing guide.",
+                    tags: ["cat", "animal"],
+                    difficulty: 1,
+                    styleId: nil,
+                    styleKey: "line-art",
+                    createdAt: "2024-06-01T12:00:00Z"
                 ),
                 Item(
                     id: UUID(),
+                    itemId: UUID(),
                     name: "Happy Dog",
                     slug: "dog-1", 
-                    category_id: UUID(),
-                    primary_style_id: UUID(),
-                    hero_image_url: "",
-                    thumb_url: nil,
-                    published: true
+                    categoryId: UUID(),
+                    tracePath: "previews/dog-1.png",
+                    description: "Smiling dog ready for tracing.",
+                    tags: ["dog", "animal"],
+                    difficulty: 1,
+                    styleId: nil,
+                    styleKey: "line-art",
+                    createdAt: "2024-05-15T12:00:00Z"
                 )
             ]
         ),

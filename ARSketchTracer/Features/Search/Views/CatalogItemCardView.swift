@@ -11,29 +11,14 @@ import UIKit
 struct CatalogItemCardView: View {
     let item: Item
     
-    private func buildPublicURL(for path: String?) -> URL? {
-        guard let path, !path.isEmpty else { return nil }
-        let trimmed = path.hasPrefix("catalog/") ? String(path.dropFirst("catalog/".count)) : path
-        do {
-            return try SupabaseManager.shared.client.storage.from("catalog").getPublicURL(path: trimmed)
-        } catch {
-            print("Error generating public URL for catalog path '\(trimmed)': \(error)")
-            return nil
-        }
-    }
-    
-    private var bestImageURL: URL? {
-        // Use best image available (thumb or hero)
-        if let thumb = item.thumb_url {
-            return buildPublicURL(for: thumb)
-        }
-        return buildPublicURL(for: item.hero_image_url)
+    private var imageURL: URL? {
+        SupabaseManager.shared.client.publicImageURL(from: item.tracePath)
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             // Item image
-            AsyncImage(url: bestImageURL) { image in
+            AsyncImage(url: imageURL) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -65,13 +50,17 @@ struct CatalogItemCardView: View {
 #Preview {
     CatalogItemCardView(item: Item(
         id: UUID(),
+        itemId: UUID(),
         name: "Sample Drawing",
         slug: "sample-item",
-        category_id: UUID(),
-        primary_style_id: UUID(),
-        hero_image_url: "",
-        thumb_url: nil,
-        published: true
+        categoryId: UUID(),
+        tracePath: "previews/sample-item.png",
+        description: "Preview description for the catalog item preview.",
+        tags: ["sample", "preview"],
+        difficulty: 1,
+        styleId: nil,
+        styleKey: "line-art",
+        createdAt: "2024-09-01T12:00:00Z"
     ))
     .padding()
 }

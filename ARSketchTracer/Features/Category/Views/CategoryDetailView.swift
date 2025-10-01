@@ -68,7 +68,7 @@ struct CategoryDetailView: View {
     }
     
     private var styleFilterSection: some View {
-        ScrollChipCollection(items: allFilterOptions) { option in
+        ScrollChipCollection(items: styleFilterOptions) { option in
             Chip(
                 title: option.title,
                 isSelected: option.isSelected
@@ -80,12 +80,27 @@ struct CategoryDetailView: View {
         }
     }
     
-    private var allFilterOptions: [FilterOption] {
-        var options = [FilterOption(title: "All", styleKey: nil, isSelected: viewModel.selectedStyleKey == nil)]
-        let styleOptions = viewModel.styles.map { style in
+    private var styleFilterOptions: [FilterOption] {
+        let defaultKey = CatalogRepositoryLive.defaultStyleKey
+        let orderedStyles = viewModel.styles.sorted { lhs, rhs in
+            switch (lhs.key == defaultKey, rhs.key == defaultKey) {
+            case (true, false):
+                return true
+            case (false, true):
+                return false
+            default:
+                return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
+            }
+        }
+
+        var options = orderedStyles.map { style in
             FilterOption(title: style.name, styleKey: style.key, isSelected: viewModel.selectedStyleKey == style.key)
         }
-        options.append(contentsOf: styleOptions)
+
+        if viewModel.styles.count > 1 {
+            options.append(FilterOption(title: "All", styleKey: nil, isSelected: viewModel.selectedStyleKey == nil))
+        }
+
         return options
     }
     

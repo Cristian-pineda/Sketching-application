@@ -12,7 +12,7 @@ import SwiftUI
 final class CategoryDetailViewModel: ObservableObject {
     @Published var items: [Item] = []
     @Published var styles: [Style] = []
-    @Published var selectedStyleKey: String? = nil
+    @Published var selectedStyleKey: String?
     @Published var isLoading = false
     @Published var errorMessage: String?
     
@@ -21,7 +21,7 @@ final class CategoryDetailViewModel: ObservableObject {
     
     init(category: Category, initialStyleKey: String? = nil, catalogRepository: CatalogRepository = CatalogRepositoryLive()) {
         self.category = category
-        self.selectedStyleKey = initialStyleKey
+        self.selectedStyleKey = initialStyleKey ?? CatalogRepositoryLive.defaultStyleKey
         self.catalogRepository = catalogRepository
     }
     
@@ -34,7 +34,7 @@ final class CategoryDetailViewModel: ObservableObject {
             async let itemsTask = catalogRepository.fetchItems(
                 categoryId: category.id.uuidString,
                 limit: nil,
-                styleId: getStyleId(for: selectedStyleKey)
+                styleKey: selectedStyleKey
             )
             
             let (fetchedStyles, fetchedItems) = try await (stylesTask, itemsTask)
@@ -62,21 +62,13 @@ final class CategoryDetailViewModel: ObservableObject {
             items = try await catalogRepository.fetchItems(
                 categoryId: category.id.uuidString,
                 limit: nil,
-                styleId: getStyleId(for: selectedStyleKey)
+                styleKey: selectedStyleKey
             )
         } catch {
             errorMessage = "Failed to load items: \(error.localizedDescription)"
         }
         
         isLoading = false
-    }
-    
-    private func getStyleId(for styleKey: String?) -> String? {
-        guard let styleKey = styleKey,
-              let style = styles.first(where: { $0.key == styleKey }) else {
-            return nil
-        }
-        return style.id.uuidString
     }
     
     var categoryName: String {

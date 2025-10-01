@@ -11,34 +11,15 @@ import UIKit
 struct CatalogItemPreviewView: View {
     let item: Item
     
-    private var heroImageURL: URL? {
-        // Use hero_image_url from the Item model
-        guard !item.hero_image_url.isEmpty else { return nil }
-        let trimmed = item.hero_image_url.hasPrefix("catalog/") ? String(item.hero_image_url.dropFirst("catalog/".count)) : item.hero_image_url
-        do {
-            return try SupabaseManager.shared.client.storage.from("catalog").getPublicURL(path: trimmed)
-        } catch {
-            print("Error generating public URL for catalog path '\(trimmed)': \(error)")
-            return nil
-        }
-    }
-    
-    private func buildPublicURL(for path: String?) -> URL? {
-        guard let path, !path.isEmpty else { return nil }
-        let trimmed = path.hasPrefix("catalog/") ? String(path.dropFirst("catalog/".count)) : path
-        do {
-            return try SupabaseManager.shared.client.storage.from("catalog").getPublicURL(path: trimmed)
-        } catch {
-            print("Error generating public URL for catalog path '\(trimmed)': \(error)")
-            return nil
-        }
+    private var traceImageURL: URL? {
+        SupabaseManager.shared.client.publicImageURL(from: item.tracePath)
     }
     
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
                 // Hero Image
-                AsyncImage(url: heroImageURL) { image in
+                AsyncImage(url: traceImageURL) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -68,20 +49,12 @@ struct CatalogItemPreviewView: View {
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
                         
-                        // Note: style_key is not available in the simplified Item model
-                        // We could fetch the style name using primary_style_id if needed
-                    }
-                    
-                    // Item Details
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("About this drawing")
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                        
-                        Text("Ready for AR tracing with optimized overlay positioning. This drawing has been prepared with the perfect trace lines to help you create beautiful artwork.")
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .lineLimit(nil)
+                        if let description = item.description, !description.isEmpty {
+                            Text(description)
+                                .font(.body)
+                                .foregroundColor(.secondary)
+                                .lineLimit(nil)
+                        }
                     }
                 }
                 .padding(.horizontal, 20)
@@ -95,9 +68,7 @@ struct CatalogItemPreviewView: View {
             VStack {
                 Spacer()
                 
-                // In simplified architecture, we use hero_image_url as the trace source
-                if !item.hero_image_url.isEmpty,
-                   let overlayURL = buildPublicURL(for: item.hero_image_url) {
+                if let overlayURL = traceImageURL {
                     NavigationLink(destination: CameraView(overlayURL: overlayURL)) {
                         HStack(spacing: 12) {
                             Image(systemName: "arkit")
@@ -171,13 +142,17 @@ struct CatalogItemPreviewView: View {
         CatalogItemPreviewView(
             item: Item(
                 id: UUID(),
+                itemId: UUID(),
                 name: "Classic Car",
                 slug: "classic-car",
-                category_id: UUID(),
-                primary_style_id: UUID(),
-                hero_image_url: "catalog/items/car-hero.jpg",
-                thumb_url: "catalog/items/car-thumb.jpg",
-                published: true
+                categoryId: UUID(),
+                tracePath: "previews/classic-car.png",
+                description: "Detailed tracing lines for the classic car illustration.",
+                tags: ["car", "classic"],
+                difficulty: 2,
+                styleId: nil,
+                styleKey: "line-art",
+                createdAt: "2024-07-12T10:00:00Z"
             )
         )
     }

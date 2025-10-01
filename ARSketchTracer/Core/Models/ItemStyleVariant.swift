@@ -12,10 +12,6 @@ struct ItemStyleVariant: Decodable {
     let item_id: UUID
     let style_id: UUID
     let style_key: String?      // Style key for easier filtering
-    let image_url: String?      // trace-ready image
-    let overlay_url: String?
-    let thumb_url: String?
-    let hero_image_url: String?
-    let trace_url: String?      // URL for tracing overlay
+    let trace_path: String?     // Storage path for the variant asset
     let published: Bool
 }

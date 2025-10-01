@@ -17,7 +17,7 @@ struct CategorySection {
 final class SearchViewModel: ObservableObject {
     @Published var styles: [Style] = []
     @Published var sections: [CategorySection] = []
-    @Published var selectedStyleId: String? = nil // nil means "All" is selected
+    @Published var selectedStyleKey: String? = CatalogRepositoryLive.defaultStyleKey
     @Published var isLoading = false
     
     private let catalogRepository: CatalogRepository
@@ -56,13 +56,13 @@ final class SearchViewModel: ObservableObject {
         isLoading = false
     }
     
-    func selectStyle(_ styleId: String?) async {
+    func selectStyle(_ styleKey: String?) async {
         // Don't toggle - always set the selection (radio button behavior)
         // Only change if it's actually different
-        guard selectedStyleId != styleId else { return }
+        guard selectedStyleKey != styleKey else { return }
         
-        selectedStyleId = styleId
-        NSLog("🎨 SearchViewModel: Style filter changed to: \(styleId ?? "All")")
+        selectedStyleKey = styleKey
+        NSLog("🎨 SearchViewModel: Style filter changed to: \(styleKey ?? CatalogRepositoryLive.defaultStyleKey)")
         
         // Reload category sections with new filter
         await loadCategorySections()
@@ -77,7 +77,7 @@ final class SearchViewModel: ObservableObject {
                 let items = try await catalogRepository.fetchItems(
                     categoryId: category.id.uuidString,
                     limit: 8,
-                    styleId: selectedStyleId
+                    styleKey: selectedStyleKey
                 )
                 
                 NSLog("📦 SearchViewModel: Category '\(category.name)' has \(items.count) items")

@@ -46,33 +46,45 @@ struct ItemCardSlider: View {
         items: [
             Item(
                 id: UUID(),
+                itemId: UUID(),
                 name: "Cute Kitten",
                 slug: "cute-kitten",
-                category_id: UUID(),
-                primary_style_id: UUID(),
-                hero_image_url: "catalog/items/kitten.jpg",
-                thumb_url: nil,
-                published: true
+                categoryId: UUID(),
+                tracePath: "previews/kitten.png",
+                description: "Adorable kitten tracing reference.",
+                tags: ["kitten", "animal"],
+                difficulty: 1,
+                styleId: nil,
+                styleKey: "line-art",
+                createdAt: "2024-05-10T12:00:00Z"
             ),
             Item(
                 id: UUID(),
+                itemId: UUID(),
                 name: "Vintage Car",
                 slug: "vintage-car",
-                category_id: UUID(),
-                primary_style_id: UUID(),
-                hero_image_url: "catalog/items/vintage-car.jpg",
-                thumb_url: nil,
-                published: true
+                categoryId: UUID(),
+                tracePath: "previews/vintage-car.png",
+                description: "Detailed vintage vehicle for tracing.",
+                tags: ["car", "vintage"],
+                difficulty: 2,
+                styleId: nil,
+                styleKey: "line-art",
+                createdAt: "2024-04-22T12:00:00Z"
             ),
             Item(
                 id: UUID(),
+                itemId: UUID(),
                 name: "Forest Scene",
                 slug: "forest-scene",
-                category_id: UUID(),
-                primary_style_id: UUID(),
-                hero_image_url: "catalog/items/forest.jpg",
-                thumb_url: nil,
-                published: true
+                categoryId: UUID(),
+                tracePath: "previews/forest-scene.png",
+                description: "Layered trees with depth guidelines.",
+                tags: ["forest", "landscape"],
+                difficulty: 1,
+                styleId: nil,
+                styleKey: "line-art",
+                createdAt: "2024-03-01T12:00:00Z"
             )
         ],
         onItemTapped: { item in
@@ -86,13 +98,17 @@ struct ItemCardSlider: View {
         items: Array(0..<12).map { index in
             Item(
                 id: UUID(),
+                itemId: UUID(),
                 name: "Item \(index + 1) - Some Very Long Name That Might Wrap",
                 slug: "item-\(index)",
-                category_id: UUID(),
-                primary_style_id: UUID(),
-                hero_image_url: "catalog/items/item-\(index).jpg",
-                thumb_url: nil,
-                published: true
+                categoryId: UUID(),
+                tracePath: "previews/item-\(index).png",
+                description: "Placeholder description for preview item \(index + 1).",
+                tags: ["preview"],
+                difficulty: (index % 3) + 1,
+                styleId: nil,
+                styleKey: "line-art",
+                createdAt: "2024-01-01T00:00:00Z"
             )
         },
         onItemTapped: { item in
@@ -106,13 +122,17 @@ struct ItemCardSlider: View {
         items: Array(0..<12).map { index in
             Item(
                 id: UUID(),
+                itemId: UUID(),
                 name: "Item \(index + 1) - Some Very Long Name That Might Wrap",
                 slug: "item-\(index)",
-                category_id: UUID(),
-                primary_style_id: UUID(),
-                hero_image_url: "catalog/items/item-\(index).jpg",
-                thumb_url: nil,
-                published: true
+                categoryId: UUID(),
+                tracePath: "previews/item-\(index).png",
+                description: "Placeholder description for preview item \(index + 1).",
+                tags: ["preview"],
+                difficulty: (index % 3) + 1,
+                styleId: nil,
+                styleKey: "line-art",
+                createdAt: "2024-01-01T00:00:00Z"
             )
         },
         onItemTapped: { item in

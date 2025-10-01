@@ -109,23 +109,25 @@ struct DashboardView: View {
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 12) {
-                                Chip(
-                                    title: "All",
-                                    isSelected: viewModel.selectedStyleId == nil,
-                                    action: {
-                                        Task {
-                                            await viewModel.selectStyle(nil)
-                                        }
-                                    }
-                                )
-                                
-                                ForEach(viewModel.styles, id: \.key) { style in
+                                ForEach(orderedStyles, id: \.key) { style in
                                     StyleChip(
                                         style: style,
-                                        isSelected: viewModel.selectedStyleId == style.id.uuidString,
+                                        isSelected: viewModel.selectedStyleKey == style.key,
                                         action: {
                                             Task {
-                                                await viewModel.selectStyle(style.id.uuidString)
+                                                await viewModel.selectStyle(style.key)
+                                            }
+                                        }
+                                    )
+                                }
+
+                                if viewModel.styles.count > 1 {
+                                    Chip(
+                                        title: "All",
+                                        isSelected: viewModel.selectedStyleKey == nil,
+                                        action: {
+                                            Task {
+                                                await viewModel.selectStyle(nil)
                                             }
                                         }
                                     )
@@ -166,6 +168,20 @@ struct DashboardView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(DS.Color.background)
+    }
+
+    private var orderedStyles: [Style] {
+        let defaultKey = CatalogRepositoryLive.defaultStyleKey
+        return viewModel.styles.sorted { lhs, rhs in
+            switch (lhs.key == defaultKey, rhs.key == defaultKey) {
+            case (true, false):
+                return true
+            case (false, true):
+                return false
+            default:
+                return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
+            }
+        }
     }
 
     private func handleScroll(offset: CGFloat) {

@@ -3,26 +3,15 @@ import SwiftUI
 struct ItemDetailView: View {
     let item: Item
     
-    private func buildPublicURL(for path: String?) -> URL? {
-        guard let path, !path.isEmpty else { return nil }
-        let trimmed = path.hasPrefix("catalog/") ? String(path.dropFirst("catalog/".count)) : path
-        do {
-            return try SupabaseManager.shared.client.storage.from("catalog").getPublicURL(path: trimmed)
-        } catch {
-            print("Error generating public URL for catalog path '\(trimmed)': \(error)")
-            return nil
-        }
-    }
-    
-    private var heroImageURL: URL? {
-        buildPublicURL(for: item.hero_image_url)
+    private var traceImageURL: URL? {
+        SupabaseManager.shared.client.publicImageURL(from: item.tracePath)
     }
     
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
                 // Hero Image
-                AsyncImage(url: heroImageURL) { image in
+                AsyncImage(url: traceImageURL) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -51,18 +40,13 @@ struct ItemDetailView: View {
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
-                    }
-                    
-                    // Item Details
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("About this drawing")
-                            .font(.headline)
-                            .fontWeight(.semibold)
                         
-                        Text("Ready for AR tracing with optimized overlay positioning. This drawing has been prepared with the perfect trace lines to help you create beautiful artwork.")
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .lineLimit(nil)
+                        if let description = item.description, !description.isEmpty {
+                            Text(description)
+                                .font(.body)
+                                .foregroundColor(.secondary)
+                                .lineLimit(nil)
+                        }
                     }
                 }
                 .padding(.horizontal, 20)
@@ -76,7 +60,7 @@ struct ItemDetailView: View {
             VStack {
                 Spacer()
                 
-                if let overlayURL = heroImageURL {
+                if let overlayURL = traceImageURL {
                     NavigationLink(destination: CameraView(overlayURL: overlayURL)) {
                         HStack(spacing: 12) {
                             Image(systemName: "arkit")
@@ -150,13 +134,17 @@ struct ItemDetailView: View {
         ItemDetailView(
             item: Item(
                 id: UUID(),
+                itemId: UUID(),
                 name: "Classic Car",
                 slug: "classic-car",
-                category_id: UUID(),
-                primary_style_id: UUID(),
-                hero_image_url: "catalog/items/car-hero.jpg",
-                thumb_url: "catalog/items/car-thumb.jpg",
-                published: true
+                categoryId: UUID(),
+                tracePath: "previews/classic-car.png",
+                description: "Rich tracing lines to help you recreate a vintage ride.",
+                tags: ["car", "classic"],
+                difficulty: 2,
+                styleId: nil,
+                styleKey: "line-art",
+                createdAt: "2024-07-12T10:00:00Z"
             )
         )
     }
